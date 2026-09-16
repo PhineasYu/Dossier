@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2, Mic, MicOff, PhoneOff } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import checkinFaceAsset from "@/assets/dossier-checkin-face.png.asset.json";
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import { DailyCheckin } from "@/components/dossier/daily-checkin";
 import { AiRing } from "@/components/dossier/ai-ring";
@@ -179,7 +180,9 @@ export function VoiceCheckin() {
         ) : (
           <div className="flex items-center gap-4">
             <AiRing className="size-16 shrink-0">
-              <motion.div animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 2.4, repeat: Infinity }} className="grid size-full place-items-center rounded-full text-primary-foreground" style={{ backgroundColor: activeColor }}><span aria-hidden className="font-display text-2xl leading-none">!</span></motion.div>
+              <motion.div animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 2.4, repeat: Infinity }} className="grid size-full place-items-center overflow-hidden rounded-full bg-surface-2">
+                <img src={checkinFaceAsset.url} alt="Dossier check-in" className="size-full object-cover" />
+              </motion.div>
             </AiRing>
             <div className="min-w-0 flex-1">
               <h2 className="font-semibold">Dossier has 2 questions for you</h2>
