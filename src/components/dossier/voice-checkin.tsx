@@ -36,6 +36,7 @@ export function VoiceCheckin() {
   const [guest, setGuest] = useState(true);
   const [parentName, setParentName] = useState("there");
   const [open, setOpen] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [phase, setPhase] = useState<"idle" | "connecting" | "talking" | "summary" | "fallback">("idle");
   const [captions, setCaptions] = useState<Caption[]>([]);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -135,7 +136,7 @@ export function VoiceCheckin() {
           return age === null ? child.name : `${child.name}, age ${age}`;
         })
         .join("; ");
-      conversation.startSession({
+      await conversation.startSession({
         conversationToken: token,
         connectionType: "webrtc",
         dynamicVariables: {
@@ -166,7 +167,7 @@ export function VoiceCheckin() {
 
   return (
     <section className="pt-5">
-      <div className="material-card overflow-hidden p-5">
+      {!dismissed && <div className="material-card overflow-hidden p-5">
         {completed ? (
           <div className="flex items-center gap-3 text-sm font-semibold">
             <span className="grid size-9 place-items-center rounded-full bg-child-soft text-child">
@@ -191,12 +192,12 @@ export function VoiceCheckin() {
                 <Button onClick={start} className="bg-child text-primary-foreground" style={{ backgroundColor: activeColor }}>
                   <Mic className="size-4" /> Talk now
                 </Button>
-                <Button variant="ghost" size="sm">Later</Button>
+                <Button variant="ghost" size="sm" onClick={() => setDismissed(true)}>Later</Button>
               </div>
             </div>
           </div>
         )}
-      </div>
+      </div>}
 
       <AnimatePresence>
         {open && (
