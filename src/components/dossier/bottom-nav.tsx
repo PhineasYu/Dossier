@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 const ITEMS = [
   { to: "/", label: "Timeline", icon: ScrollText },
   { to: "/profile", label: "Archive", icon: Archive },
-  { to: "/daily", label: "Daily", icon: Flame },
   { to: "/capture", label: "Capture", icon: Mic },
   { to: "/ask", label: "Ask", icon: Search },
   { to: "/dossier-plus", label: "Dossier+", icon: Sparkles },
