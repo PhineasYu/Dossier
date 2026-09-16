@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AskRouteImport } from './routes/ask'
 import { Route as CaptureRouteImport } from './routes/capture'
-import { Route as DailyRouteImport } from './routes/daily'
 import { Route as DossierPlusRouteImport } from './routes/dossier-plus'
 import { Route as ProfileRouteImport } from './routes/profile'
 
@@ -31,11 +30,6 @@ const CaptureRoute = CaptureRouteImport.update({
   path: '/capture',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DailyRoute = DailyRouteImport.update({
-  id: '/daily',
-  path: '/daily',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DossierPlusRoute = DossierPlusRouteImport.update({
   id: '/dossier-plus',
   path: '/dossier-plus',
@@ -51,7 +45,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
   '/capture': typeof CaptureRoute
-  '/daily': typeof DailyRoute
   '/dossier-plus': typeof DossierPlusRoute
   '/profile': typeof ProfileRoute
 }
@@ -59,7 +52,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
   '/capture': typeof CaptureRoute
-  '/daily': typeof DailyRoute
   '/dossier-plus': typeof DossierPlusRoute
   '/profile': typeof ProfileRoute
 }
@@ -68,30 +60,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
   '/capture': typeof CaptureRoute
-  '/daily': typeof DailyRoute
   '/dossier-plus': typeof DossierPlusRoute
   '/profile': typeof ProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ask' | '/capture' | '/daily' | '/dossier-plus' | '/profile'
+  fullPaths: '/' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/capture' | '/daily' | '/dossier-plus' | '/profile'
-  id:
-    | '__root__'
-    | '/'
-    | '/ask'
-    | '/capture'
-    | '/daily'
-    | '/dossier-plus'
-    | '/profile'
+  to: '/' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
+  id: '__root__' | '/' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AskRoute: typeof AskRoute
   CaptureRoute: typeof CaptureRoute
-  DailyRoute: typeof DailyRoute
   DossierPlusRoute: typeof DossierPlusRoute
   ProfileRoute: typeof ProfileRoute
 }
@@ -119,13 +102,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaptureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/daily': {
-      id: '/daily'
-      path: '/daily'
-      fullPath: '/daily'
-      preLoaderRoute: typeof DailyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dossier-plus': {
       id: '/dossier-plus'
       path: '/dossier-plus'
@@ -147,7 +123,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AskRoute: AskRoute,
   CaptureRoute: CaptureRoute,
-  DailyRoute: DailyRoute,
   DossierPlusRoute: DossierPlusRoute,
   ProfileRoute: ProfileRoute,
 }
