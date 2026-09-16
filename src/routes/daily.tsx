@@ -31,7 +31,7 @@ export const Route = createFileRoute("/daily")({
 });
 
 function DailyPage() {
-  const { selected } = useChildren();
+  const { active } = useChildren();
   const fetchActivity = useServerFn(getCheckinActivity);
   const { data } = useQuery({
     queryKey: ["checkin-activity"],
@@ -47,9 +47,9 @@ function DailyPage() {
       </header>
       <AddTodayBar />
       <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-4 pb-8 pt-6">
-        <h1 className="font-display text-2xl">Today with {selected?.name ?? "your child"}</h1>
+        <h1 className="font-display text-2xl">Today with {active?.name ?? "your child"}</h1>
         <DailyCheckin streak={currentStreak(counts)} />
-        <ActivityCalendar counts={counts} color={selected?.theme_color ?? "#C2703D"} />
+        <ActivityCalendar counts={counts} color={active?.theme_color ?? "#C2703D"} />
       </main>
       <BottomNav />
     </div>

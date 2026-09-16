@@ -15,7 +15,7 @@ const QUESTIONS = [
 ] as const;
 
 export function DailyCheckin({ streak }: { streak: number }) {
-  const { selected } = useChildren();
+  const { active } = useChildren();
   const queryClient = useQueryClient();
   const runCapture = useServerFn(captureEntry);
   const fetchToken = useServerFn(getScribeToken);
@@ -44,7 +44,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
       }
       setIsSaving(true);
       try {
-        const prefix = `${QUESTIONS[step]}${selected ? ` (about ${selected.name})` : ""} — `;
+        const prefix = `${QUESTIONS[step]}${active ? ` (about ${active.name})` : ""} — `;
         await runCapture({ data: { transcript: prefix + answer.trim(), source } });
         setSaved((list) => [...list, step]);
         setTyped("");
