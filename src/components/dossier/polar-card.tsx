@@ -1,4 +1,4 @@
-import { QRCodeSVG } from "qrcode.react";
+import qrAsset from "@/assets/dossier-qr.svg.asset.json";
 
 // TODO: swap for the real Polar subscription checkout link.
 export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
@@ -29,7 +29,7 @@ export function PolarCard() {
         rel="noreferrer"
         className="relative mx-auto mt-6 block w-fit rounded-xl border border-line bg-surface p-4"
       >
-        <QRCodeSVG value={POLAR_CHECKOUT_URL} size={168} bgColor="var(--surface)" fgColor="var(--ink)" />
+        <img src={qrAsset.url} alt="QR code to subscribe to Dossier+" width={168} height={168} className="block size-[168px]" />
       </a>
       <p className="mt-4 font-display text-lg">Scan it</p>
       <p className="text-xs text-muted-foreground">Subscribe in about twenty seconds</p>
