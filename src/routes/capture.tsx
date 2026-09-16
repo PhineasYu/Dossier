@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { BottomNav } from "@/components/dossier/bottom-nav";
+import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { BrainDump } from "@/components/dossier/brain-dump";
 import { ChildSwitcher } from "@/components/dossier/child-switcher";
 
@@ -39,6 +39,7 @@ function CapturePage() {
       <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-5 backdrop-blur">
         <ChildSwitcher />
       </header>
+      <AddTodayBar />
       <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-4 pb-8 pt-6">
         <BrainDump initialMode={mode} />
 
