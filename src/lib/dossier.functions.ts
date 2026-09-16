@@ -93,8 +93,21 @@ export const captureEntry = createServerFn({ method: "POST" })
 
     const known = new Set(children.map((c) => c.id));
     const today = new Date().toISOString().slice(0, 10);
-    const cardRows: Record<string, unknown>[] = [];
-    const factRows: Record<string, unknown>[] = [];
+    const cardRows: {
+      child_id: string;
+      entry_id: string;
+      date: string;
+      title: string;
+      body: string | null;
+      category: string;
+    }[] = [];
+    const factRows: {
+      child_id: string;
+      entry_id: string;
+      date: string;
+      field: string;
+      value: string;
+    }[] = [];
 
     for (const item of items) {
       const ids = (item.child_ids ?? []).filter((id) => known.has(id));
