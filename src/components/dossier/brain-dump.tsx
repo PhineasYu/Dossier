@@ -6,6 +6,7 @@ import { Loader2, Mic, Square, Undo2 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
 import { captureEntry, getScribeToken, undoEntry } from "@/lib/dossier.functions";
 import { useChildren } from "@/lib/child-context";
 import { CATEGORY_LABEL, FIELD_LABEL, withAlpha } from "@/lib/dossier";
@@ -128,17 +129,18 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
 
   return (
     <section className="space-y-5">
-      <div className="paper rounded-3xl border bg-card p-6 text-center">
+      <div className="material-card p-6 text-center">
         <h2 className="font-display text-xl">Just talk</h2>
         <p className="mx-auto mt-1 max-w-xs text-sm text-muted-foreground">
           Mix everything together. Dossier sorts it into each child&apos;s story.
         </p>
 
-        <button
+        <Button
           type="button"
           onClick={isRecording ? stop : start}
           disabled={isSorting}
-          className="mx-auto mt-6 grid size-24 place-items-center rounded-full text-white shadow-lg transition-transform active:scale-95 disabled:opacity-60"
+          size="icon"
+          className="mx-auto mt-6 size-24 bg-child text-primary-foreground shadow-[var(--elevation-3)] [&_svg]:size-9"
           style={{ backgroundColor: "var(--child)" }}
           aria-label={isRecording ? "Stop and sort" : "Start talking"}
         >
@@ -149,7 +151,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
           ) : (
             <Mic className="size-9" />
           )}
-        </button>
+        </Button>
 
         <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">
           {isSorting
@@ -160,18 +162,20 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
         </p>
 
         {(isRecording || liveTranscript) && (
-          <p className="mt-4 min-h-16 rounded-2xl bg-muted/60 p-4 text-left text-sm leading-relaxed">
+          <p className="mt-4 min-h-16 rounded-xl bg-surface-container-high p-4 text-left text-sm leading-relaxed">
             {liveTranscript || "…"}
           </p>
         )}
 
-        <button
+        <Button
           type="button"
           onClick={() => setShowTyping((value) => !value)}
-          className="mt-4 text-xs text-muted-foreground underline underline-offset-4"
+          variant="ghost"
+          size="sm"
+          className="mt-4 text-xs text-on-surface-variant"
         >
           {showTyping ? "Hide typing" : "Type instead"}
-        </button>
+        </Button>
 
         {showTyping && (
           <div className="mt-3 space-y-2 text-left">
@@ -180,18 +184,17 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
               onChange={(event) => setTyped(event.target.value)}
               rows={4}
               placeholder="Luca tried mango today and his lips got a bit swollen…"
-              className="w-full rounded-2xl border bg-background p-3 text-sm outline-none focus:ring-2"
+              className="w-full rounded-xl border border-outline bg-surface-container-low p-4 text-sm outline-none focus:ring-2 focus:ring-ring"
               style={{ boxShadow: "none" }}
             />
-            <button
+            <Button
               type="button"
               onClick={() => sort(typed, "text")}
               disabled={isSorting || !typed.trim()}
-              className="w-full rounded-full py-2.5 text-sm font-medium text-white disabled:opacity-50"
-              style={{ backgroundColor: "var(--child)" }}
+              className="w-full bg-child text-primary-foreground"
             >
               Sort this
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -200,7 +203,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
         {kids.map((kid) => (
           <div
             key={kid.id}
-            className="min-h-40 rounded-3xl border p-3"
+            className="min-h-40 rounded-3xl border p-3 shadow-[var(--elevation-1)]"
             style={{
               borderColor: withAlpha(kid.theme_color, 0.4),
               backgroundColor: withAlpha(kid.theme_color, 0.05),
@@ -219,7 +222,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
                       initial={{ opacity: 0, y: -40, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{ delay: index * 0.25, type: "spring", stiffness: 220, damping: 22 }}
-                      className="rounded-xl bg-card p-2.5 text-left text-xs shadow-sm"
+                      className="rounded-xl bg-surface-container-low p-2.5 text-left text-xs shadow-[var(--elevation-1)]"
                       style={{ borderLeft: `2px solid ${kid.theme_color}` }}
                     >
                       <span
@@ -242,20 +245,22 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: items.length * 0.25 + 0.2 }}
-          className="flex items-center justify-between rounded-2xl border bg-card px-4 py-3 text-sm"
+          className="material-card flex items-center justify-between px-4 py-3 text-sm"
         >
           <span>
             {summary.memories} {summary.memories === 1 ? "memory" : "memories"} ·{" "}
             {summary.updates} profile {summary.updates === 1 ? "update" : "updates"} ·{" "}
             {summary.children} {summary.children === 1 ? "child" : "children"}
           </span>
-          <button
+          <Button
             type="button"
             onClick={undo}
-            className="flex items-center gap-1 text-muted-foreground underline underline-offset-4"
+            variant="ghost"
+            size="sm"
+            className="text-on-surface-variant"
           >
             <Undo2 className="size-3.5" /> Undo
-          </button>
+          </Button>
         </motion.div>
       )}
     </section>
