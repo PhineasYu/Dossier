@@ -2,7 +2,7 @@ import { useConversation } from "@elevenlabs/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Loader2, Mic, MicOff, PhoneOff, Radio } from "lucide-react";
+import { Check, Loader2, Mic, MicOff, PhoneOff } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
