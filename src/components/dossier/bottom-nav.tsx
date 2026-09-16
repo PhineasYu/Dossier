@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Archive, Camera, Mic, ScrollText, Search, Sparkles, Type } from "lucide-react";
+import { Archive, Camera, Mic, ScrollText, Sparkles, Type } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -7,7 +7,6 @@ const ITEMS = [
   { to: "/app", label: "Timeline", icon: ScrollText },
   { to: "/profile", label: "Archive", icon: Archive },
   { to: "/capture", label: "Capture", icon: Mic },
-  { to: "/ask", label: "Ask", icon: Search },
   { to: "/dossier-plus", label: "Dossier+", icon: Sparkles },
 ] as const;
 
@@ -43,7 +42,7 @@ export function AddTodayBar() {
           </Link>
         </Button>
         <Button asChild variant="secondary" className="h-10 bg-child-soft text-foreground">
-          <Link to="/profile" search={{ add: "photo" }} aria-label="Add a photo today">
+          <Link to="/profile" search={{ add: "photo", q: undefined }} aria-label="Add a photo today">
             <Camera /> Photo
           </Link>
         </Button>

@@ -172,15 +172,19 @@ export const undoEntry = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** Answer a question by picking matching memory cards for one child. */
+/** Answer a question from either the child's timeline or structured archive. */
 export const askArchive = createServerFn({ method: "POST" })
-  .inputValidator((input: { question: string; childId: string }) => {
+  .inputValidator((input: { question: string; childId: string; scope?: "timeline" | "archive" }) => {
     if (!input?.question?.trim()) throw new Error("Ask something first.");
-    return { question: input.question.trim(), childId: input.childId };
+    return {
+      question: input.question.trim(),
+      childId: input.childId,
+      scope: input.scope === "archive" ? ("archive" as const) : ("timeline" as const),
+    };
   })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const [{ data: child }, { data: cards }, { data: facts }] = await Promise.all([
+    const [{ data: child }, { data: cards }, { data: facts }, { data: documents }] = await Promise.all([
       supabaseAdmin.from("children").select("name, birthdate").eq("id", data.childId).single(),
       supabaseAdmin
         .from("cards")
@@ -189,37 +193,51 @@ export const askArchive = createServerFn({ method: "POST" })
         .order("date", { ascending: false }),
       supabaseAdmin
         .from("profile_facts")
-        .select("field, value, date")
+        .select("id, field, value, date")
         .eq("child_id", data.childId)
         .order("date", { ascending: false }),
+      supabaseAdmin
+        .from("documents")
+        .select("id, doc_type, extracted_json, uploaded_at")
+        .eq("child_id", data.childId)
+        .order("uploaded_at", { ascending: false }),
     ]);
 
     const catalogue = (cards ?? [])
       .map((c) => `${c.id} | ${c.date} | ${c.category} | ${c.title} | ${c.body ?? ""}`)
       .join("\n");
-    const factList = (facts ?? []).map((f) => `${f.date} | ${f.field} | ${f.value}`).join("\n");
+    const factList = (facts ?? []).map((f) => `${f.id} | ${f.date} | ${f.field} | ${f.value}`).join("\n");
+    const documentList = (documents ?? [])
+      .map((document) => `${document.id} | ${document.uploaded_at} | ${document.doc_type ?? "Document"} | ${JSON.stringify(document.extracted_json ?? {})}`)
+      .join("\n");
+    const sourceMaterial = data.scope === "timeline"
+      ? `Memory cards (id | date | category | title | body):\n${catalogue}`
+      : `Profile facts (id | date | field | value):\n${factList}\n\nDocuments (id | uploaded | type | extracted details):\n${documentList}`;
 
     const raw = await callGateway([
       {
         role: "system",
-        content: `You search a family archive for ${child?.name ?? "this child"} (born ${child?.birthdate ?? "unknown"}).
-Memory cards (id | date | category | title | body):
-${catalogue}
+        content: `You search the ${data.scope} of a family archive for ${child?.name ?? "this child"} (born ${child?.birthdate ?? "unknown"}).
+${sourceMaterial}
 
-Profile facts (date | field | value):
-${factList}
-
-Return JSON ONLY: {"answer":"one warm sentence answering the question, or say nothing was recorded","card_ids":["<ids of matching cards, most relevant first>"]}
-Only use ids from the list. Return at most 6 ids. If nothing matches, return an empty array.`,
+Return JSON ONLY: {"answer":"one warm, concise sentence answering the question, or say nothing was recorded","source_ids":["<ids of matching sources, most relevant first>"]}
+Only use ids from the supplied ${data.scope}. Return at most 6 ids. If nothing matches, return an empty array.`,
       },
       { role: "user", content: data.question },
     ]);
 
     try {
-      const parsed = JSON.parse(stripFences(raw)) as { answer: string; card_ids: string[] };
-      return { answer: parsed.answer ?? "", cardIds: parsed.card_ids ?? [] };
+      const parsed = JSON.parse(stripFences(raw)) as { answer: string; source_ids?: string[]; card_ids?: string[] };
+      const sourceIds = parsed.source_ids ?? parsed.card_ids ?? [];
+      const archiveSources = data.scope === "archive"
+        ? [
+            ...(facts ?? []).filter((fact) => sourceIds.includes(fact.id)).map((fact) => ({ id: fact.id, label: `${fact.field.replaceAll("_", " ")}: ${fact.value}`, kind: "fact" as const })),
+            ...(documents ?? []).filter((document) => sourceIds.includes(document.id)).map((document) => ({ id: document.id, label: document.doc_type ?? "Document", kind: "document" as const })),
+          ]
+        : [];
+      return { answer: parsed.answer ?? "", cardIds: data.scope === "timeline" ? sourceIds : [], sources: archiveSources };
     } catch {
-      return { answer: "", cardIds: [] };
+      return { answer: "", cardIds: [], sources: [] };
     }
   });
 

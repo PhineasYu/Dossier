@@ -36,7 +36,7 @@ function Landing() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/app", replace: true });
+      if (data.session) navigate({ to: "/app", search: { q: undefined }, replace: true });
     });
   }, [navigate]);
 
@@ -52,7 +52,7 @@ function Landing() {
         return;
       }
       if (result.redirected) return;
-      navigate({ to: "/app", replace: true });
+      navigate({ to: "/app", search: { q: undefined }, replace: true });
     } catch {
       toast.error("Google sign-in didn't complete. Please try again.");
     } finally {
@@ -62,7 +62,7 @@ function Landing() {
 
   function lookAround() {
     enterGuestMode();
-    navigate({ to: "/app" });
+    navigate({ to: "/app", search: { q: undefined } });
   }
 
   return (
