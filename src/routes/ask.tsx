@@ -19,6 +19,8 @@ export const Route = createFileRoute("/ask")({
         property: "og:description",
         content: "Years of small moments, searchable in a sentence.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AskPage,
