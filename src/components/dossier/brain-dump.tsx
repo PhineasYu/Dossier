@@ -18,7 +18,7 @@ type SortedItem = {
   text: string;
 };
 
-export function BrainDump({ initialMode }: { initialMode?: "voice" | "text" }) {
+export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | undefined }) {
   const { kids } = useChildren();
   const queryClient = useQueryClient();
   const runCapture = useServerFn(captureEntry);

@@ -6,7 +6,10 @@ import { ChildSwitcher } from "@/components/dossier/child-switcher";
 
 export const Route = createFileRoute("/capture")({
   validateSearch: (search: Record<string, unknown>) => ({
-    mode: search.mode === "voice" || search.mode === "text" ? search.mode : undefined,
+    mode:
+      search["mode"] === "voice" || search["mode"] === "text"
+        ? (search["mode"] as "voice" | "text")
+        : undefined,
   }),
   head: () => ({
     meta: [

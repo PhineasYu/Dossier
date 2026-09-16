@@ -8,7 +8,7 @@ import { useChildren } from "@/lib/child-context";
 
 export const Route = createFileRoute("/profile")({
   validateSearch: (search: Record<string, unknown>) => ({
-    add: search.add === "photo" ? "photo" : undefined,
+    add: search["add"] === "photo" ? ("photo" as const) : undefined,
   }),
   head: () => ({
     meta: [
