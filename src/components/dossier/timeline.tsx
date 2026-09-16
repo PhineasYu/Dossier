@@ -13,7 +13,7 @@ export function useTimeline(childId: string | null) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("cards")
-        .select("id, child_id, entry_id, date, title, body, category")
+        .select("id, child_id, entry_id, date, title, body, category, question_origin")
         .eq("child_id", childId!)
         .order("date", { ascending: false })
         .order("created_at", { ascending: false });

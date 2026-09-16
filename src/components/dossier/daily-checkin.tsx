@@ -46,7 +46,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
       setIsSaving(true);
       try {
         const prefix = `${QUESTIONS[step]}${active ? ` (about ${active.name})` : ""} — `;
-        await runCapture({ data: { transcript: prefix + answer.trim(), source } });
+        await runCapture({ data: { transcript: prefix + answer.trim(), source, questionOrigin: step === 0 ? "for_child" : "child_moment" } });
         setSaved((list) => [...list, step]);
         setTyped("");
         setShowTyping(false);
@@ -87,7 +87,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
     <section className="space-y-5">
       <div className="material-card flex items-center justify-between px-4 py-3">
         <span className="flex items-center gap-2 text-sm">
-          <Flame className="size-4" style={{ color: "var(--child)" }} />
+          <Flame className="size-4 text-orange-ink" />
           <strong className="font-display text-base">Day {Math.max(streak, 1)}</strong>
           <span className="text-muted-foreground">
             {streak > 1 ? "in a row" : "let’s start the streak"}
@@ -100,9 +100,9 @@ export function DailyCheckin({ streak }: { streak: number }) {
               className="size-2 rounded-full"
               style={{
                 backgroundColor: saved.includes(index)
-                  ? "var(--child)"
+                  ? index === 0 ? "var(--orange)" : "var(--green)"
                   : index === step
-                    ? "var(--child-soft)"
+                    ? index === 0 ? "var(--orange-100)" : "var(--green-100)"
                     : "var(--muted)",
               }}
             />
@@ -119,8 +119,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
             className="material-card p-8 text-center"
           >
             <div
-              className="mx-auto grid size-16 place-items-center rounded-full text-primary-foreground shadow-[var(--elevation-2)]"
-              style={{ backgroundColor: "var(--child)" }}
+              className="mx-auto grid size-16 place-items-center rounded-full bg-success text-primary-foreground"
             >
               <Check className="size-8" />
             </div>
@@ -150,8 +149,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
               onClick={isRecording ? stop : start}
               disabled={isSaving}
               size="icon"
-              className="mx-auto mt-7 size-28 bg-child text-primary-foreground shadow-[var(--elevation-3)] [&_svg]:size-10"
-              style={{ backgroundColor: "var(--child)" }}
+              className={`mx-auto mt-7 size-28 rounded-full [&_svg]:size-10 ${step === 0 ? "bg-orange text-ink" : "bg-green text-ink"}`}
               aria-label={isRecording ? "Stop and save" : "Answer out loud"}
             >
               {isSaving ? (
@@ -201,7 +199,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
                   type="button"
                   onClick={() => save(typed, "text")}
                   disabled={isSaving || !typed.trim()}
-                  className="w-full bg-child text-primary-foreground"
+                  className="w-full"
                 >
                   Save this answer
                 </Button>

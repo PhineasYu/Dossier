@@ -55,7 +55,7 @@ function CapturePage() {
       <main className="mx-auto w-full max-w-xl flex-1 space-y-8 px-4 pb-8 pt-6">
         <h1 className="font-display text-2xl">Today with {active?.name ?? "your child"}</h1>
         <DailyCheckin streak={currentStreak(counts)} />
-        <ActivityCalendar counts={counts} color={active?.theme_color ?? "#C2703D"} />
+        <ActivityCalendar counts={counts} color={active?.theme_color ?? "#3267D4"} />
 
         <section className="space-y-3">
           <h2 className="font-display text-xl">Or just talk it out</h2>

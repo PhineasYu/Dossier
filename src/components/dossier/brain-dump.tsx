@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { AiRing } from "@/components/dossier/ai-ring";
 import { captureEntry, getScribeToken, undoEntry } from "@/lib/dossier.functions";
 import { useChildren } from "@/lib/child-context";
 import { CATEGORY_LABEL, FIELD_LABEL, withAlpha } from "@/lib/dossier";
@@ -135,23 +136,11 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
           Mix everything together. Dossier sorts it into each child&apos;s story.
         </p>
 
-        <Button
-          type="button"
-          onClick={isRecording ? stop : start}
-          disabled={isSorting}
-          size="icon"
-          className="mx-auto mt-6 size-24 bg-child text-primary-foreground shadow-[var(--elevation-3)] [&_svg]:size-9"
-          style={{ backgroundColor: "var(--child)" }}
-          aria-label={isRecording ? "Stop and sort" : "Start talking"}
-        >
-          {isSorting ? (
-            <Loader2 className="size-9 animate-spin" />
-          ) : isRecording ? (
-            <Square className="size-8" />
-          ) : (
-            <Mic className="size-9" />
-          )}
-        </Button>
+        <AiRing active={isSorting} className="mx-auto mt-6 size-28">
+          <Button type="button" onClick={isRecording ? stop : start} disabled={isSorting} size="icon" className="size-24 rounded-full [&_svg]:size-9" aria-label={isRecording ? "Stop and sort" : "Start talking"}>
+            {isSorting ? <Loader2 className="size-9 animate-spin" /> : isRecording ? <Square className="size-8" /> : <Mic className="size-9" />}
+          </Button>
+        </AiRing>
 
         <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">
           {isSorting
@@ -191,7 +180,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
               type="button"
               onClick={() => sort(typed, "text")}
               disabled={isSorting || !typed.trim()}
-              className="w-full bg-child text-primary-foreground"
+              className="w-full"
             >
               Sort this
             </Button>
@@ -203,7 +192,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
         {kids.map((kid) => (
           <div
             key={kid.id}
-            className="min-h-40 rounded-3xl border p-3 shadow-[var(--elevation-1)]"
+            className="min-h-40 rounded-xl border border-line bg-surface p-3"
             style={{
               borderColor: withAlpha(kid.theme_color, 0.4),
               backgroundColor: withAlpha(kid.theme_color, 0.05),
@@ -222,8 +211,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
                       initial={{ opacity: 0, y: -40, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{ delay: index * 0.25, type: "spring", stiffness: 220, damping: 22 }}
-                      className="rounded-xl bg-surface-container-low p-2.5 text-left text-xs shadow-[var(--elevation-1)]"
-                      style={{ borderLeft: `2px solid ${kid.theme_color}` }}
+                      className="rounded-lg border border-line bg-surface p-2.5 text-left text-xs"
                     >
                       <span
                         className="block text-[10px] uppercase tracking-wide"

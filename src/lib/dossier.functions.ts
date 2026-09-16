@@ -69,9 +69,9 @@ Rules:
 
 /** Split a transcript, store everything, and return what was created. */
 export const captureEntry = createServerFn({ method: "POST" })
-  .inputValidator((input: { transcript: string; source: "voice" | "text" }) => {
+  .inputValidator((input: { transcript: string; source: "voice" | "text"; questionOrigin?: "for_child" | "child_moment" }) => {
     if (!input?.transcript?.trim()) throw new Error("Nothing to save yet.");
-    return { transcript: input.transcript.trim(), source: input.source };
+    return { transcript: input.transcript.trim(), source: input.source, questionOrigin: input.questionOrigin };
   })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -101,6 +101,7 @@ export const captureEntry = createServerFn({ method: "POST" })
       title: string;
       body: string | null;
       category: string;
+      question_origin: "for_child" | "child_moment" | null;
     }[] = [];
     const factRows: {
       child_id: string;
@@ -122,6 +123,7 @@ export const captureEntry = createServerFn({ method: "POST" })
             title: item.title || (item.text ?? "A moment").slice(0, 60),
             body: item.text ?? null,
             category: item.category || "other",
+            question_origin: data.questionOrigin ?? null,
           });
         } else if (item.field && item.value) {
           factRows.push({

@@ -14,6 +14,7 @@ export type MemoryCard = {
   title: string;
   body: string | null;
   category: string;
+  question_origin?: "for_child" | "child_moment" | null;
 };
 
 export type ProfileFact = {
