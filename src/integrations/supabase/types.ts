@@ -14,7 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cards: {
+        Row: {
+          body: string | null
+          category: string
+          child_id: string
+          created_at: string
+          date: string
+          entry_id: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          category?: string
+          child_id: string
+          created_at?: string
+          date?: string
+          entry_id?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          body?: string | null
+          category?: string
+          child_id?: string
+          created_at?: string
+          date?: string
+          entry_id?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cards_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cards_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      children: {
+        Row: {
+          avatar_url: string | null
+          birthdate: string | null
+          created_at: string
+          id: string
+          name: string
+          theme_color: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          birthdate?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          theme_color?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          birthdate?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          theme_color?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          child_id: string | null
+          doc_type: string | null
+          extracted_json: Json | null
+          file_url: string
+          id: string
+          uploaded_at: string
+        }
+        Insert: {
+          child_id?: string | null
+          doc_type?: string | null
+          extracted_json?: Json | null
+          file_url: string
+          id?: string
+          uploaded_at?: string
+        }
+        Update: {
+          child_id?: string | null
+          doc_type?: string | null
+          extracted_json?: Json | null
+          file_url?: string
+          id?: string
+          uploaded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      entries: {
+        Row: {
+          created_at: string
+          id: string
+          raw_text: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          raw_text: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          raw_text?: string
+          source?: string
+        }
+        Relationships: []
+      }
+      profile_facts: {
+        Row: {
+          child_id: string
+          created_at: string
+          date: string
+          entry_id: string | null
+          field: string
+          id: string
+          value: string
+        }
+        Insert: {
+          child_id: string
+          created_at?: string
+          date?: string
+          entry_id?: string | null
+          field: string
+          id?: string
+          value: string
+        }
+        Update: {
+          child_id?: string
+          created_at?: string
+          date?: string
+          entry_id?: string | null
+          field?: string
+          id?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_facts_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_facts_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
