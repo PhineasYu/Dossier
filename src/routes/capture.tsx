@@ -16,7 +16,7 @@ export const Route = createFileRoute("/capture")({
       { property: "og:title", content: "Talk it out — capture today" },
       {
         property: "og:description",
-        content: "One brain dump in, two kinds of记 memory out: the story and the facts.",
+        content: "One brain dump in, two kinds of memory out: the story and the facts.",
       },
     ],
   }),
