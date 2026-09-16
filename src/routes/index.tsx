@@ -66,7 +66,7 @@ function Landing() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-background px-5 pb-8 pt-10">
+    <main className="flex min-h-screen flex-col items-center justify-between bg-background px-5 pb-8 pt-16">
       <h1 className="pt-6">
         <Wordmark className="h-10" />
         <span className="sr-only">Dossier</span>
