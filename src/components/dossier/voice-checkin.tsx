@@ -3,8 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2, Mic, MicOff, PhoneOff, Radio } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "sonner";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import { DailyCheckin } from "@/components/dossier/daily-checkin";
@@ -96,7 +95,10 @@ export function VoiceCheckin() {
         try {
           const context = active ? `About ${active.name}: ` : "";
           const result = await runCapture({ data: { transcript: context + text, source: "voice" } });
-          const nextAnswers = [...answersRef.current.filter((item) => item.question !== question), { question, text }];
+          const nextAnswers: Answer[] = [
+            ...answersRef.current.filter((item) => item.question !== question),
+            { question, text },
+          ];
           const nextCards = [...cardsRef.current, ...(result.cards as MemoryCard[])];
           answersRef.current = nextAnswers;
           cardsRef.current = nextCards;
