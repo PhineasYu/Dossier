@@ -18,6 +18,8 @@ export const Route = createFileRoute("/dossier-plus")({
         property: "og:description",
         content: "Scan the card to subscribe and keep the whole story.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: PlusPage,

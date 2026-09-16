@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { FileText, Loader2, Upload } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -18,12 +18,20 @@ function readAsDataUrl(file: File) {
   });
 }
 
-export function DocumentArchive() {
+export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
   const { active } = useChildren();
   const queryClient = useQueryClient();
   const runExtract = useServerFn(extractDocument);
   const inputRef = useRef<HTMLInputElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+  const didAutoOpen = useRef(false);
   const [previews, setPreviews] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!autoOpen || didAutoOpen.current) return;
+    didAutoOpen.current = true;
+    photoInputRef.current?.click();
+  }, [autoOpen]);
 
   const { data: docs = [] } = useQuery({
     queryKey: ["documents", active?.id],
@@ -101,6 +109,18 @@ export function DocumentArchive() {
         ref={inputRef}
         type="file"
         accept="application/pdf,image/*"
+        className="hidden"
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          if (file) upload.mutate(file);
+          event.target.value = "";
+        }}
+      />
+      <input
+        ref={photoInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
         className="hidden"
         onChange={(event) => {
           const file = event.target.files?.[0];

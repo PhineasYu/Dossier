@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Archive, Mic, ScrollText, Search, Sparkles } from "lucide-react";
+import { Archive, Camera, Mic, ScrollText, Search, Sparkles, Type } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 const ITEMS = [
   { to: "/", label: "Timeline", icon: ScrollText },
@@ -11,22 +13,41 @@ const ITEMS = [
 
 export function BottomNav() {
   return (
-    <nav className="sticky bottom-0 z-20 border-t bg-background/90 backdrop-blur">
-      <ul className="mx-auto flex max-w-xl items-stretch justify-between px-2 py-1.5">
-        {ITEMS.map(({ to, label, icon: Icon }) => (
-          <li key={to} className="flex-1">
-            <Link
-              to={to}
-              className="flex flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-[11px] text-muted-foreground transition-colors"
-              activeProps={{ style: { color: "var(--child)" } }}
-              activeOptions={{ exact: to === "/" }}
-            >
-              <Icon className="size-5" strokeWidth={1.6} />
-              {label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div className="sticky bottom-0 z-20 border-t bg-background/95 shadow-[0_-8px_24px_color-mix(in_oklch,var(--foreground)_8%,transparent)] backdrop-blur">
+      <div className="mx-auto grid max-w-xl grid-cols-3 gap-2 px-3 pb-2 pt-3">
+        <Button asChild size="sm" className="h-10 rounded-full bg-child text-primary-foreground hover:bg-child/90">
+          <Link to="/capture" search={{ mode: "voice" }} aria-label="Add today by voice">
+            <Mic /> Voice
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-child/40 bg-child-soft text-foreground">
+          <Link to="/profile" search={{ add: "photo" }} aria-label="Add a photo today">
+            <Camera /> Photo
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-child/40 bg-child-soft text-foreground">
+          <Link to="/capture" search={{ mode: "text" }} aria-label="Add today by text">
+            <Type /> Text
+          </Link>
+        </Button>
+      </div>
+      <nav aria-label="Main navigation" className="border-t">
+        <ul className="mx-auto flex max-w-xl items-stretch justify-between px-2 py-1">
+          {ITEMS.map(({ to, label, icon: Icon }) => (
+            <li key={to} className="flex-1">
+              <Link
+                to={to}
+                className="flex flex-col items-center gap-0.5 rounded-xl px-1 py-1.5 text-[10px] text-muted-foreground transition-colors"
+                activeProps={{ style: { color: "var(--child)" } }}
+                activeOptions={{ exact: to === "/" }}
+              >
+                <Icon className="size-5" strokeWidth={1.6} />
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   );
 }

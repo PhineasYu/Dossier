@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
 import { Loader2, Mic, Square, Undo2 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { captureEntry, getScribeToken, undoEntry } from "@/lib/dossier.functions";
@@ -18,7 +18,7 @@ type SortedItem = {
   text: string;
 };
 
-export function BrainDump() {
+export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | undefined }) {
   const { kids } = useChildren();
   const queryClient = useQueryClient();
   const runCapture = useServerFn(captureEntry);
@@ -26,7 +26,7 @@ export function BrainDump() {
   const fetchToken = useServerFn(getScribeToken);
 
   const [typed, setTyped] = useState("");
-  const [showTyping, setShowTyping] = useState(false);
+  const [showTyping, setShowTyping] = useState(initialMode === "text");
   const [isSorting, setIsSorting] = useState(false);
   const [items, setItems] = useState<SortedItem[]>([]);
   const [entryId, setEntryId] = useState<string | null>(null);
@@ -35,6 +35,7 @@ export function BrainDump() {
     updates: number;
     children: number;
   } | null>(null);
+  const didOpenInitialMode = useRef(false);
 
   const scribe = useScribe({
     modelId: "scribe_v2_realtime",
@@ -99,6 +100,13 @@ export function BrainDump() {
       setShowTyping(true);
     }
   }, [fetchToken, scribe]);
+
+  useEffect(() => {
+    if (didOpenInitialMode.current) return;
+    didOpenInitialMode.current = true;
+    if (initialMode === "voice") void start();
+    if (initialMode === "text") setShowTyping(true);
+  }, [initialMode, start]);
 
   const stop = useCallback(async () => {
     const transcript = liveTranscript;

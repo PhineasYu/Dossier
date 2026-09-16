@@ -7,6 +7,9 @@ import { ProfilePanel } from "@/components/dossier/profile-panel";
 import { useChildren } from "@/lib/child-context";
 
 export const Route = createFileRoute("/profile")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    add: search["add"] === "photo" ? ("photo" as const) : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "The file — allergies, growth and documents | Dossier" },
@@ -20,6 +23,8 @@ export const Route = createFileRoute("/profile")({
         property: "og:description",
         content: "The structured half of your child's archive, kept up to date by talking.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ProfilePage,
@@ -27,6 +32,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { active } = useChildren();
+  const { add } = Route.useSearch();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -38,7 +44,7 @@ function ProfilePage() {
           {active ? `${active.name}'s file` : "The file"}
         </h1>
         <ProfilePanel />
-        <DocumentArchive />
+        <DocumentArchive autoOpen={add === "photo"} />
       </main>
       <BottomNav />
     </div>

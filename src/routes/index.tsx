@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mic } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { BottomNav } from "@/components/dossier/bottom-nav";
@@ -24,6 +23,8 @@ export const Route = createFileRoute("/")({
         content:
           "Speak freely about your day. Dossier files the memories and the facts for every child.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Home,
@@ -50,13 +51,6 @@ function Home() {
         </h1>
         <Timeline />
         <StatsLine />
-        <Link
-          to="/capture"
-          className="flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-white"
-          style={{ backgroundColor: "var(--child)" }}
-        >
-          <Mic className="size-4" /> Add today
-        </Link>
       </main>
 
       <BottomNav />
