@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Archive, Camera, Flame, Mic, ScrollText, Search, Sparkles, Type } from "lucide-react";
+import { Archive, Camera, Mic, ScrollText, Search, Sparkles, Type } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
