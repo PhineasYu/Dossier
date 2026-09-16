@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { FileText, Loader2, Upload } from "lucide-react";
+import { CalendarDays, FileText, Loader2, Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 import { useChildren } from "@/lib/child-context";
 import { extractDocument } from "@/lib/dossier.functions";
 import type { DocumentRow } from "@/lib/dossier";
@@ -26,6 +27,7 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
   const photoInputRef = useRef<HTMLInputElement>(null);
   const didAutoOpen = useRef(false);
   const [previews, setPreviews] = useState<Record<string, string>>({});
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!autoOpen || didAutoOpen.current) return;
@@ -37,10 +39,11 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
     queryKey: ["documents", active?.id],
     enabled: Boolean(active?.id),
     queryFn: async () => {
+      if (!active) return [];
       const { data, error } = await supabase
         .from("documents")
         .select("id, child_id, file_url, doc_type, extracted_json, uploaded_at")
-        .eq("child_id", active!.id)
+        .eq("child_id", active.id)
         .order("uploaded_at", { ascending: false });
       if (error) throw error;
       const rows = data as DocumentRow[];
@@ -86,16 +89,28 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
     onError: (error) => toast.error(error instanceof Error ? error.message : "Upload failed."),
   });
 
+  const selected = docs.find((doc) => doc.id === selectedId) ?? docs[0];
+  const selectedUrl = selected ? previews[selected.id] : undefined;
+  const selectedIsImage = selected ? !selected.file_url.toLowerCase().endsWith(".pdf") : false;
+  const selectedFields = (selected?.extracted_json ?? {}) as Record<string, unknown>;
+
   return (
-    <div className="paper rounded-2xl border bg-card p-5">
+    <section className="overflow-hidden rounded-lg border bg-folder-paper shadow-sm">
+      <div className="flex items-center justify-between border-b px-5 py-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-display text-lg">Document archive</h3>
-        <button
+          <div>
+            <h2 className="font-display text-lg">Document archive</h2>
+            <p className="mt-0.5 text-xs uppercase text-muted-foreground">
+              {docs.length} {docs.length === 1 ? "file" : "files"} · privately kept
+            </p>
+          </div>
+        </div>
+        <Button
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={upload.isPending}
-          className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-white disabled:opacity-60"
-          style={{ backgroundColor: "var(--child)" }}
+          size="sm"
+          className="rounded-full bg-child text-primary-foreground hover:bg-child/90"
         >
           {upload.isPending ? (
             <Loader2 className="size-3.5 animate-spin" />
@@ -103,7 +118,7 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
             <Upload className="size-3.5" />
           )}
           Upload
-        </button>
+        </Button>
       </div>
       <input
         ref={inputRef}
@@ -129,49 +144,94 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
         }}
       />
 
-      {!docs.length && (
-        <p className="mt-3 text-sm text-muted-foreground">
-          Add a check-up sheet or school report — the original stays, the numbers get pulled out.
-        </p>
-      )}
-
-      <div className="mt-4 space-y-4">
-        {docs.map((doc) => {
-          const url = previews[doc.id];
-          const isImage = !doc.file_url.toLowerCase().endsWith(".pdf");
-          const fields = (doc.extracted_json ?? {}) as Record<string, unknown>;
-          return (
-            <div key={doc.id} className="grid gap-3 rounded-xl border p-3 sm:grid-cols-2">
-              <div className="overflow-hidden rounded-lg bg-muted">
-                {url && isImage ? (
-                  <img src={url} alt={doc.doc_type ?? "Document"} className="h-44 w-full object-cover" />
-                ) : (
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex h-44 flex-col items-center justify-center gap-2 text-sm text-muted-foreground"
-                  >
-                    <FileText className="size-8" strokeWidth={1.4} />
-                    Open original
-                  </a>
-                )}
-              </div>
-              <div>
-                <p className="font-display text-base">{doc.doc_type ?? "Document"}</p>
-                <ul className="mt-2 space-y-1 text-sm">
-                  {Object.entries(fields).map(([key, value]) => (
-                    <li key={key} className="flex justify-between gap-3">
-                      <span className="text-muted-foreground">{key}</span>
-                      <span className="text-right">{String(value)}</span>
-                    </li>
-                  ))}
-                </ul>
+      <div className="px-4 pb-5 pt-7">
+        {!docs.length ? (
+          <div className="relative mx-auto max-w-md pt-8">
+            <div className="absolute left-5 top-0 h-12 w-44 rounded-t-lg border bg-folder-blue px-4 pt-2 text-xs font-medium uppercase">
+              School & health
+            </div>
+            <div className="relative min-h-52 rounded-lg border bg-folder-blue p-6 shadow-sm">
+              <div className="flex min-h-40 flex-col items-center justify-center text-center">
+                <FileText className="mb-3 size-8 text-muted-foreground" strokeWidth={1.3} />
+                <p className="font-display text-lg">An empty folder, ready</p>
+                <p className="mt-1 max-w-xs text-sm text-muted-foreground">
+                  Add a check-up sheet or school report. The original stays beside the details Dossier reads.
+                </p>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ) : (
+          <div className="mx-auto max-w-md">
+            <div className="relative h-28" aria-label="Document folders">
+              {docs.slice(0, 5).map((doc, index) => {
+                const isSelected = doc.id === selected?.id;
+                const tones = ["bg-folder-blue", "bg-folder-sage", "bg-folder-stone"];
+                return (
+                  <button
+                    key={doc.id}
+                    type="button"
+                    onClick={() => setSelectedId(doc.id)}
+                    className={`absolute h-20 w-full rounded-t-lg border px-4 pt-2 text-left transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${tones[index % tones.length]} ${isSelected ? "-translate-y-2" : "hover:-translate-y-1"}`}
+                    style={{ top: `${index * 15}px`, zIndex: index + 1 }}
+                    aria-pressed={isSelected}
+                  >
+                    <span className="block max-w-[70%] truncate text-xs font-semibold uppercase">
+                      {doc.doc_type ?? "Untitled document"}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {selected && (
+              <article className="relative z-10 grid gap-4 rounded-lg border bg-card p-4 shadow-md sm:grid-cols-[1.1fr_1fr]">
+                <a
+                  href={selectedUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex min-h-48 overflow-hidden rounded-md border bg-muted"
+                >
+                  {selectedUrl && selectedIsImage ? (
+                    <img
+                      src={selectedUrl}
+                      alt={selected.doc_type ?? "Document"}
+                      className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                    />
+                  ) : (
+                    <span className="m-auto flex flex-col items-center gap-2 text-sm text-muted-foreground">
+                      <FileText className="size-9" strokeWidth={1.3} />
+                      Open original
+                    </span>
+                  )}
+                </a>
+                <div className="min-w-0">
+                  <p className="font-display text-lg">{selected.doc_type ?? "Document"}</p>
+                  <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <CalendarDays className="size-3.5" />
+                    {new Date(selected.uploaded_at).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                  {Object.keys(selectedFields).length ? (
+                    <dl className="mt-4 divide-y text-sm">
+                      {Object.entries(selectedFields).map(([key, value]) => (
+                        <div key={key} className="flex justify-between gap-3 py-2">
+                          <dt className="capitalize text-muted-foreground">{key.replaceAll("_", " ")}</dt>
+                          <dd className="text-right font-medium">{String(value)}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : (
+                    <p className="mt-4 text-sm text-muted-foreground">No details were found in this file.</p>
+                  )}
+                </div>
+              </article>
+            )}
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
