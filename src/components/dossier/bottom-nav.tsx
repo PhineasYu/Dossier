@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Archive, Camera, Mic, ScrollText, Search, Sparkles, Type } from "lucide-react";
+import { Archive, Camera, Mic, ScrollText, Sparkles, Type } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -7,7 +7,6 @@ const ITEMS = [
   { to: "/app", label: "Timeline", icon: ScrollText },
   { to: "/profile", label: "Archive", icon: Archive },
   { to: "/capture", label: "Capture", icon: Mic },
-  { to: "/ask", label: "Ask", icon: Search },
   { to: "/dossier-plus", label: "Dossier+", icon: Sparkles },
 ] as const;
 

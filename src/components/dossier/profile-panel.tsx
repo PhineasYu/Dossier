@@ -62,16 +62,25 @@ function FactList({ rows, title }: { rows: FactRow[]; title: string }) {
   );
 }
 
-export function ProfilePanel() {
+export function ProfilePanel({ query = "" }: { query?: string }) {
   const { active } = useChildren();
   const { data: facts = [], isLoading } = useFacts(active?.id ?? null);
   const accent = active?.theme_color ?? "#c2703d";
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const visibleFacts = normalizedQuery
+    ? facts.filter((fact) =>
+        [FIELD_LABEL[fact.field] ?? fact.field, fact.value, fact.date]
+          .join(" ")
+          .toLocaleLowerCase()
+          .includes(normalizedQuery),
+      )
+    : facts;
 
   if (isLoading) {
     return <p className="py-10 text-center text-sm text-muted-foreground">Opening the file…</p>;
   }
 
-  const pick = (...fields: string[]) => facts.filter((fact) => fields.includes(fact.field));
+  const pick = (...fields: string[]) => visibleFacts.filter((fact) => fields.includes(fact.field));
 
   return (
     <div className="space-y-3">
@@ -80,6 +89,9 @@ export function ProfilePanel() {
       <FactList rows={pick("food_like", "food_dislike")} title="Food" />
       <FactList rows={pick("interest")} title="Interests" />
       <FactList rows={pick("friend")} title="Friends" />
+      {normalizedQuery && !visibleFacts.length && (
+        <p className="py-6 text-center text-sm text-muted-foreground">No profile details match this search.</p>
+      )}
     </div>
   );
 }

@@ -20,7 +20,7 @@ function readAsDataUrl(file: File) {
   });
 }
 
-export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
+export function DocumentArchive({ autoOpen = false, query = "" }: { autoOpen?: boolean; query?: string }) {
   const { active } = useChildren();
   const queryClient = useQueryClient();
   const runExtract = useServerFn(extractDocument);
@@ -90,7 +90,16 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
     onError: (error) => toast.error(error instanceof Error ? error.message : "Upload failed."),
   });
 
-  const selected = docs.find((doc) => doc.id === selectedId) ?? docs[0];
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const visibleDocs = normalizedQuery
+    ? docs.filter((doc) =>
+        [doc.doc_type ?? "", doc.uploaded_at, JSON.stringify(doc.extracted_json ?? {})]
+          .join(" ")
+          .toLocaleLowerCase()
+          .includes(normalizedQuery),
+      )
+    : docs;
+  const selected = visibleDocs.find((doc) => doc.id === selectedId) ?? visibleDocs[0];
   const selectedUrl = selected ? previews[selected.id] : undefined;
   const selectedIsImage = selected ? !selected.file_url.toLowerCase().endsWith(".pdf") : false;
   const selectedFields = (selected?.extracted_json ?? {}) as Record<string, unknown>;
@@ -102,7 +111,7 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
           <div>
             <h2 className="font-display text-lg">Document archive</h2>
             <p className="mt-0.5 text-xs uppercase text-muted-foreground">
-              {docs.length} {docs.length === 1 ? "file" : "files"} · privately kept
+              {visibleDocs.length} {visibleDocs.length === 1 ? "file" : "files"} · privately kept
             </p>
           </div>
         </div>
@@ -146,7 +155,7 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
       />
 
       <div className="px-4 pb-5 pt-8">
-        {!docs.length ? (
+        {!visibleDocs.length ? (
           <div className="relative mx-auto max-w-md pt-9">
             <div className="absolute left-0 top-0 h-14 w-48 rounded-t-2xl bg-folder-blue px-5 pt-3 text-xs font-semibold uppercase tracking-wider text-on-primary-container">
               School & health
@@ -154,9 +163,9 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
             <div className="relative min-h-52 rounded-b-2xl rounded-tr-2xl bg-folder-blue p-6 shadow-[var(--elevation-2)]">
               <div className="flex min-h-40 flex-col items-center justify-center text-center">
                 <FileText className="mb-3 size-8 text-muted-foreground" strokeWidth={1.3} />
-                <p className="font-display text-lg">An empty folder, ready</p>
+                <p className="font-display text-lg">{normalizedQuery ? "No documents match" : "An empty folder, ready"}</p>
                 <p className="mt-1 max-w-xs text-sm text-muted-foreground">
-                  Add a check-up sheet or school report. The original stays beside the details Dossier reads.
+                  {normalizedQuery ? "Try another word or clear the search." : "Add a check-up sheet or school report. The original stays beside the details Dossier reads."}
                 </p>
               </div>
             </div>
@@ -164,7 +173,7 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
         ) : (
           <div className="mx-auto max-w-md">
             <div className="relative h-44" aria-label="Document folders">
-              {docs.slice(0, 5).map((doc, index) => {
+              {visibleDocs.slice(0, 5).map((doc, index) => {
                 const isSelected = doc.id === selected?.id;
                 const tones = ["bg-folder-blue", "bg-primary", "bg-folder-blue", "bg-primary", "bg-folder-blue"];
                 const alignRight = index % 2 === 1;

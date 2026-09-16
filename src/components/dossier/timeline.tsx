@@ -23,10 +23,19 @@ export function useTimeline(childId: string | null) {
   });
 }
 
-export function Timeline() {
+export function Timeline({ query = "", smartCardIds }: { query?: string; smartCardIds?: string[] }) {
   const { active } = useChildren();
   const { data: cards = [], isLoading } = useTimeline(active?.id ?? null);
   const accent = active?.theme_color ?? "var(--primary)";
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const filteredCards = cards.filter((card) => {
+    if (smartCardIds) return smartCardIds.includes(card.id);
+    if (!normalizedQuery) return true;
+    return [card.title, card.body ?? "", card.category, card.date]
+      .join(" ")
+      .toLocaleLowerCase()
+      .includes(normalizedQuery);
+  });
 
   if (isLoading) {
     return <p className="py-10 text-center text-sm text-muted-foreground">Opening the archive…</p>;
@@ -40,9 +49,13 @@ export function Timeline() {
     );
   }
 
+  if (!filteredCards.length) {
+    return <p className="py-10 text-center text-sm text-muted-foreground">No timeline memories match this search.</p>;
+  }
+
   return (
     <div className="space-y-3">
-      {cards.map((card, index) => (
+      {filteredCards.map((card, index) => (
         <motion.div
           key={card.id}
           initial={{ opacity: 0, y: 12 }}

@@ -1,14 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { AppHeader } from "@/components/dossier/app-header";
 import { DocumentArchive } from "@/components/dossier/document-archive";
 import { ProfilePanel } from "@/components/dossier/profile-panel";
 import { useChildren } from "@/lib/child-context";
+import { ArchiveSearch } from "@/components/dossier/archive-search";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   validateSearch: (search: Record<string, unknown>) => ({
     add: search["add"] === "photo" ? ("photo" as const) : undefined,
+    q: typeof search["q"] === "string" ? search["q"] : "",
   }),
   head: () => ({
     meta: [
@@ -32,7 +34,8 @@ export const Route = createFileRoute("/_authenticated/profile")({
 
 function ProfilePage() {
   const { active } = useChildren();
-  const { add } = Route.useSearch();
+  const { add, q } = Route.useSearch();
+  const navigate = useNavigate({ from: "/profile" });
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -42,8 +45,9 @@ function ProfilePage() {
         <h1 className="pt-7 pb-1 font-display text-2xl">
           {active ? `${active.name}'s file` : "The file"}
         </h1>
-        <ProfilePanel />
-        <DocumentArchive autoOpen={add === "photo"} />
+        <ArchiveSearch scope="archive" query={q} onQueryChange={(value) => navigate({ search: (previous) => ({ ...previous, q: value }), replace: true })} />
+        <ProfilePanel query={q} />
+        <DocumentArchive autoOpen={add === "photo"} query={q} />
       </main>
       <BottomNav />
     </div>
