@@ -12,7 +12,7 @@ import { useChildren } from "@/lib/child-context";
 
 export const Route = createFileRoute("/_authenticated/app")({
   validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search["q"] === "string" ? search["q"] : "",
+    q: typeof search["q"] === "string" ? search["q"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -56,11 +56,13 @@ function Home() {
         </h1>
         <ArchiveSearch
           scope="timeline"
-          query={q}
-          onQueryChange={(value) => navigate({ search: (previous) => ({ ...previous, q: value }), replace: true })}
+          query={q ?? ""}
+          onQueryChange={(value) => navigate({ search: (previous) => ({ ...previous, q: value || undefined }), replace: true })}
           onTimelineMatches={setSmartCardIds}
         />
-        <div className="mt-4"><Timeline query={q} smartCardIds={smartCardIds} /></div>
+        <div className="mt-4">
+          <Timeline query={q ?? ""} {...(smartCardIds ? { smartCardIds } : {})} />
+        </div>
         <StatsLine />
       </main>
 

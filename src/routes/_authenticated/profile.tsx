@@ -10,7 +10,7 @@ import { ArchiveSearch } from "@/components/dossier/archive-search";
 export const Route = createFileRoute("/_authenticated/profile")({
   validateSearch: (search: Record<string, unknown>) => ({
     add: search["add"] === "photo" ? ("photo" as const) : undefined,
-    q: typeof search["q"] === "string" ? search["q"] : "",
+    q: typeof search["q"] === "string" ? search["q"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -45,9 +45,9 @@ function ProfilePage() {
         <h1 className="pt-7 pb-1 font-display text-2xl">
           {active ? `${active.name}'s file` : "The file"}
         </h1>
-        <ArchiveSearch scope="archive" query={q} onQueryChange={(value) => navigate({ search: (previous) => ({ ...previous, q: value }), replace: true })} />
-        <ProfilePanel query={q} />
-        <DocumentArchive autoOpen={add === "photo"} query={q} />
+        <ArchiveSearch scope="archive" query={q ?? ""} onQueryChange={(value) => navigate({ search: (previous) => ({ ...previous, q: value || undefined }), replace: true })} />
+        <ProfilePanel query={q ?? ""} />
+        <DocumentArchive autoOpen={add === "photo"} query={q ?? ""} />
       </main>
       <BottomNav />
     </div>
