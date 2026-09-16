@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
-import { Route as AuthenticatedAskRouteImport } from './routes/_authenticated/ask'
 import { Route as AuthenticatedCaptureRouteImport } from './routes/_authenticated/capture'
 import { Route as AuthenticatedDossierPlusRouteImport } from './routes/_authenticated/dossier-plus'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -29,11 +28,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAskRoute = AuthenticatedAskRouteImport.update({
-  id: '/ask',
-  path: '/ask',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCaptureRoute = AuthenticatedCaptureRouteImport.update({
@@ -56,7 +50,6 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AuthenticatedAppRoute
-  '/ask': typeof AuthenticatedAskRoute
   '/capture': typeof AuthenticatedCaptureRoute
   '/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -64,7 +57,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AuthenticatedAppRoute
-  '/ask': typeof AuthenticatedAskRoute
   '/capture': typeof AuthenticatedCaptureRoute
   '/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -74,22 +66,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRoute
-  '/_authenticated/ask': typeof AuthenticatedAskRoute
   '/_authenticated/capture': typeof AuthenticatedCaptureRoute
   '/_authenticated/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
+  fullPaths: '/' | '/app' | '/capture' | '/dossier-plus' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
+  to: '/' | '/app' | '/capture' | '/dossier-plus' | '/profile'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_authenticated/app'
-    | '/_authenticated/ask'
     | '/_authenticated/capture'
     | '/_authenticated/dossier-plus'
     | '/_authenticated/profile'
@@ -123,13 +113,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/ask': {
-      id: '/_authenticated/ask'
-      path: '/ask'
-      fullPath: '/ask'
-      preLoaderRoute: typeof AuthenticatedAskRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/capture': {
       id: '/_authenticated/capture'
       path: '/capture'
@@ -156,7 +139,6 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRoute
-  AuthenticatedAskRoute: typeof AuthenticatedAskRoute
   AuthenticatedCaptureRoute: typeof AuthenticatedCaptureRoute
   AuthenticatedDossierPlusRoute: typeof AuthenticatedDossierPlusRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -164,7 +146,6 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRoute,
-  AuthenticatedAskRoute: AuthenticatedAskRoute,
   AuthenticatedCaptureRoute: AuthenticatedCaptureRoute,
   AuthenticatedDossierPlusRoute: AuthenticatedDossierPlusRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
