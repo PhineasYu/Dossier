@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { withAlpha, type Child } from "./dossier";
+import type { Child } from "./dossier";
 
 type ChildContextValue = {
   kids: Child[];
@@ -49,7 +49,7 @@ export function ChildProvider({ children }: { children: ReactNode }) {
     if (!active) return;
     const root = document.documentElement;
     root.style.setProperty("--child", active.theme_color);
-    root.style.setProperty("--child-soft", withAlpha(active.theme_color, 0.14));
+    root.style.setProperty("--child-soft", active.name.toLocaleLowerCase().includes("lucy") ? "var(--purple-50)" : "var(--blue-50)");
   }, [active]);
 
   return (
