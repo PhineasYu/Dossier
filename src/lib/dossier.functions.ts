@@ -243,6 +243,141 @@ Only use ids from the supplied ${data.scope}. Return at most 6 ids. If nothing m
     }
   });
 
+type ChatTurn = { role: "user" | "assistant"; content: string };
+
+/** Streaming Responses call; consumed server-side so long answers never stall. */
+async function callResponses(input: unknown[], instructions: string) {
+  const key = process.env["LOVABLE_API_KEY"];
+  if (!key) throw new Error("AI is not configured for this project.");
+  const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Lovable-API-Key": key,
+      "X-Lovable-AIG-SDK": "fetch",
+    },
+    body: JSON.stringify({
+      model: "openai/gpt-6-astra",
+      instructions,
+      input,
+      stream: true,
+      store: false,
+      reasoning: { effort: "low", summary: "auto" },
+    }),
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    if (res.status === 402) throw new Error("The AI credits for this app have run out.");
+    if (res.status === 429) throw new Error("Too many questions at once — try again in a moment.");
+    throw new Error(`AI request failed [${res.status}]: ${body}`);
+  }
+  if (!res.body) throw new Error("The AI returned nothing.");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let text = "";
+  while (true) {
+    const chunk = await reader.read();
+    if (chunk.done) break;
+    buffer += decoder.decode(chunk.value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() ?? "";
+    for (const line of lines) {
+      if (!line.startsWith("data:")) continue;
+      const payload = line.slice(5).trim();
+      if (!payload || payload === "[DONE]") continue;
+      try {
+        const event = JSON.parse(payload) as {
+          type?: string;
+          delta?: string;
+          response?: { output_text?: string };
+        };
+        if (event.type === "response.output_text.delta" && typeof event.delta === "string") {
+          text += event.delta;
+        } else if (event.type === "response.completed" && !text) {
+          text = event.response?.output_text ?? "";
+        }
+      } catch {
+        // ignore keep-alive / partial frames
+      }
+    }
+  }
+  return text.trim();
+}
+
+/** Chat about everything stored for one child. */
+export const chatArchive = createServerFn({ method: "POST" })
+  .inputValidator((input: { childId: string; messages: ChatTurn[] }) => {
+    if (!input?.childId) throw new Error("Pick a child first.");
+    const messages = (input.messages ?? []).filter((m) => m?.content?.trim()).slice(-16);
+    if (!messages.length) throw new Error("Ask something first.");
+    return { childId: input.childId, messages };
+  })
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const [{ data: child }, { data: cards }, { data: facts }, { data: documents }] = await Promise.all([
+      supabaseAdmin.from("children").select("name, birthdate").eq("id", data.childId).single(),
+      supabaseAdmin
+        .from("cards")
+        .select("date, title, body, category, question_origin")
+        .eq("child_id", data.childId)
+        .order("date", { ascending: false }),
+      supabaseAdmin
+        .from("profile_facts")
+        .select("field, value, date")
+        .eq("child_id", data.childId)
+        .order("date", { ascending: false }),
+      supabaseAdmin
+        .from("documents")
+        .select("doc_type, extracted_json, uploaded_at")
+        .eq("child_id", data.childId)
+        .order("uploaded_at", { ascending: false }),
+    ]);
+
+    const memories = (cards ?? [])
+      .map((c) => `${c.date} | ${c.category} | ${c.title} | ${c.body ?? ""}`)
+      .join("\n");
+    const factList = (facts ?? []).map((f) => `${f.date} | ${f.field} | ${f.value}`).join("\n");
+    const documentList = (documents ?? [])
+      .map((d) => `${d.uploaded_at} | ${d.doc_type ?? "Document"} | ${JSON.stringify(d.extracted_json ?? {})}`)
+      .join("\n");
+
+    const instructions = `You are Dossier, a warm family archivist talking with the parent of ${child?.name ?? "this child"} (born ${child?.birthdate ?? "unknown"}). Today is ${new Date().toISOString().slice(0, 10)}.
+
+Everything on record for this child:
+
+Memories (date | category | title | body):
+${memories || "(none yet)"}
+
+Profile facts (date | field | value):
+${factList || "(none yet)"}
+
+Documents (uploaded | type | extracted details):
+${documentList || "(none yet)"}
+
+Rules:
+- Answer only from the record above; if something is not recorded, say so plainly and suggest what to capture next.
+- Be warm, concrete and brief: two or three sentences unless the parent asks for a list.
+- Quote dates when they help. Never invent facts, and never give medical advice.
+- Always flag allergies and medical notes clearly when they are relevant.`;
+
+    const answer = await callResponses(
+      data.messages.map((message) => ({
+        role: message.role,
+        content: [
+          {
+            type: message.role === "assistant" ? "output_text" : "input_text",
+            text: message.content,
+          },
+        ],
+      })),
+      instructions,
+    );
+
+    return { answer: answer || "I couldn't find anything on that in the archive yet." };
+  });
+
 /** Short-lived token so the browser can stream live transcription. */
 export const getScribeToken = createServerFn({ method: "POST" }).handler(async () => {
   const apiKey = process.env["ELEVENLABS_API_KEY"];
