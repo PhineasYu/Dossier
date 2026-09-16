@@ -4,7 +4,7 @@ import { Archive, Camera, Mic, ScrollText, Search, Sparkles, Type } from "lucide
 import { Button } from "@/components/ui/button";
 
 const ITEMS = [
-  { to: "/", label: "Timeline", icon: ScrollText },
+  { to: "/app", label: "Timeline", icon: ScrollText },
   { to: "/profile", label: "Archive", icon: Archive },
   { to: "/capture", label: "Capture", icon: Mic },
   { to: "/ask", label: "Ask", icon: Search },
@@ -21,7 +21,7 @@ export function BottomNav() {
               to={to}
               className="flex flex-col items-center gap-0.5 rounded-xl px-1 py-1.5 text-[10px] text-muted-foreground transition-colors"
               activeProps={{ style: { color: "var(--child)" } }}
-              activeOptions={{ exact: to === "/" }}
+              activeOptions={{ exact: to === "/app" }}
             >
               <Icon className="size-5" strokeWidth={1.6} />
               {label}

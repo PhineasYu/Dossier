@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { ActivityCalendar, currentStreak } from "@/components/dossier/activity-calendar";
 import { BrainDump } from "@/components/dossier/brain-dump";
-import { ChildSwitcher } from "@/components/dossier/child-switcher";
+import { AppHeader } from "@/components/dossier/app-header";
 import { DailyCheckin } from "@/components/dossier/daily-checkin";
 import { useChildren } from "@/lib/child-context";
 import { getCheckinActivity } from "@/lib/dossier.functions";
@@ -50,9 +50,7 @@ function CapturePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-5 backdrop-blur">
-        <ChildSwitcher />
-      </header>
+      <AppHeader />
       <AddTodayBar />
       <main className="mx-auto w-full max-w-xl flex-1 space-y-8 px-4 pb-8 pt-6">
         <h1 className="font-display text-2xl">Today with {active?.name ?? "your child"}</h1>

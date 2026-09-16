@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { AppHeader } from "@/components/dossier/app-header";
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { PolarCard } from "@/components/dossier/polar-card";
 import { StatsLine } from "@/components/dossier/stats-line";
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/_authenticated/dossier-plus")({
 function PlusPage() {
   return (
     <div className="flex min-h-screen flex-col">
+      <AppHeader showSwitcher={false} />
       <AddTodayBar />
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-4 px-4 py-10">
         <PolarCard />

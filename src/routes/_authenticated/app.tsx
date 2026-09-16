@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
-import { ChildSwitcher } from "@/components/dossier/child-switcher";
+import { AppHeader } from "@/components/dossier/app-header";
 import { Splash } from "@/components/dossier/splash";
 import { StatsLine } from "@/components/dossier/stats-line";
 import { Timeline } from "@/components/dossier/timeline";
@@ -38,12 +38,7 @@ function Home() {
     <div className="flex min-h-screen flex-col">
       {showSplash && <Splash onDone={() => setShowSplash(false)} />}
 
-      <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-5 backdrop-blur">
-        <p className="mb-3 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-          Dossier
-        </p>
-        <ChildSwitcher />
-      </header>
+      <AppHeader />
       <AddTodayBar />
 
       <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-8">

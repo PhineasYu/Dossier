@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
-import { ChildSwitcher } from "@/components/dossier/child-switcher";
+import { AppHeader } from "@/components/dossier/app-header";
 import { DocumentArchive } from "@/components/dossier/document-archive";
 import { ProfilePanel } from "@/components/dossier/profile-panel";
 import { useChildren } from "@/lib/child-context";
@@ -36,9 +36,7 @@ function ProfilePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-5 backdrop-blur">
-        <ChildSwitcher />
-      </header>
+      <AppHeader />
       <AddTodayBar />
       <main className="mx-auto w-full max-w-xl flex-1 space-y-3 px-4 pb-8">
         <h1 className="pt-7 pb-1 font-display text-2xl">
