@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { GrowingFamily } from "@/components/dossier/growing-family";
+import { LandingIllustration } from "@/components/dossier/landing-illustration";
 import { Wordmark } from "@/components/dossier/wordmark";
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
@@ -66,14 +66,14 @@ function Landing() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-background px-5 pb-10 pt-12">
+    <main className="flex min-h-screen flex-col items-center justify-between bg-background px-5 pb-8 pt-10">
       <h1>
         <Wordmark className="h-10" />
         <span className="sr-only">Dossier</span>
       </h1>
 
-      <div className="flex w-full flex-1 items-center justify-center py-8">
-        <GrowingFamily />
+      <div className="flex w-full flex-1 items-center justify-center py-5">
+        <LandingIllustration />
       </div>
 
       <div className="w-full max-w-sm space-y-2">
@@ -81,7 +81,7 @@ function Landing() {
             onClick={signIn}
             disabled={busy}
             size="lg"
-            className="h-12 w-full rounded-full bg-child text-primary-foreground hover:bg-child/90"
+            className="h-12 w-full bg-child text-primary-foreground shadow-[var(--elevation-1)]"
           >
             <GoogleGlyph />
             {busy ? "Connecting…" : "Sign in with Google"}

@@ -30,7 +30,7 @@ function isFresh(row: FactRow) {
 function FactList({ rows, title }: { rows: FactRow[]; title: string }) {
   if (!rows.length) return null;
   return (
-    <div className="paper rounded-2xl border bg-card p-5">
+    <div className="material-card p-5">
       <h3 className="font-display text-lg">{title}</h3>
       <ul className="mt-3 divide-y">
         {rows.map((row) => (

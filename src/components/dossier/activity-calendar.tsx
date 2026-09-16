@@ -36,7 +36,7 @@ export function ActivityCalendar({
   const today = isoDay(new Date());
 
   return (
-    <div className="paper rounded-3xl border bg-card p-5">
+    <div className="material-card p-5">
       <div className="flex items-baseline justify-between">
         <h2 className="font-display text-lg">Showing up</h2>
         <p className="text-xs text-muted-foreground">last {WEEKS} weeks</p>

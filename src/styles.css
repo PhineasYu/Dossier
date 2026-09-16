@@ -5,10 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Dossier design system — warm keepsake notebook.
- * Paper tones, ink text, one expressive display face (Fraunces) over a
- * humanist text face (Karla). Per-child accent colour arrives at runtime as
- * --child / --child-soft and is registered below as the `child` colour.
+ * Dossier Material 3 system — warm paper, dusty archival blues, and dynamic
+ * per-child accents. Brand typography stays expressive while components use
+ * Material surface, shape, state, motion, and elevation roles.
  */
 
 @theme inline {
@@ -47,6 +46,19 @@
   --color-folder-sage: var(--folder-sage);
   --color-folder-stone: var(--folder-stone);
   --color-folder-paper: var(--folder-paper);
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -63,7 +75,7 @@
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 0.75rem;
   --background: #f4f2eb;
   --foreground: oklch(0.29 0.018 220);
   --card: oklch(0.975 0.01 90);
@@ -89,6 +101,24 @@
   --folder-sage: oklch(0.82 0.035 155);
   --folder-stone: oklch(0.79 0.018 85);
   --folder-paper: oklch(0.94 0.014 90);
+  --surface: #f4f2eb;
+  --surface-dim: oklch(0.88 0.012 90);
+  --surface-bright: oklch(0.985 0.008 90);
+  --surface-container-low: oklch(0.965 0.01 90);
+  --surface-container: oklch(0.945 0.012 90);
+  --surface-container-high: oklch(0.925 0.014 90);
+  --surface-container-highest: oklch(0.895 0.016 90);
+  --on-surface: oklch(0.29 0.018 220);
+  --on-surface-variant: oklch(0.45 0.025 220);
+  --outline: oklch(0.56 0.024 220);
+  --outline-variant: oklch(0.79 0.018 215);
+  --primary-container: oklch(0.84 0.04 220);
+  --on-primary-container: oklch(0.24 0.04 220);
+  --elevation-1: 0 1px 2px color-mix(in oklab, var(--foreground) 12%, transparent), 0 1px 3px 1px color-mix(in oklab, var(--foreground) 6%, transparent);
+  --elevation-2: 0 1px 2px color-mix(in oklab, var(--foreground) 12%, transparent), 0 2px 6px 2px color-mix(in oklab, var(--foreground) 8%, transparent);
+  --elevation-3: 0 4px 8px 3px color-mix(in oklab, var(--foreground) 10%, transparent), 0 1px 3px color-mix(in oklab, var(--foreground) 14%, transparent);
+  --motion-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-emphasized: cubic-bezier(0.2, 0, 0, 1);
   --chart-1: oklch(0.62 0.13 45);
   --chart-2: oklch(0.55 0.08 190);
   --chart-3: oklch(0.7 0.11 80);
@@ -124,6 +154,19 @@
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
   --ring: oklch(0.6 0.05 60);
+  --surface: oklch(0.19 0.014 55);
+  --surface-dim: oklch(0.15 0.012 55);
+  --surface-bright: oklch(0.29 0.018 55);
+  --surface-container-low: oklch(0.21 0.014 55);
+  --surface-container: oklch(0.23 0.016 55);
+  --surface-container-high: oklch(0.26 0.017 55);
+  --surface-container-highest: oklch(0.3 0.018 55);
+  --on-surface: oklch(0.95 0.01 85);
+  --on-surface-variant: oklch(0.77 0.02 70);
+  --outline: oklch(0.62 0.02 70);
+  --outline-variant: oklch(0.4 0.018 55);
+  --primary-container: oklch(0.42 0.05 60);
+  --on-primary-container: oklch(0.96 0.02 85);
   --sidebar: oklch(0.22 0.016 55);
   --sidebar-foreground: oklch(0.95 0.01 85);
   --sidebar-primary: oklch(0.78 0.09 60);
@@ -159,8 +202,47 @@
   h3 {
     font-family: var(--font-display);
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
+
+  button,
+  a,
+  input,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@utility material-surface {
+  background-color: var(--surface-container-low);
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--elevation-1);
+}
+
+@utility material-card {
+  background-color: var(--surface-container-low);
+  border: 1px solid var(--outline-variant);
+  border-radius: 1.5rem;
+  box-shadow: var(--elevation-1);
+}
+
+@utility material-state {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 200ms var(--motion-standard), background-color 200ms var(--motion-standard), box-shadow 200ms var(--motion-standard), transform 200ms var(--motion-standard);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 200ms var(--motion-standard);
+  }
+  &:hover::after { opacity: 0.08; }
+  &:focus-visible::after { opacity: 0.1; }
+  &:active::after { opacity: 0.12; }
 }
 
 @utility paper {
@@ -196,4 +278,13 @@
 
 @utility fact-glow {
   animation: fact-glow 2.4s ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

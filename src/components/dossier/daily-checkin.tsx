@@ -6,6 +6,7 @@ import { Check, Flame, Loader2, Mic, Square } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
 import { captureEntry, getScribeToken } from "@/lib/dossier.functions";
 import { useChildren } from "@/lib/child-context";
 
@@ -84,7 +85,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
 
   return (
     <section className="space-y-5">
-      <div className="flex items-center justify-between rounded-2xl border bg-card px-4 py-3">
+      <div className="material-card flex items-center justify-between px-4 py-3">
         <span className="flex items-center gap-2 text-sm">
           <Flame className="size-4" style={{ color: "var(--child)" }} />
           <strong className="font-display text-base">Day {Math.max(streak, 1)}</strong>
@@ -115,10 +116,10 @@ export function DailyCheckin({ streak }: { streak: number }) {
             key="done"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="paper rounded-3xl border bg-card p-8 text-center"
+            className="material-card p-8 text-center"
           >
             <div
-              className="mx-auto grid size-16 place-items-center rounded-full text-white"
+              className="mx-auto grid size-16 place-items-center rounded-full text-primary-foreground shadow-[var(--elevation-2)]"
               style={{ backgroundColor: "var(--child)" }}
             >
               <Check className="size-8" />
@@ -135,7 +136,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            className="paper rounded-3xl border bg-card p-6 text-center"
+            className="material-card p-6 text-center"
           >
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
               Question {step + 1} of {QUESTIONS.length}
@@ -144,11 +145,12 @@ export function DailyCheckin({ streak }: { streak: number }) {
               {QUESTIONS[step]}
             </h2>
 
-            <button
+            <Button
               type="button"
               onClick={isRecording ? stop : start}
               disabled={isSaving}
-              className="mx-auto mt-7 grid size-28 place-items-center rounded-full text-white shadow-lg transition-transform active:scale-95 disabled:opacity-60"
+              size="icon"
+              className="mx-auto mt-7 size-28 bg-child text-primary-foreground shadow-[var(--elevation-3)] [&_svg]:size-10"
               style={{ backgroundColor: "var(--child)" }}
               aria-label={isRecording ? "Stop and save" : "Answer out loud"}
             >
@@ -159,7 +161,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
               ) : (
                 <Mic className="size-10" />
               )}
-            </button>
+            </Button>
 
             <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">
               {isSaving
@@ -170,18 +172,20 @@ export function DailyCheckin({ streak }: { streak: number }) {
             </p>
 
             {(isRecording || liveTranscript) && (
-              <p className="mt-4 min-h-16 rounded-2xl bg-muted/60 p-4 text-left text-sm leading-relaxed">
+              <p className="mt-4 min-h-16 rounded-xl bg-surface-container-high p-4 text-left text-sm leading-relaxed">
                 {liveTranscript || "…"}
               </p>
             )}
 
-            <button
+            <Button
               type="button"
               onClick={() => setShowTyping((value) => !value)}
-              className="mt-4 text-xs text-muted-foreground underline underline-offset-4"
+              variant="ghost"
+              size="sm"
+              className="mt-4 text-xs text-on-surface-variant"
             >
               {showTyping ? "Hide typing" : "Type instead"}
-            </button>
+            </Button>
 
             {showTyping && (
               <div className="mt-3 space-y-2 text-left">
@@ -190,29 +194,30 @@ export function DailyCheckin({ streak }: { streak: number }) {
                   onChange={(event) => setTyped(event.target.value)}
                   rows={3}
                   placeholder="We read two chapters before bed…"
-                  className="w-full rounded-2xl border bg-background p-3 text-sm outline-none focus:ring-2"
+                  className="w-full rounded-xl border border-outline bg-surface-container-low p-4 text-sm outline-none focus:ring-2 focus:ring-ring"
                   style={{ boxShadow: "none" }}
                 />
-                <button
+                <Button
                   type="button"
                   onClick={() => save(typed, "text")}
                   disabled={isSaving || !typed.trim()}
-                  className="w-full rounded-full py-2.5 text-sm font-medium text-white disabled:opacity-50"
-                  style={{ backgroundColor: "var(--child)" }}
+                  className="w-full bg-child text-primary-foreground"
                 >
                   Save this answer
-                </button>
+                </Button>
               </div>
             )}
 
             {step === 0 && (
-              <button
+              <Button
                 type="button"
                 onClick={() => setStep(1)}
-                className="mt-5 block w-full text-xs text-muted-foreground"
+                variant="ghost"
+                size="sm"
+                className="mt-5 w-full text-xs text-on-surface-variant"
               >
                 Skip to the next question
-              </button>
+              </Button>
             )}
           </motion.div>
         )}

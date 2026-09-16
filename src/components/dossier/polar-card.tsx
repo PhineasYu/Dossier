@@ -5,7 +5,7 @@ export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
 
 export function PolarCard() {
   return (
-    <div className="relative overflow-hidden rounded-3xl border bg-card p-7 text-center">
+    <div className="material-card relative overflow-hidden p-7 text-center shadow-[var(--elevation-2)]">
       <div className="pointer-events-none absolute inset-0">
         <div
           className="shimmer-sweep absolute inset-y-[-40%] w-1/3"

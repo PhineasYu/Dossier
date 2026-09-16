@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { AnimatePresence, motion } from "motion/react";
 import { CalendarDays, FileText, Loader2, Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -95,9 +96,9 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
   const selectedFields = (selected?.extracted_json ?? {}) as Record<string, unknown>;
 
   return (
-    <section className="overflow-hidden rounded-lg border bg-folder-paper shadow-sm">
-      <div className="flex items-center justify-between border-b px-5 py-4">
-      <div className="flex items-center justify-between">
+    <section className="material-card overflow-hidden bg-folder-paper">
+      <div className="flex items-center justify-between border-b border-outline-variant px-5 py-4">
+        <div className="flex items-center justify-between">
           <div>
             <h2 className="font-display text-lg">Document archive</h2>
             <p className="mt-0.5 text-xs uppercase text-muted-foreground">
@@ -110,7 +111,7 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
           onClick={() => inputRef.current?.click()}
           disabled={upload.isPending}
           size="sm"
-          className="rounded-full bg-child text-primary-foreground hover:bg-child/90"
+          className="bg-child text-primary-foreground"
         >
           {upload.isPending ? (
             <Loader2 className="size-3.5 animate-spin" />
@@ -144,13 +145,13 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
         }}
       />
 
-      <div className="px-4 pb-5 pt-7">
+      <div className="px-4 pb-5 pt-8">
         {!docs.length ? (
-          <div className="relative mx-auto max-w-md pt-8">
-            <div className="absolute left-5 top-0 h-12 w-44 rounded-t-lg border bg-folder-blue px-4 pt-2 text-xs font-medium uppercase">
+          <div className="relative mx-auto max-w-md pt-9">
+            <div className="absolute left-0 top-0 h-14 w-48 rounded-t-2xl bg-folder-blue px-5 pt-3 text-xs font-semibold uppercase tracking-wider text-on-primary-container">
               School & health
             </div>
-            <div className="relative min-h-52 rounded-lg border bg-folder-blue p-6 shadow-sm">
+            <div className="relative min-h-52 rounded-b-2xl rounded-tr-2xl bg-folder-blue p-6 shadow-[var(--elevation-2)]">
               <div className="flex min-h-40 flex-col items-center justify-center text-center">
                 <FileText className="mb-3 size-8 text-muted-foreground" strokeWidth={1.3} />
                 <p className="font-display text-lg">An empty folder, ready</p>
@@ -162,34 +163,46 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
           </div>
         ) : (
           <div className="mx-auto max-w-md">
-            <div className="relative h-28" aria-label="Document folders">
+            <div className="relative h-44" aria-label="Document folders">
               {docs.slice(0, 5).map((doc, index) => {
                 const isSelected = doc.id === selected?.id;
-                const tones = ["bg-folder-blue", "bg-folder-sage", "bg-folder-stone"];
+                const tones = ["bg-folder-blue", "bg-primary", "bg-folder-blue", "bg-primary", "bg-folder-blue"];
+                const alignRight = index % 2 === 1;
                 return (
-                  <button
+                  <motion.button
                     key={doc.id}
                     type="button"
                     onClick={() => setSelectedId(doc.id)}
-                    className={`absolute h-20 w-full rounded-t-lg border px-4 pt-2 text-left transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${tones[index % tones.length]} ${isSelected ? "-translate-y-2" : "hover:-translate-y-1"}`}
-                    style={{ top: `${index * 15}px`, zIndex: index + 1 }}
+                    animate={{ y: isSelected ? -8 : 0 }}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
+                    className={`absolute h-24 w-full rounded-t-2xl px-5 pt-3 text-left text-primary-foreground shadow-[var(--elevation-1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${tones[index % tones.length]}`}
+                    style={{ top: `${index * 28}px`, zIndex: index + 1, clipPath: alignRight ? "polygon(0 30%, 55% 30%, 62% 0, 100% 0, 100% 100%, 0 100%)" : "polygon(0 0, 40% 0, 47% 30%, 100% 30%, 100% 100%, 0 100%)" }}
                     aria-pressed={isSelected}
                   >
-                    <span className="block max-w-[70%] truncate text-xs font-semibold uppercase">
+                    <span className={`block max-w-[42%] truncate text-xs font-semibold uppercase tracking-wider ${alignRight ? "ml-auto text-right" : ""}`}>
                       {doc.doc_type ?? "Untitled document"}
                     </span>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
 
+            <AnimatePresence mode="wait">
             {selected && (
-              <article className="relative z-10 grid gap-4 rounded-lg border bg-card p-4 shadow-md sm:grid-cols-[1.1fr_1fr]">
+              <motion.article
+                key={selected.id}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.3, ease: [0.2, 0, 0, 1] }}
+                className="relative z-10 grid gap-4 rounded-b-2xl rounded-t-lg bg-surface-container-low p-4 shadow-[var(--elevation-3)] sm:grid-cols-[1.1fr_1fr]"
+              >
                 <a
                   href={selectedUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex min-h-48 overflow-hidden rounded-md border bg-muted"
+                  className="group flex min-h-48 overflow-hidden rounded-xl border border-outline-variant bg-surface-container"
                 >
                   {selectedUrl && selectedIsImage ? (
                     <img
@@ -227,8 +240,9 @@ export function DocumentArchive({ autoOpen = false }: { autoOpen?: boolean }) {
                     <p className="mt-4 text-sm text-muted-foreground">No details were found in this file.</p>
                   )}
                 </div>
-              </article>
+              </motion.article>
             )}
+            </AnimatePresence>
           </div>
         )}
       </div>

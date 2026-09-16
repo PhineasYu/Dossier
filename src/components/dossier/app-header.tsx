@@ -29,7 +29,7 @@ export function AppHeader({ showSwitcher = true }: { showSwitcher?: boolean }) {
   }
 
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-4 backdrop-blur">
+    <header className="sticky top-0 z-10 border-b border-outline-variant bg-surface/95 px-4 pb-4 pt-4 shadow-[var(--elevation-1)] backdrop-blur">
       <div className="mb-3 flex items-center justify-between">
         <Wordmark className="h-5" />
         <div className="flex items-center gap-2">
@@ -40,7 +40,7 @@ export function AppHeader({ showSwitcher = true }: { showSwitcher?: boolean }) {
             variant="ghost"
             size="sm"
             onClick={signOut}
-            className="h-8 gap-1 px-2 text-[11px] text-muted-foreground"
+            className="h-8 gap-1 px-3 text-[11px] text-on-surface-variant"
           >
             <LogOut className="size-3.5" />
             {guest && !email ? "Leave" : "Sign out"}

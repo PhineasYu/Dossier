@@ -4,6 +4,7 @@ import { Loader2, Search } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
 import { useChildren } from "@/lib/child-context";
 import { askArchive } from "@/lib/dossier.functions";
 import type { MemoryCard } from "@/lib/dossier";
@@ -54,7 +55,7 @@ export function AskPanel() {
           event.preventDefault();
           ask(question);
         }}
-        className="flex items-center gap-2 rounded-full border bg-card px-4 py-2"
+        className="flex min-h-14 items-center gap-2 rounded-full bg-surface-container-high px-4 shadow-[var(--elevation-1)] focus-within:ring-2 focus-within:ring-ring"
       >
         <Search className="size-4 text-muted-foreground" />
         <input
@@ -63,29 +64,31 @@ export function AskPanel() {
           placeholder={`Ask anything about ${active?.name ?? "your child"}…`}
           className="flex-1 bg-transparent py-1.5 text-sm outline-none"
         />
-        <button
+        <Button
           type="submit"
           disabled={isAsking || !question.trim()}
-          className="rounded-full px-3 py-1.5 text-xs font-medium text-white disabled:opacity-50"
-          style={{ backgroundColor: "var(--child)" }}
+          size="sm"
+          className="bg-child text-primary-foreground"
         >
           {isAsking ? <Loader2 className="size-3.5 animate-spin" /> : "Ask"}
-        </button>
+        </Button>
       </form>
 
       <div className="flex flex-wrap gap-2">
         {EXAMPLES.map((example) => (
-          <button
+          <Button
             key={example}
             type="button"
             onClick={() => {
               setQuestion(example);
               ask(example);
             }}
-            className="rounded-full border px-3 py-1.5 text-xs text-muted-foreground"
+            variant="outline"
+            size="sm"
+            className="h-8 px-3 text-xs text-on-surface-variant"
           >
             {example}
-          </button>
+          </Button>
         ))}
       </div>
 
