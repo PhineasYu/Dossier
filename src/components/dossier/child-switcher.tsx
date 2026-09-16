@@ -8,7 +8,7 @@ export function ChildSwitcher() {
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className="flex items-center justify-center gap-2" role="group" aria-label="Choose a child">
       {kids.map((kid) => {
         const isActive = kid.id === activeId;
         const age = ageAt(kid.birthdate, today);
@@ -18,16 +18,16 @@ export function ChildSwitcher() {
             type="button"
             onClick={() => setActiveId(kid.id)}
             aria-pressed={isActive}
-            className="flex items-center gap-3 rounded-full border px-3 py-2 transition-all"
+            className="material-state flex min-h-12 items-center gap-2 rounded-full border px-3 py-1.5 shadow-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             style={{
               borderColor: isActive ? kid.theme_color : "var(--border)",
               backgroundColor: isActive ? withAlpha(kid.theme_color, 0.1) : "transparent",
-              opacity: isActive ? 1 : 0.6,
+              opacity: isActive ? 1 : 0.72,
             }}
           >
             <motion.span
               layout
-              className="grid size-10 place-items-center rounded-full font-display text-lg text-white"
+              className="grid size-9 place-items-center rounded-full font-display text-lg text-primary-foreground"
               style={{ backgroundColor: kid.theme_color }}
             >
               {kid.name.slice(0, 1)}

@@ -30,7 +30,7 @@ export function GrowthCurve({
   const latestWeight = [...weights].sort((a, b) => a.date.localeCompare(b.date)).at(-1);
 
   return (
-    <div className="paper rounded-2xl border bg-card p-5">
+    <div className="material-card p-5">
       <div className="flex items-baseline justify-between">
         <h3 className="font-display text-lg">Pencil marks</h3>
         <p className="text-sm text-muted-foreground">
