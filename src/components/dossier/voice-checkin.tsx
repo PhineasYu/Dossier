@@ -96,7 +96,7 @@ export function VoiceCheckin() {
         setSaving(true);
         try {
           const context = active ? `About ${active.name}: ` : "";
-          const result = await runCapture({ data: { transcript: context + text, source: "voice" } });
+          const result = await runCapture({ data: { transcript: context + text, source: "voice", questionOrigin: question } });
           const nextAnswers: Answer[] = [
             ...answersRef.current.filter((item) => item.question !== question),
             { question, text },

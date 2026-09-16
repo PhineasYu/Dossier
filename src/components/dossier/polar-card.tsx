@@ -29,7 +29,7 @@ export function PolarCard() {
         rel="noreferrer"
         className="relative mx-auto mt-6 block w-fit rounded-xl border border-line bg-surface p-4"
       >
-        <QRCodeSVG value={POLAR_CHECKOUT_URL} size={168} bgColor="#ffffff" fgColor="#1c1a17" />
+        <QRCodeSVG value={POLAR_CHECKOUT_URL} size={168} bgColor="var(--surface)" fgColor="var(--ink)" />
       </a>
       <p className="mt-4 font-display text-lg">Scan it</p>
       <p className="text-xs text-muted-foreground">Subscribe in about twenty seconds</p>

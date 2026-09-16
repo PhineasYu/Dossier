@@ -11,8 +11,8 @@ import { captureEntry, getScribeToken } from "@/lib/dossier.functions";
 import { useChildren } from "@/lib/child-context";
 
 const QUESTIONS = [
-  "What did you do for your child today?",
-  "What did your child do today that you'll remember?",
+  "What did you do for your kids today?",
+  "What did your kids do today that you want to remember?",
 ] as const;
 
 export function DailyCheckin({ streak }: { streak: number }) {
