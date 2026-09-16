@@ -1,4 +1,4 @@
-import { QRCodeSVG } from "qrcode.react";
+import qrAsset from "@/assets/dossier-qr.svg.asset.json";
 
 // TODO: swap for the real Polar subscription checkout link.
 export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
