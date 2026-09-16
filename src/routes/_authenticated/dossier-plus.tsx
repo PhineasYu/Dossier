@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { AppHeader } from "@/components/dossier/app-header";
+import { ArchiveChat } from "@/components/dossier/archive-chat";
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { PolarCard } from "@/components/dossier/polar-card";
 import { StatsLine } from "@/components/dossier/stats-line";
@@ -32,6 +33,7 @@ function PlusPage() {
       <AppHeader showSwitcher={false} />
       <AddTodayBar />
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-4 px-4 py-10">
+        <ArchiveChat />
         <PolarCard />
         <StatsLine />
       </main>
