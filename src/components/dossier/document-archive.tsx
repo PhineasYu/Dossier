@@ -106,7 +106,7 @@ export function DocumentArchive({ autoOpen = false, query = "" }: { autoOpen?: b
 
   return (
     <section className="material-card overflow-hidden bg-folder-paper">
-      <div className="flex items-center justify-between border-b border-outline-variant px-5 py-4">
+      <div className="flex items-center justify-between border-b border-line px-5 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-display text-lg">Document archive</h2>
@@ -120,7 +120,7 @@ export function DocumentArchive({ autoOpen = false, query = "" }: { autoOpen?: b
           onClick={() => inputRef.current?.click()}
           disabled={upload.isPending}
           size="sm"
-          className="bg-child text-primary-foreground"
+          className=""
         >
           {upload.isPending ? (
             <Loader2 className="size-3.5 animate-spin" />
@@ -160,7 +160,7 @@ export function DocumentArchive({ autoOpen = false, query = "" }: { autoOpen?: b
             <div className="absolute left-0 top-0 h-14 w-48 rounded-t-2xl bg-folder-blue px-5 pt-3 text-xs font-semibold uppercase tracking-wider text-on-primary-container">
               School & health
             </div>
-            <div className="relative min-h-52 rounded-b-2xl rounded-tr-2xl bg-folder-blue p-6 shadow-[var(--elevation-2)]">
+            <div className="relative min-h-52 rounded-b-xl rounded-tr-xl border border-line bg-folder-blue p-6">
               <div className="flex min-h-40 flex-col items-center justify-center text-center">
                 <FileText className="mb-3 size-8 text-muted-foreground" strokeWidth={1.3} />
                 <p className="font-display text-lg">{normalizedQuery ? "No documents match" : "An empty folder, ready"}</p>
@@ -205,13 +205,13 @@ export function DocumentArchive({ autoOpen = false, query = "" }: { autoOpen?: b
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.3, ease: [0.2, 0, 0, 1] }}
-                className="relative z-10 grid gap-4 rounded-b-2xl rounded-t-lg bg-surface-container-low p-4 shadow-[var(--elevation-3)] sm:grid-cols-[1.1fr_1fr]"
+                className="relative z-10 grid gap-4 rounded-b-xl rounded-t-lg border border-line bg-surface p-4 sm:grid-cols-[1.1fr_1fr]"
               >
                 <a
                   href={selectedUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex min-h-48 overflow-hidden rounded-xl border border-outline-variant bg-surface-container"
+                  className="group flex min-h-48 overflow-hidden rounded-xl border border-line bg-surface-2"
                 >
                   {selectedUrl && selectedIsImage ? (
                     <img

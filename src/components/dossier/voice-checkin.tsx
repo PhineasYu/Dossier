@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import { DailyCheckin } from "@/components/dossier/daily-checkin";
+import { AiRing } from "@/components/dossier/ai-ring";
 import { Button } from "@/components/ui/button";
 import {
   captureEntry,
@@ -177,19 +178,14 @@ export function VoiceCheckin() {
           </div>
         ) : (
           <div className="flex items-center gap-4">
-            <motion.div
-              animate={{ scale: [1, 1.06, 1] }}
-              transition={{ duration: 2.4, repeat: Infinity }}
-              className="grid size-14 shrink-0 place-items-center rounded-full text-primary-foreground shadow-[var(--elevation-2)]"
-              style={{ backgroundColor: activeColor }}
-            >
-              <Radio className="size-6" />
-            </motion.div>
+            <AiRing className="size-16 shrink-0">
+              <motion.div animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 2.4, repeat: Infinity }} className="grid size-full place-items-center rounded-full text-primary-foreground" style={{ backgroundColor: activeColor }}><Radio className="size-6" /></motion.div>
+            </AiRing>
             <div className="min-w-0 flex-1">
               <h2 className="font-semibold">Dossier has 2 questions for you</h2>
               <p className="mt-1 text-xs text-muted-foreground">Your mic lets Dossier listen and answer out loud.</p>
               <div className="mt-3 flex items-center gap-2">
-                <Button onClick={start} className="bg-child text-primary-foreground" style={{ backgroundColor: activeColor }}>
+                <Button onClick={start}>
                   <Mic className="size-4" /> Talk now
                 </Button>
                 <Button variant="ghost" size="sm" onClick={() => setDismissed(true)}>Later</Button>
@@ -210,7 +206,7 @@ export function VoiceCheckin() {
             aria-modal="true"
             aria-label="Today's voice check-in"
           >
-            <header className="flex items-center justify-between border-b border-outline-variant px-5 py-4">
+            <header className="flex items-center justify-between border-b border-line px-5 py-4">
               <div>
                 <p className="text-xs font-semibold uppercase text-muted-foreground">Today&apos;s check-in</p>
                 <p className="font-semibold">Question {questionNumber} of 2</p>
@@ -237,14 +233,11 @@ export function VoiceCheckin() {
               {phase === "talking" && (
                 <>
                   <div className="grid place-items-center py-5">
-                    <motion.div
-                      animate={orbAnimation}
-                      transition={{ duration: 1.25, repeat: Infinity }}
-                      className="grid size-28 place-items-center rounded-full text-primary-foreground shadow-[var(--elevation-3)]"
-                      style={{ backgroundColor: activeColor }}
-                    >
-                      {saving ? <Loader2 className="size-8 animate-spin" /> : conversation.isSpeaking ? "Dossier" : "Listening"}
-                    </motion.div>
+                    <AiRing active={conversation.isSpeaking || saving} className="size-32">
+                      <motion.div animate={orbAnimation} transition={{ duration: 1.25, repeat: Infinity }} className="grid size-full place-items-center rounded-full text-primary-foreground" style={{ backgroundColor: activeColor }}>
+                        {saving ? <Loader2 className="size-8 animate-spin" /> : conversation.isSpeaking ? "Dossier" : "Listening"}
+                      </motion.div>
+                    </AiRing>
                     <p className="mt-3 text-xs font-semibold uppercase text-muted-foreground">
                       {conversation.isSpeaking ? "Dossier is speaking" : conversation.isMuted ? "Microphone muted" : "Your turn"}
                     </p>
@@ -261,7 +254,7 @@ export function VoiceCheckin() {
                       {createdCards.map((card, index) => {
                         const child = kids.find((item) => item.id === card.child_id);
                         return (
-                          <motion.article key={card.id} initial={{ opacity: 0, y: 40, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: index * 0.12, type: "spring" }} className="material-card ml-8 p-4" style={{ borderLeft: `3px solid ${child?.theme_color ?? activeColor}` }}>
+                          <motion.article key={card.id} initial={{ opacity: 0, y: 40, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: index * 0.12, type: "spring" }} className="material-card ml-8 p-4">
                             <div className="flex gap-2 text-[11px] font-semibold uppercase text-muted-foreground"><span>{child?.name ?? active?.name}</span><span>·</span><span>{CATEGORY_LABEL[card.category] ?? card.category}</span></div>
                             <p className="mt-1 text-sm font-semibold">{card.title}</p>
                           </motion.article>
@@ -274,7 +267,7 @@ export function VoiceCheckin() {
 
               {phase === "fallback" && (
                 <div className="overflow-y-auto">
-                  <div className="mb-5 rounded-2xl bg-surface-container-high p-4">
+                  <div className="mb-5 rounded-xl border border-line bg-surface-2 p-4">
                     <h2 className="font-semibold">Voice isn&apos;t available right now</h2>
                     <p className="mt-1 text-sm text-muted-foreground">You can still answer both questions with the existing mic or type instead.</p>
                   </div>
@@ -284,12 +277,12 @@ export function VoiceCheckin() {
 
               {phase === "summary" && (
                 <div className="overflow-y-auto pb-8">
-                  <div className="py-6 text-center"><span className="mx-auto grid size-16 place-items-center rounded-full bg-child text-primary-foreground"><Check className="size-8" /></span><h2 className="mt-4 text-2xl font-semibold">Today is written down</h2></div>
+                  <div className="py-6 text-center"><span className="mx-auto grid size-16 place-items-center rounded-full bg-success text-primary-foreground"><Check className="size-8" /></span><h2 className="mt-4 text-2xl font-semibold">Today is written down</h2></div>
                   <div className="space-y-3">
                     {answers.map((answer, index) => <div key={answer.question} className="material-card p-4"><p className="text-xs font-semibold uppercase text-muted-foreground">Question {index + 1}</p><p className="mt-2 text-sm">{answer.text}</p></div>)}
                     {createdCards.map((card) => <div key={card.id} className="material-card p-4"><p className="text-xs font-semibold uppercase text-muted-foreground">Memory created</p><p className="mt-1 font-semibold">{card.title}</p></div>)}
                   </div>
-                  <Button onClick={() => setOpen(false)} className="mt-5 w-full bg-child text-primary-foreground">Back to today</Button>
+                  <Button onClick={() => setOpen(false)} className="mt-5 w-full">Back to today</Button>
                 </div>
               )}
             </div>
