@@ -23,6 +23,7 @@ export type Database = {
           date: string
           entry_id: string | null
           id: string
+          question_origin: string | null
           title: string
         }
         Insert: {
@@ -33,6 +34,7 @@ export type Database = {
           date?: string
           entry_id?: string | null
           id?: string
+          question_origin?: string | null
           title: string
         }
         Update: {
@@ -43,6 +45,7 @@ export type Database = {
           date?: string
           entry_id?: string | null
           id?: string
+          question_origin?: string | null
           title?: string
         }
         Relationships: [
