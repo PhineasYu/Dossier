@@ -179,7 +179,7 @@ export function VoiceCheckin() {
         ) : (
           <div className="flex items-center gap-4">
             <AiRing className="size-16 shrink-0">
-              <motion.div animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 2.4, repeat: Infinity }} className="grid size-full place-items-center rounded-full text-primary-foreground" style={{ backgroundColor: activeColor }}><Radio className="size-6" /></motion.div>
+              <motion.div animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 2.4, repeat: Infinity }} className="grid size-full place-items-center rounded-full text-primary-foreground" style={{ backgroundColor: activeColor }}><span aria-hidden className="font-display text-2xl leading-none">!</span></motion.div>
             </AiRing>
             <div className="min-w-0 flex-1">
               <h2 className="font-semibold">Dossier has 2 questions for you</h2>
