@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { AskPanel } from "@/components/dossier/ask-panel";
-import { BottomNav } from "@/components/dossier/bottom-nav";
+import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { ChildSwitcher } from "@/components/dossier/child-switcher";
 import { StatsLine } from "@/components/dossier/stats-line";
 
@@ -32,6 +32,7 @@ function AskPage() {
       <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-5 backdrop-blur">
         <ChildSwitcher />
       </header>
+      <AddTodayBar />
       <main className="mx-auto w-full max-w-xl flex-1 space-y-4 px-4 pb-8 pt-6">
         <h1 className="font-display text-2xl">Ask the archive</h1>
         <AskPanel />

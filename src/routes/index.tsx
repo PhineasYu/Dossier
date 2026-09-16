@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { BottomNav } from "@/components/dossier/bottom-nav";
+import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { ChildSwitcher } from "@/components/dossier/child-switcher";
 import { Splash } from "@/components/dossier/splash";
 import { StatsLine } from "@/components/dossier/stats-line";
@@ -44,6 +44,7 @@ function Home() {
         </p>
         <ChildSwitcher />
       </header>
+      <AddTodayBar />
 
       <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-8">
         <h1 className="pt-7 pb-4 font-display text-2xl">
