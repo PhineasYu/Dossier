@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Flame } from "lucide-react";
 
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { BrainDump } from "@/components/dossier/brain-dump";
@@ -43,19 +44,19 @@ function CapturePage() {
       <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-4 pb-8 pt-6">
         <BrainDump initialMode={mode} />
 
-        <section className="space-y-3">
+        <section className="paper rounded-2xl border bg-card p-5">
           <h2 className="font-display text-lg">Today&apos;s two questions</h2>
-          <div className="paper rounded-2xl border bg-card p-5">
-            <p className="text-sm text-muted-foreground">1 / Today</p>
-            <p className="mt-1">What did you do for your child today?</p>
-          </div>
-          <div className="paper rounded-2xl border bg-card p-5">
-            <p className="text-sm text-muted-foreground">2 / Today</p>
-            <p className="mt-1">What did your child do today that you&apos;ll remember?</p>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Answer them out loud with the mic above — same pipeline, no forms.
+          <p className="mt-1 text-sm text-muted-foreground">
+            One question at a time, one minute a day — and a calendar that fills in every day you
+            showed up.
           </p>
+          <Link
+            to="/daily"
+            className="mt-4 flex items-center justify-center gap-2 rounded-full py-3 text-sm font-medium text-white"
+            style={{ backgroundColor: "var(--child)" }}
+          >
+            <Flame className="size-4" /> Start today&apos;s check-in
+          </Link>
         </section>
       </main>
       <BottomNav />

@@ -287,3 +287,19 @@ Use the document's own wording for field names. Include height, weight, allergie
     if (error) throw new Error(error.message);
     return row;
   });
+
+/** Every day a parent showed up: used for the streak and the activity calendar. */
+export const getCheckinActivity = createServerFn({ method: "GET" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("entries")
+    .select("created_at")
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    const day = new Date(row.created_at as string).toISOString().slice(0, 10);
+    counts[day] = (counts[day] ?? 0) + 1;
+  }
+  return { counts };
+});
