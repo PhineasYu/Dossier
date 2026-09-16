@@ -10,73 +10,94 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AskRouteImport } from './routes/ask'
-import { Route as CaptureRouteImport } from './routes/capture'
-import { Route as DossierPlusRouteImport } from './routes/dossier-plus'
-import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedAskRouteImport } from './routes/_authenticated/ask'
+import { Route as AuthenticatedCaptureRouteImport } from './routes/_authenticated/capture'
+import { Route as AuthenticatedDossierPlusRouteImport } from './routes/_authenticated/dossier-plus'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AskRoute = AskRouteImport.update({
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAskRoute = AuthenticatedAskRouteImport.update({
   id: '/ask',
   path: '/ask',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const CaptureRoute = CaptureRouteImport.update({
+const AuthenticatedCaptureRoute = AuthenticatedCaptureRouteImport.update({
   id: '/capture',
   path: '/capture',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const DossierPlusRoute = DossierPlusRouteImport.update({
-  id: '/dossier-plus',
-  path: '/dossier-plus',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
+const AuthenticatedDossierPlusRoute =
+  AuthenticatedDossierPlusRouteImport.update({
+    id: '/dossier-plus',
+    path: '/dossier-plus',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/ask': typeof AskRoute
-  '/capture': typeof CaptureRoute
-  '/dossier-plus': typeof DossierPlusRoute
-  '/profile': typeof ProfileRoute
+  '/app': typeof AuthenticatedAppRoute
+  '/ask': typeof AuthenticatedAskRoute
+  '/capture': typeof AuthenticatedCaptureRoute
+  '/dossier-plus': typeof AuthenticatedDossierPlusRoute
+  '/profile': typeof AuthenticatedProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/ask': typeof AskRoute
-  '/capture': typeof CaptureRoute
-  '/dossier-plus': typeof DossierPlusRoute
-  '/profile': typeof ProfileRoute
+  '/app': typeof AuthenticatedAppRoute
+  '/ask': typeof AuthenticatedAskRoute
+  '/capture': typeof AuthenticatedCaptureRoute
+  '/dossier-plus': typeof AuthenticatedDossierPlusRoute
+  '/profile': typeof AuthenticatedProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/ask': typeof AskRoute
-  '/capture': typeof CaptureRoute
-  '/dossier-plus': typeof DossierPlusRoute
-  '/profile': typeof ProfileRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/app': typeof AuthenticatedAppRoute
+  '/_authenticated/ask': typeof AuthenticatedAskRoute
+  '/_authenticated/capture': typeof AuthenticatedCaptureRoute
+  '/_authenticated/dossier-plus': typeof AuthenticatedDossierPlusRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
+  fullPaths: '/' | '/app' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
-  id: '__root__' | '/' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
+  to: '/' | '/app' | '/ask' | '/capture' | '/dossier-plus' | '/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_authenticated/app'
+    | '/_authenticated/ask'
+    | '/_authenticated/capture'
+    | '/_authenticated/dossier-plus'
+    | '/_authenticated/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AskRoute: typeof AskRoute
-  CaptureRoute: typeof CaptureRoute
-  DossierPlusRoute: typeof DossierPlusRoute
-  ProfileRoute: typeof ProfileRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -88,43 +109,73 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ask': {
-      id: '/ask'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ask': {
+      id: '/_authenticated/ask'
       path: '/ask'
       fullPath: '/ask'
-      preLoaderRoute: typeof AskRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAskRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/capture': {
-      id: '/capture'
+    '/_authenticated/capture': {
+      id: '/_authenticated/capture'
       path: '/capture'
       fullPath: '/capture'
-      preLoaderRoute: typeof CaptureRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedCaptureRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/dossier-plus': {
-      id: '/dossier-plus'
+    '/_authenticated/dossier-plus': {
+      id: '/_authenticated/dossier-plus'
       path: '/dossier-plus'
       fullPath: '/dossier-plus'
-      preLoaderRoute: typeof DossierPlusRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDossierPlusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/profile': {
-      id: '/profile'
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppRoute: typeof AuthenticatedAppRoute
+  AuthenticatedAskRoute: typeof AuthenticatedAskRoute
+  AuthenticatedCaptureRoute: typeof AuthenticatedCaptureRoute
+  AuthenticatedDossierPlusRoute: typeof AuthenticatedDossierPlusRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppRoute: AuthenticatedAppRoute,
+  AuthenticatedAskRoute: AuthenticatedAskRoute,
+  AuthenticatedCaptureRoute: AuthenticatedCaptureRoute,
+  AuthenticatedDossierPlusRoute: AuthenticatedDossierPlusRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AskRoute: AskRoute,
-  CaptureRoute: CaptureRoute,
-  DossierPlusRoute: DossierPlusRoute,
-  ProfileRoute: ProfileRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
