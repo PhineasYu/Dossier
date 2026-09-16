@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useChildren } from "@/lib/child-context";
 import { FIELD_LABEL, formatDate, type ProfileFact } from "@/lib/dossier";
 import { GrowthCurve } from "./growth-curve";
+import { TriangleAlert } from "lucide-react";
 
 type FactRow = ProfileFact & { created_at: string };
 
@@ -27,11 +28,11 @@ function isFresh(row: FactRow) {
   return Date.now() - new Date(row.created_at).getTime() < 90_000;
 }
 
-function FactList({ rows, title }: { rows: FactRow[]; title: string }) {
+function FactList({ rows, title, danger = false }: { rows: FactRow[]; title: string; danger?: boolean }) {
   if (!rows.length) return null;
   return (
     <div className="material-card p-5">
-      <h3 className="font-display text-lg">{title}</h3>
+      <h3 className={danger ? "flex items-center gap-2 font-display text-lg text-danger" : "font-display text-lg"}>{danger && <TriangleAlert className="size-5" />}{title}</h3>
       <ul className="mt-3 divide-y">
         {rows.map((row) => (
           <li
@@ -40,7 +41,7 @@ function FactList({ rows, title }: { rows: FactRow[]; title: string }) {
               isFresh(row) ? "fact-glow" : ""
             }`}
           >
-            <span className="text-muted-foreground">{FIELD_LABEL[row.field] ?? row.field}</span>
+            <span className={danger ? "font-medium text-danger" : "text-muted-foreground"}>{FIELD_LABEL[row.field] ?? row.field}</span>
             <span className="flex-1 text-right">
               {row.value}
               {isFresh(row) && (
@@ -84,7 +85,7 @@ export function ProfilePanel({ query = "" }: { query?: string }) {
 
   return (
     <div className="space-y-3">
-      <FactList rows={pick("allergy", "medical")} title="Allergies & medical" />
+      <FactList rows={pick("allergy", "medical")} title="Allergies & medical" danger />
       <GrowthCurve heights={pick("height")} weights={pick("weight")} accent={accent} />
       <FactList rows={pick("food_like", "food_dislike")} title="Food" />
       <FactList rows={pick("interest")} title="Interests" />

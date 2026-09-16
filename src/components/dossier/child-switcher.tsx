@@ -18,16 +18,16 @@ export function ChildSwitcher() {
             type="button"
             onClick={() => setActiveId(kid.id)}
             aria-pressed={isActive}
-            className="material-state flex min-h-12 items-center gap-2 rounded-full border px-3 py-1.5 shadow-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="material-state flex min-h-12 items-center gap-2 rounded-lg border border-line px-3 py-1.5 shadow-none transition-all duration-[400ms] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
             style={{
-              borderColor: isActive ? kid.theme_color : "var(--border)",
+              borderColor: isActive ? kid.theme_color : "var(--line)",
               backgroundColor: isActive ? withAlpha(kid.theme_color, 0.1) : "transparent",
               opacity: isActive ? 1 : 0.72,
             }}
           >
             <motion.span
               layout
-              className="grid size-9 place-items-center rounded-full font-display text-lg text-primary-foreground"
+              className="grid size-9 place-items-center rounded-full border-2 border-surface font-display text-lg text-primary-foreground ring-1 ring-line"
               style={{ backgroundColor: kid.theme_color }}
             >
               {kid.name.slice(0, 1)}
