@@ -42,7 +42,7 @@ export function AddTodayBar() {
           </Link>
         </Button>
         <Button asChild variant="secondary" className="h-10 bg-child-soft text-foreground">
-          <Link to="/profile" search={{ add: "photo" }} aria-label="Add a photo today">
+          <Link to="/profile" search={{ add: "photo", q: undefined }} aria-label="Add a photo today">
             <Camera /> Photo
           </Link>
         </Button>

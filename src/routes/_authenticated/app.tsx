@@ -20,13 +20,13 @@ export const Route = createFileRoute("/_authenticated/app")({
       {
         name: "description",
         content:
-          "Dossier turns everyday moments into each child's growth timeline and living profile. Just talk, and it sorts the rest.",
+          "Capture and search everyday memories in your child's growth timeline, with every meaningful moment kept in one place.",
       },
       { property: "og:title", content: "Dossier — your child's lifelong story" },
       {
         property: "og:description",
         content:
-          "Speak freely about your day. Dossier files the memories and the facts for every child.",
+          "Speak freely, then search every memory in your child's growing story.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

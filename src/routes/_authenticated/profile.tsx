@@ -18,12 +18,12 @@ export const Route = createFileRoute("/_authenticated/profile")({
       {
         name: "description",
         content:
-          "Every structured fact in one place: allergies and medical notes, the height and weight curve, food, interests, friends and filed documents.",
+          "Search every structured fact and document in one place, including allergies, growth, food, interests, friends and filed records.",
       },
       { property: "og:title", content: "The file — allergies, growth and documents" },
       {
         property: "og:description",
-        content: "The structured half of your child's archive, kept up to date by talking.",
+        content: "Search your child's facts and documents in the structured half of their archive.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
