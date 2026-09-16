@@ -4,7 +4,7 @@ import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { PolarCard } from "@/components/dossier/polar-card";
 import { StatsLine } from "@/components/dossier/stats-line";
 
-export const Route = createFileRoute("/dossier-plus")({
+export const Route = createFileRoute("/_authenticated/dossier-plus")({
   head: () => ({
     meta: [
       { title: "Dossier+ — keep every year | Dossier" },

@@ -10,7 +10,7 @@ import { DailyCheckin } from "@/components/dossier/daily-checkin";
 import { useChildren } from "@/lib/child-context";
 import { getCheckinActivity } from "@/lib/dossier.functions";
 
-export const Route = createFileRoute("/capture")({
+export const Route = createFileRoute("/_authenticated/capture")({
   validateSearch: (search: Record<string, unknown>) => ({
     mode:
       search["mode"] === "voice" || search["mode"] === "text"

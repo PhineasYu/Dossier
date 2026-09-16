@@ -5,7 +5,7 @@ import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { ChildSwitcher } from "@/components/dossier/child-switcher";
 import { StatsLine } from "@/components/dossier/stats-line";
 
-export const Route = createFileRoute("/ask")({
+export const Route = createFileRoute("/_authenticated/ask")({
   head: () => ({
     meta: [
       { title: "Ask the archive | Dossier" },

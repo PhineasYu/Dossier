@@ -8,7 +8,7 @@ import { StatsLine } from "@/components/dossier/stats-line";
 import { Timeline } from "@/components/dossier/timeline";
 import { useChildren } from "@/lib/child-context";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
     meta: [
       { title: "Dossier — your child's lifelong story" },

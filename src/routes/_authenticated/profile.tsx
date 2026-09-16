@@ -6,7 +6,7 @@ import { DocumentArchive } from "@/components/dossier/document-archive";
 import { ProfilePanel } from "@/components/dossier/profile-panel";
 import { useChildren } from "@/lib/child-context";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/_authenticated/profile")({
   validateSearch: (search: Record<string, unknown>) => ({
     add: search["add"] === "photo" ? ("photo" as const) : undefined,
   }),
