@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2, Mic, MicOff, PhoneOff } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import checkinFaceAsset from "@/assets/dossier-checkin-face.png.asset.json";
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import { DailyCheckin } from "@/components/dossier/daily-checkin";
 import { AiRing } from "@/components/dossier/ai-ring";
