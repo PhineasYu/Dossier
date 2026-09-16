@@ -57,7 +57,7 @@ export function DailyCheckin({ streak }: { streak: number }) {
         setIsSaving(false);
       }
     },
-    [queryClient, runCapture, selected, step],
+    [queryClient, runCapture, active, step],
   );
 
   const start = useCallback(async () => {
