@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Flame } from "lucide-react";
 
 import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
 import { BrainDump } from "@/components/dossier/brain-dump";
