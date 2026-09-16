@@ -89,6 +89,39 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_checkins: {
+        Row: {
+          answers: Json
+          checkin_date: string
+          completed_at: string | null
+          created_at: string
+          created_card_ids: string[]
+          id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          answers?: Json
+          checkin_date?: string
+          completed_at?: string | null
+          created_at?: string
+          created_card_ids?: string[]
+          id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          answers?: Json
+          checkin_date?: string
+          completed_at?: string | null
+          created_at?: string
+          created_card_ids?: string[]
+          id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           child_id: string | null

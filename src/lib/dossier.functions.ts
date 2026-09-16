@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const MODEL = "google/gemini-3.8-flash";
@@ -235,6 +236,150 @@ export const getScribeToken = createServerFn({ method: "POST" }).handler(async (
   if (!json.token) throw new Error("No transcription token returned.");
   return { token: json.token };
 });
+
+/** Short-lived WebRTC token for the private Dossier conversational agent. */
+export const getCheckinConversationToken = createServerFn({ method: "POST" }).handler(async () => {
+  const apiKey = process.env["ELEVENLABS_API_KEY"];
+  if (!apiKey) throw new Error("Voice check-in is not connected yet.");
+  const res = await fetch(
+    "https://api.elevenlabs.io/v1/convai/conversation/token?agent_id=agent_4901m2n304agegn9k2c013b2nz0c",
+    { headers: { "xi-api-key": apiKey } },
+  );
+  if (!res.ok) throw new Error(`Voice token failed [${res.status}]: ${await res.text()}`);
+  const json = (await res.json()) as { token?: string };
+  if (!json.token) throw new Error("No voice token returned.");
+  return { token: json.token };
+});
+
+type CheckinAnswer = { question: "for_child" | "child_moment"; text: string };
+
+/** Read today's completion state. Guests use the shared demo row. */
+export const getTodayCheckin = createServerFn({ method: "GET" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await supabaseAdmin
+    .from("daily_checkins")
+    .select("answers, created_card_ids, completed_at")
+    .eq("checkin_date", today)
+    .is("user_id", null)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  return {
+    completed: Boolean(data?.completed_at),
+    answers: (data?.answers ?? []) as CheckinAnswer[],
+    createdCardIds: data?.created_card_ids ?? [],
+  };
+});
+
+/** Read today's completion state for the signed-in parent. */
+export const getTodayCheckinAuthenticated = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const today = new Date().toISOString().slice(0, 10);
+    const { data, error } = await context.supabase
+      .from("daily_checkins")
+      .select("answers, created_card_ids, completed_at")
+      .eq("checkin_date", today)
+      .eq("user_id", context.userId)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return {
+      completed: Boolean(data?.completed_at),
+      answers: (data?.answers ?? []) as CheckinAnswer[],
+      createdCardIds: data?.created_card_ids ?? [],
+    };
+  });
+
+const checkinInput = (input: {
+  answers: CheckinAnswer[];
+  createdCardIds: string[];
+  complete: boolean;
+}) => ({
+  answers: input.answers ?? [],
+  createdCardIds: input.createdCardIds ?? [],
+  complete: Boolean(input.complete),
+});
+
+/** Persist guest demo progress for today. */
+export const saveTodayCheckin = createServerFn({ method: "POST" })
+  .inputValidator(checkinInput)
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const today = new Date().toISOString().slice(0, 10);
+    const payload = {
+      user_id: null,
+      checkin_date: today,
+      answers: data.answers,
+      created_card_ids: data.createdCardIds,
+      completed_at: data.complete ? new Date().toISOString() : null,
+    };
+    const { data: existing } = await supabaseAdmin
+      .from("daily_checkins")
+      .select("id")
+      .eq("checkin_date", today)
+      .is("user_id", null)
+      .maybeSingle();
+    const query = existing
+      ? supabaseAdmin.from("daily_checkins").update(payload).eq("id", existing.id)
+      : supabaseAdmin.from("daily_checkins").insert(payload);
+    const { error } = await query;
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Persist signed-in progress for today. */
+export const saveTodayCheckinAuthenticated = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(checkinInput)
+  .handler(async ({ data, context }) => {
+    const today = new Date().toISOString().slice(0, 10);
+    const payload = {
+      user_id: context.userId,
+      checkin_date: today,
+      answers: data.answers,
+      created_card_ids: data.createdCardIds,
+      completed_at: data.complete ? new Date().toISOString() : null,
+    };
+    const { data: existing } = await context.supabase
+      .from("daily_checkins")
+      .select("id")
+      .eq("checkin_date", today)
+      .eq("user_id", context.userId)
+      .maybeSingle();
+    const query = existing
+      ? context.supabase.from("daily_checkins").update(payload).eq("id", existing.id)
+      : context.supabase.from("daily_checkins").insert(payload);
+    const { error } = await query;
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Hidden demo control: reopen today's check-in for a guest. */
+export const resetTodayCheckin = createServerFn({ method: "POST" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const today = new Date().toISOString().slice(0, 10);
+  const { error } = await supabaseAdmin
+    .from("daily_checkins")
+    .delete()
+    .eq("checkin_date", today)
+    .is("user_id", null);
+  if (error) throw new Error(error.message);
+  return { ok: true };
+});
+
+/** Hidden demo control: reopen today's check-in for the signed-in parent. */
+export const resetTodayCheckinAuthenticated = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const today = new Date().toISOString().slice(0, 10);
+    const { error } = await context.supabase
+      .from("daily_checkins")
+      .delete()
+      .eq("checkin_date", today)
+      .eq("user_id", context.userId);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
 
 /** Pull structured fields out of an uploaded document or photo. */
 export const extractDocument = createServerFn({ method: "POST" })

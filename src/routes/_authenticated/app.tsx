@@ -6,6 +6,7 @@ import { AppHeader } from "@/components/dossier/app-header";
 import { Splash } from "@/components/dossier/splash";
 import { StatsLine } from "@/components/dossier/stats-line";
 import { Timeline } from "@/components/dossier/timeline";
+import { VoiceCheckin } from "@/components/dossier/voice-checkin";
 import { useChildren } from "@/lib/child-context";
 
 export const Route = createFileRoute("/_authenticated/app")({
@@ -42,6 +43,7 @@ function Home() {
       <AddTodayBar />
 
       <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-8">
+        <VoiceCheckin />
         <h1 className="pt-7 pb-4 font-display text-2xl">
           {active ? `${active.name}'s story so far` : "The archive"}
         </h1>
