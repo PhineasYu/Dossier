@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Mic, ScrollText, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { PolarCard } from "@/components/dossier/polar-card";
+import { GrowingFamily } from "@/components/dossier/growing-family";
 import { Wordmark } from "@/components/dossier/wordmark";
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
@@ -30,24 +29,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Landing,
 });
-
-const FEATURES = [
-  {
-    icon: Mic,
-    title: "Talk for a minute",
-    body: "Ramble about the whole day. Dossier splits it into atomic moments and sends each one to the right child.",
-  },
-  {
-    icon: ScrollText,
-    title: "Two outputs, one input",
-    body: "Memories land on the growth timeline; facts update the file — allergies, height and weight, food, interests, friends.",
-  },
-  {
-    icon: Search,
-    title: "Ask the archive",
-    body: "\u201cWhat was she afraid of at three?\u201d The matching cards float up, years later.",
-  },
-] as const;
 
 function Landing() {
   const navigate = useNavigate();
@@ -85,18 +66,17 @@ function Landing() {
   }
 
   return (
-    <div className="min-h-screen">
-      <main className="mx-auto w-full max-w-xl px-5 pb-16 pt-14">
-        <Wordmark className="h-9" />
-        <h1 className="mt-7 font-display text-3xl leading-tight">
-          Turn everyday moments into your child's lifelong story.
-        </h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-          Doorframe pencil marks catch the height. Dossier catches the other ninety percent of
-          growing up — and keeps the practical file up to date while you're at it.
-        </p>
+    <main className="flex min-h-screen flex-col items-center justify-between px-5 pb-10 pt-12">
+      <h1>
+        <Wordmark className="h-10" />
+        <span className="sr-only">Dossier</span>
+      </h1>
 
-        <div className="mt-8 space-y-3">
+      <div className="flex w-full flex-1 items-center justify-center py-8">
+        <GrowingFamily />
+      </div>
+
+      <div className="w-full max-w-sm space-y-2">
           <Button
             onClick={signIn}
             disabled={busy}
@@ -104,38 +84,17 @@ function Landing() {
             className="h-12 w-full rounded-full bg-child text-primary-foreground hover:bg-child/90"
           >
             <GoogleGlyph />
-            Sign in with Google
+            {busy ? "Connecting…" : "Sign in with Google"}
           </Button>
-          <button
-            type="button"
+          <Button
+            variant="ghost"
             onClick={lookAround}
-            className="block w-full text-center text-sm text-muted-foreground underline underline-offset-4"
+            className="w-full text-sm text-muted-foreground"
           >
             Just look around
-          </button>
-        </div>
-
-        <section className="mt-12 space-y-3">
-          {FEATURES.map(({ icon: Icon, title, body }) => (
-            <article key={title} className="rounded-2xl border bg-card p-5">
-              <div className="flex items-center gap-2">
-                <Icon className="size-4 text-child" strokeWidth={1.8} />
-                <h2 className="font-display text-lg">{title}</h2>
-              </div>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{body}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="mt-12">
-          <PolarCard />
-        </section>
-
-        <p className="mt-10 text-center text-xs text-muted-foreground">
-          Dossier — an AI family archive.
-        </p>
-      </main>
-    </div>
+          </Button>
+      </div>
+    </main>
   );
 }
 
