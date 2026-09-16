@@ -115,11 +115,13 @@ export function ArchiveChat() {
       <Conversation className="max-h-[46vh] min-h-[220px]">
         <ConversationContent className="gap-4 px-5 py-5">
           {turns.length === 0 && !busy ? (
-            <ConversationEmptyState
-              className="gap-3 py-4"
-              title={`Ask anything about ${names}`}
-              description="Answers come only from what you have already saved."
-            >
+            <ConversationEmptyState className="gap-3 py-4">
+              <div className="space-y-1">
+                <h3 className="font-display text-base">Ask anything about {names}</h3>
+                <p className="text-sm text-muted-foreground">
+                  Answers come only from what you have already saved.
+                </p>
+              </div>
               <div className="flex flex-wrap justify-center gap-2">
                 {SUGGESTIONS.map((suggestion) => (
                   <button
