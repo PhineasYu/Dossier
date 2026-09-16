@@ -1,24 +1,65 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Mic } from "lucide-react";
+import { useState } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { BottomNav } from "@/components/dossier/bottom-nav";
+import { ChildSwitcher } from "@/components/dossier/child-switcher";
+import { Splash } from "@/components/dossier/splash";
+import { StatsLine } from "@/components/dossier/stats-line";
+import { Timeline } from "@/components/dossier/timeline";
+import { useChildren } from "@/lib/child-context";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Dossier — your child's lifelong story" },
+      {
+        name: "description",
+        content:
+          "Dossier turns everyday moments into each child's growth timeline and living profile. Just talk, and it sorts the rest.",
+      },
+      { property: "og:title", content: "Dossier — your child's lifelong story" },
+      {
+        property: "og:description",
+        content:
+          "Speak freely about your day. Dossier files the memories and the facts for every child.",
+      },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Home() {
+  const [showSplash, setShowSplash] = useState(true);
+  const { active } = useChildren();
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen flex-col">
+      {showSplash && <Splash onDone={() => setShowSplash(false)} />}
+
+      <header className="sticky top-0 z-10 border-b bg-background/90 px-4 pb-4 pt-5 backdrop-blur">
+        <p className="mb-3 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
+          Dossier
+        </p>
+        <ChildSwitcher />
+      </header>
+
+      <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-8">
+        <h1 className="pt-7 pb-4 font-display text-2xl">
+          {active ? `${active.name}'s story so far` : "The archive"}
+        </h1>
+        <Timeline />
+        <StatsLine />
+        <Link
+          to="/capture"
+          className="flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-white"
+          style={{ backgroundColor: "var(--child)" }}
+        >
+          <Mic className="size-4" /> Add today
+        </Link>
+      </main>
+
+      <BottomNav />
     </div>
   );
 }
