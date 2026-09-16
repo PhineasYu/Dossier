@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { AiRing } from "@/components/dossier/ai-ring";
 import { useChildren } from "@/lib/child-context";
 import { askArchive } from "@/lib/dossier.functions";
 
@@ -54,7 +55,7 @@ export function ArchiveSearch({
     <section className="space-y-3" aria-label={`${scope} search`}>
       <form
         onSubmit={(event) => { event.preventDefault(); ask(); }}
-        className="flex min-h-14 items-center gap-2 rounded-full bg-surface-container-high px-4 shadow-[var(--elevation-1)] focus-within:ring-2 focus-within:ring-ring"
+        className="flex min-h-14 items-center gap-2 rounded-lg border border-line bg-surface px-4 focus-within:ring-2 focus-within:ring-ring"
       >
         <Search className="size-4 shrink-0 text-muted-foreground" />
         <input
@@ -70,14 +71,15 @@ export function ArchiveSearch({
           className="min-w-0 flex-1 bg-transparent py-1.5 text-sm outline-none"
         />
         {query && <Button type="button" variant="ghost" size="icon-sm" onClick={clear} aria-label="Clear search"><X /></Button>}
-        <Button type="submit" disabled={isAsking || !query.trim()} size="sm" className="bg-child text-primary-foreground">
-          {isAsking ? <Loader2 className="animate-spin" /> : "Ask"}
+        <Button type="submit" disabled={isAsking || !query.trim()} size="sm">
+          {isAsking ? <AiRing active className="size-5"><Loader2 className="size-3 animate-spin" /></AiRing> : "Ask"}
         </Button>
       </form>
 
       <AnimatePresence>
         {answer && (
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="border-l-2 border-child px-4 py-2">
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="material-card overflow-hidden px-4 pb-3 pt-0">
+            <div className="-mx-4 mb-3 grid h-1 grid-cols-4 gap-1 bg-surface"><span className="bg-orange" /><span className="bg-purple" /><span className="bg-green" /><span className="bg-blue" /></div>
             <p className="text-sm leading-relaxed">{answer}</p>
             {sources.length > 0 && (
               <ul className="mt-3 flex flex-wrap gap-2">

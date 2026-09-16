@@ -50,7 +50,7 @@ export function AppHeader({ showSwitcher = true }: { showSwitcher?: boolean }) {
   }
 
   return (
-    <header className="sticky top-0 z-10 border-b border-outline-variant bg-surface/95 px-4 pb-4 pt-4 shadow-[var(--elevation-1)] backdrop-blur">
+    <header className="sticky top-0 z-10 border-b border-line bg-surface/95 px-4 pb-4 pt-4 backdrop-blur">
       <div className="mb-3 flex items-center justify-between">
         <Wordmark className="h-5" />
         <div className="flex items-center gap-2">

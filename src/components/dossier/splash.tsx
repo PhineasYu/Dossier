@@ -8,7 +8,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
     const timer = setTimeout(() => {
       setHidden(true);
       onDone();
-    }, 4200);
+    }, 1800);
     return () => clearTimeout(timer);
   }, [onDone]);
 
@@ -40,7 +40,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
             aria-hidden="true"
             initial={{ scaleY: 0.34 }}
             animate={{ scaleY: [0.34, 0.55, 0.78, 1.06] }}
-            transition={{ duration: 3.4, ease: "easeInOut", times: [0, 0.35, 0.7, 1] }}
+             transition={{ duration: 1.35, ease: "easeInOut", times: [0, 0.35, 0.7, 1] }}
             style={{ originY: 1, color: "var(--child)" }}
           >
             <circle cx="31" cy="24" r="20" fill="currentColor" />
@@ -50,7 +50,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.6, duration: 0.8 }}
+           transition={{ delay: 0.9, duration: 0.45 }}
           className="mt-8 text-center"
         >
           <h1 className="font-display text-3xl">Dossier</h1>

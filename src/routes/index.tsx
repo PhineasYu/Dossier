@@ -81,7 +81,7 @@ function Landing() {
             onClick={signIn}
             disabled={busy}
             size="lg"
-            className="h-12 w-full bg-child text-primary-foreground shadow-[var(--elevation-1)]"
+            className="h-12 w-full"
           >
             <GoogleGlyph />
             {busy ? "Connecting…" : "Sign in with Google"}
