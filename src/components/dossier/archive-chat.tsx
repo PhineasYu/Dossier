@@ -172,7 +172,7 @@ export function ArchiveChat() {
           />
           <PromptInputFooter className="justify-end">
             <PromptInputSubmit
-              status={busy ? "submitted" : undefined}
+              {...(busy ? { status: "submitted" as const } : {})}
               disabled={busy || !active}
             />
           </PromptInputFooter>
