@@ -15,3 +15,5 @@
 - Visual refinements preserve the Buddies tokens and characters in `docs/DESIGN.md`; the display page title is the primary typographic emphasis.
 
 - Memory category filtering uses the shared pure filter in `src/lib/memory-filters.ts` so category, age, keyword and AI results intersect consistently; filter state belongs to the timeline page.
+- Authenticated reading sizes are scoped by `dossier-readable` in global CSS, including portaled document dialogs, so larger typography does not change landing pages or display-title hierarchy.
+- Documents render simple file rows with an on-demand detail dialog, avoiding decorative stacking and keeping all documents accessible.

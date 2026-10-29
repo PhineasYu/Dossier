@@ -72,7 +72,7 @@ Sentence case everywhere except display titles. No all-caps labels, no tracked e
 
 One `default`/`ai` button per card. Never black buttons, never white text on yellow.
 
-**Chips**: one shape only, a white pill (`bg-paper`, 13px, medium, ink-2). A question
+**Chips**: one shape only, a white pill (`bg-paper`, 15px, medium, ink-2, 44px height). Interactive categories and question labels use identical dimensions. A question
 chip adds a 8px dot in `--q1`/`--q2`. The only filled chip is "New" (action yellow).
 
 **Cards**: `rounded-3xl` (24px), no border, no shadow. Fill = meaning (tint) or mist.
@@ -105,7 +105,9 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
   to an age shrinks the child's buddy to the size they were and shows only that year's
   memories. This is the emotional centre of the app; give it room.
 - **Back then**: one older memory pinned like a photo (white card, tape strip, slight
-  tilt). The only card allowed a soft drop shadow, because it is an object.
+  tilt), tucked into a collapsed row by default. Expand to view and collapse to put it away.
+- **Documents**: simple thumbnail file rows showing title and date. Open a file's details in a dialog; no decorative folder layers or stacked tabs.
+- **Reading sizes**: authenticated screens use 17px body, 20–21px card headings and 14–16px metadata. Memory Lane uses a 34px child name and a quieter temporal state. Display titles remain 44px.
 - **Prompt cards** (`prompt-deck.tsx`): an optional stack of tinted cards with a display
   question; "Another" flips to the next. A hook for evenings with nothing to say, never a
   task. The two founding questions are two of the cards.
