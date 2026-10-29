@@ -79,25 +79,25 @@ export function MemoryLane({
       className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6"
       aria-label="Memory lane"
     >
-      <div className="flex items-end gap-4">
-        <div className="min-w-0 flex-1 pb-1">
+      <div className="flex items-center gap-4">
+        <div className="min-w-0 flex-1">
+          <h2 className="break-words text-[18px] font-semibold leading-snug text-child-ink">{active.name}</h2>
           <AnimatePresence mode="wait" initial={false}>
-            <motion.h2
+            <motion.p
               key={label}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.18 }}
-              className="break-words text-[24px] font-bold leading-tight text-ink"
+              className="mt-1 break-words text-[30px] font-bold leading-tight text-ink"
             >
-              {label}
-            </motion.h2>
+              {age === null ? "Now" : `At ${age}`}
+            </motion.p>
           </AnimatePresence>
-          <p className="mt-1 text-[14px] text-ink-2">
+          <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
             {when}
-            {inYear !== null &&
-              `, ${inYear === 0 ? "no memories kept yet" : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}`}
           </p>
+          {inYear !== null && <p className="mt-0.5 text-[13px] text-ink-2">{inYear === 0 ? "No memories kept yet" : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}</p>}
         </div>
         <div className="grid h-[104px] w-[96px] shrink-0 place-items-end justify-items-center">
           <motion.div

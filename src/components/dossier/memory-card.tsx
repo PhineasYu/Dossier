@@ -1,5 +1,6 @@
 import { CATEGORY_LABEL, shortDate, type MemoryCard } from "@/lib/dossier";
 import { CATEGORY_TINT } from "@/lib/palette";
+import { Button } from "@/components/ui/button";
 
 const QUESTION_LABEL = {
   for_child: { text: "For them", dot: "bg-q1" },
@@ -10,7 +11,10 @@ function sentence(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-export function MemoryCardView({ card }: { card: MemoryCard }) {
+export function MemoryCardView({ card, onCategoryChange }: {
+  card: MemoryCard;
+  onCategoryChange?: ((category: string | null) => void) | undefined;
+}) {
   const question = card.question_origin ? QUESTION_LABEL[card.question_origin] : null;
   return (
     <article className={`rounded-3xl p-5 sm:p-6 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}>
@@ -21,9 +25,17 @@ export function MemoryCardView({ card }: { card: MemoryCard }) {
             {question.text}
           </span>
         )}
-        <span className="rounded-full bg-paper px-2.5 py-0.5 font-medium text-ink-2">
-          {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
-        </span>
+        {onCategoryChange ? (
+          <Button variant="ghost" className="h-11 bg-paper px-3 text-[13px] font-medium"
+            aria-label={`Filter by ${CATEGORY_LABEL[card.category] ?? card.category}`}
+            onClick={() => onCategoryChange(card.category)}>
+            {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+          </Button>
+        ) : (
+          <span className="rounded-full bg-paper px-2.5 py-0.5 font-medium text-ink-2">
+            {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+          </span>
+        )}
         <time dateTime={card.date} className="ml-auto whitespace-nowrap text-xs text-ink-2">
           {shortDate(card.date)}
         </time>
