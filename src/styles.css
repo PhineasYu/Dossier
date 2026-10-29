@@ -272,6 +272,26 @@
   border-radius: 1.5rem;
 }
 
+/* Larger reading sizes across authenticated screens; display titles stay unchanged. */
+.dossier-readable {
+  font-size: 17px;
+}
+.dossier-readable :is(.text-xs, [class~="text-[11px]"], [class~="text-[12px]"]) {
+  font-size: 14px;
+}
+.dossier-readable [class~="text-[13px]"] {
+  font-size: 15px;
+}
+.dossier-readable :is(.text-sm, [class~="text-[14px]"]) {
+  font-size: 16px;
+}
+.dossier-readable :is(.text-base, [class~="text-[15px]"]) {
+  font-size: 17px;
+}
+.dossier-readable :is(.text-lg, [class~="text-[18px]"], [class~="text-[19px]"]) {
+  font-size: 20px;
+}
+
 /* Press feedback for anything tappable. */
 @utility press {
   transition:
