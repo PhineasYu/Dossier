@@ -70,10 +70,7 @@ export function MemoryLane({
   const shownAge = age ?? now;
   const growth = 0.42 + 0.58 * (shownAge / Math.max(now, 1));
   const label = age === null ? `${active.name} now` : `${active.name} at ${age}`;
-  const when =
-    age === null
-      ? `${counts.size ? cards.length : 0} memories so far`
-      : season(birthdayAt(active.birthdate, age));
+  const when = season(age === null ? today() : birthdayAt(active.birthdate, age));
   const inYear = age === null ? null : (counts.get(age) ?? 0);
 
   return (
@@ -81,11 +78,23 @@ export function MemoryLane({
       className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6"
       aria-label="Memory lane"
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <div className="min-w-0 flex-1">
           <h2 className="break-words text-[34px] font-bold leading-tight text-ink">
             {active.name}
           </h2>
+        </div>
+        <div className="grid h-[72px] w-[72px] shrink-0 place-items-end justify-items-center">
+          <motion.div
+            animate={{ scale: growth }}
+            transition={{ type: "spring", stiffness: 180, damping: 18 }}
+            style={{ originY: 1 }}
+          >
+            <Buddy shape={look.shape} color={look.body} size={72} limbs smile />
+          </motion.div>
+        </div>
+      </div>
+      <div className="-mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
               key={label}
@@ -93,30 +102,19 @@ export function MemoryLane({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.18 }}
-              className="mt-2 break-words text-[18px] font-medium leading-snug text-child-ink"
+              className="text-[18px] font-medium leading-snug text-child-ink"
             >
               {age === null ? "Now" : `At ${age}`}
             </motion.p>
           </AnimatePresence>
-          <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{when}</p>
-          {inYear !== null && (
-            <p className="mt-0.5 text-[13px] text-ink-2">
-              {inYear === 0
+          <span className="text-ink-2" aria-hidden="true">·</span>
+          <p className="text-[14px] leading-snug text-ink-2">{when}</p>
+      </div>
+            <p className="mt-1 text-[13px] text-ink-2">
+              {inYear === null ? `${cards.length} memories so far` : inYear === 0
                 ? "No memories kept yet"
                 : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
             </p>
-          )}
-        </div>
-        <div className="grid h-[104px] w-[96px] shrink-0 place-items-end justify-items-center">
-          <motion.div
-            animate={{ scale: growth }}
-            transition={{ type: "spring", stiffness: 180, damping: 18 }}
-            style={{ originY: 1 }}
-          >
-            <Buddy shape={look.shape} color={look.body} size={96} limbs smile />
-          </motion.div>
-        </div>
-      </div>
 
       <label className="sr-only" htmlFor="memory-lane-age">
         Choose an age
@@ -132,10 +130,10 @@ export function MemoryLane({
           const next = Number(event.target.value);
           onAgeChange(next >= stops ? null : next);
         }}
-        className="memory-lane-range mt-4 w-full"
+        className="memory-lane-range mt-1 block w-full"
         aria-valuetext={label}
       />
-      <div className="flex justify-between text-[12px] font-medium text-ink-2" aria-hidden="true">
+      <div className="-mt-2 flex justify-between text-[12px] font-medium text-ink-2" aria-hidden="true">
         {Array.from({ length: stops + 1 }, (_, i) => (
           <span key={i} className={`w-7 text-center ${i === value ? "font-bold text-ink" : ""}`}>
             {i === stops ? "Now" : i}
