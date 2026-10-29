@@ -21,4 +21,4 @@
 18. **Replace sunflower yellow** (complete) — Use a coordinated soft seafoam action palette across buttons, AI, slider and legacy yellow tints.
 19. **Compact Ask Dossier page** (complete) — Reflow subscription copy at full width, move Dossier+ to the upper right, enlarge the chat heading and reserve fresh lemon yellow for delicate AI sparkles.
 20. **Scalable document library** (complete) — Show three recent documents on the profile, open a searchable year/type-filtered library, and offer a clearly labelled 42-file simulation without changing saved records.
-21. **Premium Dossier+ treatment** (in progress) — Align the badge with the Archivo heading and add a deep teal membership-card finish with a restrained foil badge, preserving the QR and compact layout.
+21. **Premium Dossier+ treatment** (complete) — Align the badge with the Archivo heading and add a deep teal membership-card finish with a restrained foil badge, preserving the QR and compact layout.
