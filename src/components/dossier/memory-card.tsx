@@ -40,11 +40,15 @@ export function MemoryCardView({
             aria-label={`Filter by ${CATEGORY_LABEL[card.category] ?? card.category}`}
             onClick={() => onCategoryChange(card.category)}
           >
-            <span className={pillClass}>{sentence(CATEGORY_LABEL[card.category] ?? card.category)}</span>
+            <span className={pillClass}>
+              {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+            </span>
           </Button>
         ) : (
           <span className="inline-flex h-11 items-center">
-            <span className={pillClass}>{sentence(CATEGORY_LABEL[card.category] ?? card.category)}</span>
+            <span className={pillClass}>
+              {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+            </span>
           </span>
         )}
         <time dateTime={card.date} className="ml-auto whitespace-nowrap text-[14px] text-ink-2">

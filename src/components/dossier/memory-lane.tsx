@@ -183,14 +183,15 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
           key={pick.id}
           aria-label="Back then reminder"
           drag="x"
-          dragConstraints={{left: 0, right: 0}}
+          dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.65}
           onDragEnd={(_, info) => {
-            if (Math.abs(info.offset.x) > 70 || Math.abs(info.velocity.x) > 450) setDismissed(current => [...current, pick.id]);
+            if (Math.abs(info.offset.x) > 70 || Math.abs(info.velocity.x) > 450)
+              setDismissed((current) => [...current, pick.id]);
           }}
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{opacity: 0, x: 120, height: 0, margin: 0, padding: 0}}
+          exit={{ opacity: 0, x: 120, height: 0, margin: 0, padding: 0 }}
           className="relative mx-2 touch-pan-y rounded-2xl bg-paper px-5 pb-5 pt-7 ring-1 ring-line"
         >
           <span
@@ -199,7 +200,16 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
           />
           <div className="flex items-center justify-between gap-3">
             <p className="text-[14px] text-ink-2">{ago(pick.date)}</p>
-            <Button variant="ghost" size="icon" className="-mr-2 -mt-2" aria-label="Dismiss memory reminder" title="Dismiss reminder" onClick={() => setDismissed(current => [...current, pick.id])}><X className="size-4" strokeWidth={1.25} /></Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-mr-2 -mt-2"
+              aria-label="Dismiss memory reminder"
+              title="Dismiss reminder"
+              onClick={() => setDismissed((current) => [...current, pick.id])}
+            >
+              <X className="size-4" strokeWidth={1.25} />
+            </Button>
           </div>
           <h3 className="text-[21px] font-bold leading-snug text-ink">{pick.title}</h3>
           {pick.body && <p className="mt-2 text-[17px] leading-relaxed text-ink-2">{pick.body}</p>}
