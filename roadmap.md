@@ -9,5 +9,5 @@
 7. **Search in Timeline and Archive** (complete) — Remove standalone Ask, add keyword and smart search to both destination pages, and reduce bottom navigation to four items.
 8. **Tech-white design system** (complete) — Replace the warm palette with exact neutral and emphasis tokens, 1px frames, child/question color meaning, and the segmented AI signature.
 9. **Buddies visual refinement** (complete) — Refine shared alignment, spacing, typography, search controls and navigation without changing functionality or the current palette.
-10. **Memory filters and card hierarchy** (in progress) — Make category filtering functional, remove the age thumb outline, distinguish child and time in Memory Lane, and unify Ask Dossier suggestions with its composer.
-11. **File card refinement** (in progress) — Compact Pencil marks, lighten growth-frame strokes and use thin straight separators; reduce decorative red while retaining medical alerts.
+10. **Memory filters and card hierarchy** (complete) — Make category filtering functional, remove the age thumb outline, distinguish child and time in Memory Lane, and unify Ask Dossier suggestions with its composer.
+11. **File card refinement** (complete) — Compact Pencil marks, lighten growth-frame strokes and use thin straight separators; reduce decorative red while retaining medical alerts.
