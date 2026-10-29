@@ -32,7 +32,7 @@ Family wallet onboarding (white space, flat characters, pill buttons), Headspace
 | | `--action-soft` | `#FEF1CF` | AI cards (check-in card, AI answers), Dossier+ card |
 | | `--on-action` | `#1A1A1A` | Text and icons on action (ink, never white) |
 | Child crayons | `--sky` `--lilac` `--aqua` `--bubblegum` `--sage` `--tomato` | `#4F9DF7` `#B4A2F2` `#4FC2B9` `#F59AC6` `#5FA98A` `#F2643A` | Buddies, child switcher pill (`-soft`), growth card (`--child-soft`), sorting lanes |
-| Moment tints | `bg-<crayon>-soft`, `bg-sun-soft` | see `CATEGORY_TINT` | Memory cards: courage sun, dream lilac, fear sky, friendship bubblegum, first time tomato, interest aqua, other mist |
+| Moment tints | `bg-<crayon>-soft`, `bg-sun-soft` | see `CATEGORY_TINT` | Memory cards: courage sun, dream lilac, fear sky, friendship bubblegum, first time sage, interest aqua, other mist |
 | Questions | `--q1` / `--q2` | sun `#FFC43D` / sky `#4F9DF7` | Question cards use the `-soft` tint; memory-card chips show a dot |
 | Danger | `--danger` / `--danger-soft` | `#D92D20` / `#FEEBE9` | Allergies and medical only, always with an alert icon |
 | Neutrals | `--paper` `--cloud` (mist) `--cloud-2` `--line` | `#FFFFFF` `#F6F3F4` `#ECE6E8` `#E8E2E4` | Page, neutral cards and inputs, empty calendar cells, borders |
@@ -45,6 +45,7 @@ Rules:
 - The active child's crayon is exposed as `--child`, `--child-soft`, `--child-ink` by
   `ChildProvider`. Use those, never a hard-coded child colour.
 - Do not introduce new hues. If something needs emphasis, use size or weight.
+- Minimize decorative red in cards: food and first-time moments use sage, document folders avoid tomato, and genuine allergy/medical alerts retain danger red.
 
 ## Type
 
@@ -97,6 +98,7 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
 - `AiBuddy` = the active child's buddy + two yellow sparkles. No glow, no halo, no
   gradient. Use it for every AI surface; never draw the AI any other way.
 - Line work: limbs 2.5px ink, doorframe 1.75px, pencil ticks 1.5px.
+- Archive growth frames and pencil marks use 1px strokes; card separators are straight 1px lines. Keep the growth illustration compact, without enlarging its strokes.
 
 ## Memory you can see
 
