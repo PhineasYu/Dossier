@@ -15,3 +15,4 @@
 12. **Simplified documents and legibility** (complete) — Replace folders with file rows and a detail view, enlarge child-name hierarchy and app text, unify memory pills, and make Back then collapsible.
 13. **Compact memory lane** (complete) — Put temporal state and season on one line and bring slider labels closer to the track.
 14. **Gentle memory reminders** (in progress) — Replace the drawer with a visible dismissible/swipeable reminder, thin AI sparkles and pills, and use Fraunces for story titles.
+15. **Larger memory-lane mascot** (in progress) — Give the child buddy a larger right-hand area above the slider while retaining compact metadata.

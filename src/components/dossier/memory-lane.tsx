@@ -78,23 +78,12 @@ export function MemoryLane({
       className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6"
       aria-label="Memory lane"
     >
-      <div className="flex items-center gap-3">
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(100px,42%)] items-center gap-x-2">
         <div className="min-w-0 flex-1">
           <h2 className="break-words text-[34px] font-bold leading-tight text-ink">
             {active.name}
           </h2>
-        </div>
-        <div className="grid h-[72px] w-[72px] shrink-0 place-items-end justify-items-center">
-          <motion.div
-            animate={{ scale: growth }}
-            transition={{ type: "spring", stiffness: 180, damping: 18 }}
-            style={{ originY: 1 }}
-          >
-            <Buddy shape={look.shape} color={look.body} size={72} limbs smile />
-          </motion.div>
-        </div>
-      </div>
-      <div className="-mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+      <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
         <AnimatePresence mode="wait" initial={false}>
           <motion.p
             key={label}
@@ -119,6 +108,18 @@ export function MemoryLane({
             ? "No memories kept yet"
             : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
       </p>
+        </div>
+        <div className="grid h-[132px] min-w-0 place-items-center sm:h-[152px]">
+          <motion.div
+            animate={{ scale: growth }}
+            transition={{ type: "spring", stiffness: 180, damping: 18 }}
+            style={{ originY: 1 }}
+            className="w-full max-w-[152px]"
+          >
+            <Buddy shape={look.shape} color={look.body} size={152} className="h-auto w-full" limbs smile />
+          </motion.div>
+        </div>
+      </div>
 
       <label className="sr-only" htmlFor="memory-lane-age">
         Choose an age
