@@ -35,17 +35,16 @@ const cards: MemoryCard[] = [
 
 describe("memory filters", () => {
   test("a category label actually narrows the memories", () => {
-    deepStrictEqual(filterMemories(cards, { category: "courage" }).map((card) => card.id), [
-      "courage-old",
-      "courage-new",
-    ]);
+    deepStrictEqual(
+      filterMemories(cards, { category: "courage" }).map((card) => card.id),
+      ["courage-old", "courage-new"],
+    );
   });
   test("All clears the category selection", () => {
-    deepStrictEqual(filterMemories(cards, { category: null }).map((card) => card.id), [
-      "courage-old",
-      "courage-new",
-      "dream",
-    ]);
+    deepStrictEqual(
+      filterMemories(cards, { category: null }).map((card) => card.id),
+      ["courage-old", "courage-new", "dream"],
+    );
   });
   test("category filtering respects the selected age", () => {
     deepStrictEqual(
