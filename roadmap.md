@@ -20,4 +20,4 @@
 17. **Multimedia timeline placeholders** (complete) — Add clearly marked free sample photos and static audio-waveform previews, and move chips/date toward the top edge. Real family media remains a future upload flow.
 18. **Replace sunflower yellow** (complete) — Use a coordinated soft seafoam action palette across buttons, AI, slider and legacy yellow tints.
 19. **Compact Ask Dossier page** (complete) — Reflow subscription copy at full width, move Dossier+ to the upper right, enlarge the chat heading and reserve fresh lemon yellow for delicate AI sparkles.
-20. **Scalable document library** (in progress) — Show three recent documents on the profile, open a searchable year/type-filtered library, and offer a clearly labelled 42-file simulation without changing saved records.
+20. **Scalable document library** (complete) — Show three recent documents on the profile, open a searchable year/type-filtered library, and offer a clearly labelled 42-file simulation without changing saved records.
