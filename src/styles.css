@@ -103,6 +103,10 @@
   --color-action-ink: var(--action-ink);
   --color-ai-spark: var(--ai-spark);
   --color-ai-spark-line: var(--ai-spark-line);
+  --color-premium: var(--premium);
+  --color-premium-foreground: var(--premium-foreground);
+  --color-premium-muted: var(--premium-muted);
+  --color-premium-line: var(--premium-line);
   --color-on-action: var(--on-action);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
@@ -154,6 +158,11 @@
   --action-hover: oklch(0.72 0.08 174);
   --action-soft: oklch(0.95 0.027 174);
   --action-ink: oklch(0.36 0.055 174);
+  --premium: oklch(0.29 0.038 174);
+  --premium-foreground: oklch(0.98 0.012 174);
+  --premium-muted: oklch(0.83 0.03 174);
+  --premium-line: oklch(0.48 0.045 174);
+  --premium-foil: linear-gradient(115deg, var(--action) 0%, var(--action-soft) 45%, var(--action) 100%);
   --ai-spark: oklch(0.91 0.17 102);
   --ai-spark-line: oklch(0.69 0.1 102);
   --on-action: #1a1a1a;
@@ -274,6 +283,11 @@
 @utility tile {
   background-color: var(--cloud);
   border-radius: 1.5rem;
+}
+
+.premium-badge {
+  background: var(--premium-foil);
+  box-shadow: inset 0 1px 0 var(--paper);
 }
 
 /* Larger reading sizes across authenticated screens; display titles stay unchanged. */
