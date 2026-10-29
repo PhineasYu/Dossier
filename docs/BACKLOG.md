@@ -48,24 +48,31 @@ Replace `new Date().toISOString().slice(0, 10)` (UTC) with the family's local da
 
 6. **Waitlist page** `/waitlist`: email + number of children, live counter, stored in a
    `waitlist` table. The application quotes this number.
-7. **Evening reminder**: a time each family chooses; web push or email that opens the
-   voice check-in.
-8. **Retention metric**: an `events` table (check-in completed, memory saved) and a
-   query for "evenings answered per family per week".
-9. **Demo video data**: a seeded family with consent, or fully fictional children,
-   for the 60–90 second demo recording.
-10. **Real Polar checkout** link in `polar-card.tsx` (currently a placeholder URL).
-11. **Partner sharing**: invite a second parent into the family.
+7. **Family circle** (multi-user): invite a partner, grandparents, a babysitter, a
+   teacher. Roles decide what each sees (babysitter: allergies, food, routines; teacher:
+   school notes and what the family shares; grandparents: memories). Built on P0.
+8. **Real subscription**: Polar checkout and webhooks for Dossier+ (the card links to a
+   placeholder today).
+9. **Memory you can feel**: photos on memory cards; the memory lane with photos and the
+   buddy's height per year; "on this day" moments; a refined time slider (snap to
+   birthdays, haptics on iOS, scrub with momentum).
+10. **Gentle nudges**, never tasks: an optional evening notification with tonight's
+    prompt card. No streaks.
+11. **Retention metric**: an `events` table (memory saved, question asked, circle member
+    viewed) and a weekly-active-families query.
+12. **Demo video data**: fictional children, or a family with written consent.
 
 ## P2: after the deadline
 
-12. Photos on memory cards.
-13. Babysitter link: a read-only page with allergies, food, routines, emergency notes.
-14. Weekly highlights for grandparents; yearly printed book per child.
-15. Native iOS app with a home-screen widget for one-tap capture.
-16. Swedish localisation; GDPR data-processing agreements with Supabase, ElevenLabs and
+13. Native iOS app: home-screen and lock-screen widgets, Action Button and Siri
+    "Tell Dossier" (design preview at `/design/widgets`).
+14. Kids' smartwatch voice notes into the family record.
+15. Teacher and school connection (a teacher link first, school systems later).
+16. Weekly highlights for grandparents; yearly printed book per child; gift subscriptions.
+17. Swedish localisation; GDPR data-processing agreements with Supabase, ElevenLabs and
     the model providers; EU data residency.
-17. Move AI calls from the Lovable AI Gateway to our own keys if we leave Lovable.
+18. Family context API for care services and home devices, permissioned by the family.
+19. Move AI calls from the Lovable AI Gateway to our own keys if we leave Lovable.
 
 ## Design follow-ups
 

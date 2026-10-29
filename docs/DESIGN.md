@@ -64,7 +64,7 @@ Sentence case everywhere except display titles. No all-caps labels, no tracked e
 | Variant | Look | Use |
 | --- | --- | --- |
 | `default` | action yellow, ink text | The main action of a view |
-| `ai` | same as default plus a soft breathing glow (`.ai-glow`) | Anything that hands words to the AI: Talk now, Ask, Sort it for me, record buttons, chat send |
+| `ai` | identical to default (kept as a name so AI actions can be found and changed together) | Anything that hands words to the AI: Talk now, Ask, Sort it for me, Answer this, record buttons, chat send |
 | `outline` | white, 1.5px `--line` border | Secondary actions, especially on tinted cards |
 | `ghost` | text only, ink-2 | Quiet actions: Later, Skip, Type instead |
 | `secondary` | mist fill | Icon buttons in the header |
@@ -94,9 +94,27 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
   shape: flower sways, star hops, cloud floats, blob and burst breathe, bean wobbles.
   Each instance gets its own timing from `useId`, so a row never moves in lockstep.
 - State motions: `bob` listening, `squash` speaking, `wiggle` sorting.
-- `AiBuddy` = the active child's buddy + two yellow sparkles + a halo in the child's
-  crayon. Use it for every AI surface; never draw the AI any other way.
+- `AiBuddy` = the active child's buddy + two yellow sparkles. No glow, no halo, no
+  gradient. Use it for every AI surface; never draw the AI any other way.
 - Line work: limbs 2.5px ink, doorframe 1.75px, pencil ticks 1.5px.
+
+## Memory you can see
+
+- **Memory lane** (`memory-lane.tsx`): an age slider at the top of the timeline. Dragging
+  to an age shrinks the child's buddy to the size they were and shows only that year's
+  memories. This is the emotional centre of the app; give it room.
+- **Back then**: one older memory pinned like a photo (white card, tape strip, slight
+  tilt). The only card allowed a soft drop shadow, because it is an object.
+- **Prompt cards** (`prompt-deck.tsx`): an optional stack of tinted cards with a display
+  question; "Another" flips to the next. A hook for evenings with nothing to say, never a
+  task. The two founding questions are two of the cards.
+
+## Widgets
+
+Preview at `/design/widgets`: tonight's prompt card (medium), one-tap "Something about
+Luca?" (small), allergies at a glance (danger tint), a memory from a year ago (photo
+card), height (child tint), lock-screen capture and a gentle notification. Same tokens,
+same buddies.
 
 ## The doorframe
 
