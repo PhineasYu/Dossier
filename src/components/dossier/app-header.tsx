@@ -49,13 +49,13 @@ export function AppHeader({ showSwitcher = true }: { showSwitcher?: boolean }) {
   }
 
   return (
-    <header className="sticky top-0 z-10 bg-paper/80 px-4 pb-3 pt-4 backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto max-w-xl">
-        <div className="mb-3 flex items-center justify-between">
+    <header className="sticky top-0 z-10 bg-paper/90 pb-3 pt-4 backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto max-w-xl px-5 sm:px-6">
+        <div className="mb-2 flex min-h-11 items-center justify-between">
           <Wordmark className="text-[26px]" />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon-sm" aria-label="Account and settings">
+              <Button variant="secondary" size="icon" aria-label="Account and settings">
                 <MoreHorizontal />
               </Button>
             </DropdownMenuTrigger>

@@ -230,7 +230,7 @@
   h3 {
     font-family: var(--font-sans);
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   ::selection {
@@ -252,7 +252,7 @@
   font-stretch: 62%;
   text-transform: uppercase;
   line-height: 0.9;
-  letter-spacing: -0.005em;
+  letter-spacing: 0;
 }
 
 /* The brand serif — the wordmark and nothing else. */
@@ -263,7 +263,7 @@
     "opsz" 144,
     "SOFT" 100,
     "WONK" 0;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 /* A mist card: no border, no shadow. Tinted cards use bg-<crayon>-soft instead. */
@@ -277,7 +277,8 @@
   transition:
     transform 160ms var(--ease-out),
     background-color 200ms var(--ease-out),
-    color 200ms var(--ease-out);
+    color 200ms var(--ease-out),
+    opacity 200ms var(--ease-out);
   &:active {
     transform: scale(0.97);
   }
@@ -605,19 +606,19 @@
 .memory-lane-range {
   -webkit-appearance: none;
   appearance: none;
-  height: 28px;
+  height: 44px;
   background: transparent;
   cursor: pointer;
 }
 .memory-lane-range::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 9999px;
-  background: rgb(255 255 255 / 0.85);
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
 }
 .memory-lane-range::-moz-range-track {
   height: 6px;
   border-radius: 9999px;
-  background: rgb(255 255 255 / 0.85);
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
 }
 .memory-lane-range::-webkit-slider-thumb {
   -webkit-appearance: none;

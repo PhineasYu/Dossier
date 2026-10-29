@@ -41,8 +41,8 @@ function ProfilePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-xl flex-1 space-y-3 px-4 pb-32">
-        <h1 className="display pb-2 pt-4 text-[44px] text-ink">
+      <main className="mx-auto w-full max-w-xl flex-1 space-y-5 px-5 pb-32 sm:px-6">
+        <h1 className="display break-words pb-1 pt-5 text-[44px] text-ink">
           {active ? `${active.name}\u2019s file` : "The file"}
         </h1>
         <ArchiveSearch

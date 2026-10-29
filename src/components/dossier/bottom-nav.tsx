@@ -27,7 +27,7 @@ export function BottomNav() {
             activeOptions={{ exact: to === "/app", includeSearch: false }}
             aria-label={label}
             title={label}
-            className="press grid h-12 flex-1 place-items-center rounded-full text-ink-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink"
+            className="press grid h-12 flex-1 place-items-center rounded-full text-ink-2 hover:bg-paper/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink"
             activeProps={{ className: "liquid-lens text-ink" }}
           >
             {({ isActive }) => <Icon className="size-[22px]" strokeWidth={isActive ? 2.2 : 1.8} />}

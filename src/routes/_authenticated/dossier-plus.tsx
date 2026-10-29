@@ -31,7 +31,7 @@ function PlusPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-5 px-4 pb-32 pt-4">
+      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-5 px-5 pb-32 pt-5 sm:px-6">
         <h1 className="display text-[44px] text-ink">Ask Dossier</h1>
         <ArchiveChat />
         <PolarCard />
