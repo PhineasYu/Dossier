@@ -16,21 +16,21 @@ export function PolarCard() {
       </p>
       <div className="mt-4 flex flex-col items-center gap-2 border-t border-line pt-4">
         <a
-        href={POLAR_CHECKOUT_URL}
-        target="_blank"
-        rel="noreferrer"
-        className="press inline-block rounded-xl bg-paper p-2.5 focus-visible:outline-2 focus-visible:outline-ring"
-        aria-label="Open the Dossier+ checkout"
-      >
-        <img
-          src={qrAsset.url}
-          alt="QR code for the Dossier+ checkout"
-          width={112}
-          height={112}
-          className="block size-28"
-        />
-      </a>
-      <p className="text-[14px] text-ink-2">Scan with your phone camera</p>
+          href={POLAR_CHECKOUT_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="press inline-block rounded-xl bg-paper p-2.5 focus-visible:outline-2 focus-visible:outline-ring"
+          aria-label="Open the Dossier+ checkout"
+        >
+          <img
+            src={qrAsset.url}
+            alt="QR code for the Dossier+ checkout"
+            width={112}
+            height={112}
+            className="block size-28"
+          />
+        </a>
+        <p className="text-[14px] text-ink-2">Scan with your phone camera</p>
       </div>
     </section>
   );

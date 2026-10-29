@@ -155,7 +155,7 @@
   --action-soft: oklch(0.95 0.027 174);
   --action-ink: oklch(0.36 0.055 174);
   --ai-spark: oklch(0.91 0.17 102);
-  --ai-spark-line: oklch(0.69 0.10 102);
+  --ai-spark-line: oklch(0.69 0.1 102);
   --on-action: #1a1a1a;
   --action-glow: color-mix(in srgb, var(--action) 38%, transparent);
   --danger: #d92d20;
