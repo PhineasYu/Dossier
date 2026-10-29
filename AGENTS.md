@@ -18,3 +18,4 @@
 - Authenticated reading sizes are scoped by `dossier-readable` in global CSS, including portaled document dialogs, so larger typography does not change landing pages or display-title hierarchy.
 - Documents render simple file rows with an on-demand detail dialog, avoiding decorative stacking and keeping all documents accessible.
 - Memory cards open a shared detail dialog and load their original entry on demand; previews stay compact without truncating the saved content.
+- Timeline sample media is presentation-only and explicitly labelled; it never creates attachments or mutates family records.

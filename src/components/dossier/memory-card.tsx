@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { formatDate } from "@/lib/dossier";
+import { MomentPreview, type MomentPreviewKind } from "./moment-preview";
 
 const pillClass =
   "inline-flex h-7 items-center gap-1.5 rounded-full bg-paper px-2.5 text-[14px] font-normal leading-none text-ink-2";
@@ -29,9 +30,11 @@ function sentence(text: string) {
 export function MemoryCardView({
   card,
   onCategoryChange,
+  preview,
 }: {
   card: MemoryCard;
   onCategoryChange?: ((category: string | null) => void) | undefined;
+  preview?: MomentPreviewKind | undefined;
 }) {
   const [open, setOpen] = useState(false);
   const {
@@ -55,16 +58,16 @@ export function MemoryCardView({
   const question = card.question_origin ? QUESTION_LABEL[card.question_origin] : null;
   return (
     <>
-      <article className={`relative rounded-3xl p-5 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}>
+      <article className={`relative rounded-3xl px-5 pb-5 pt-3 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}>
         <Button
           variant="ghost"
           className="absolute inset-0 h-full w-full rounded-3xl p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={`Open memory: ${card.title}`}
           onClick={() => setOpen(true)}
         />
-        <div className="pointer-events-none relative flex flex-wrap items-center gap-1.5 text-[13px]">
+        <div className="pointer-events-none relative flex flex-wrap items-start gap-1.5 text-[13px]">
           {question && (
-            <span className="inline-flex h-11 items-center">
+            <span className="inline-flex h-11 items-start">
               <span className={pillClass}>
                 <span className={`size-1.5 rounded-full ${question.dot}`} aria-hidden="true" />
                 {question.text}
@@ -74,7 +77,7 @@ export function MemoryCardView({
           {onCategoryChange ? (
             <Button
               variant="ghost"
-              className="pointer-events-auto relative h-11 rounded-full px-0 font-normal hover:bg-transparent"
+              className="pointer-events-auto relative h-11 items-start rounded-full px-0 font-normal hover:bg-transparent"
               aria-label={`Filter by ${CATEGORY_LABEL[card.category] ?? card.category}`}
               onClick={() => onCategoryChange(card.category)}
             >
@@ -83,17 +86,17 @@ export function MemoryCardView({
               </span>
             </Button>
           ) : (
-            <span className="inline-flex h-11 items-center">
+            <span className="inline-flex h-11 items-start">
               <span className={pillClass}>
                 {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
               </span>
             </span>
           )}
-          <time dateTime={card.date} className="ml-auto whitespace-nowrap text-[14px] text-ink-2">
+          <time dateTime={card.date} className="ml-auto whitespace-nowrap pt-0.5 text-[14px] text-ink-2">
             {shortDate(card.date)}
           </time>
         </div>
-        <div className="pointer-events-none relative mt-1 flex items-start gap-3">
+        <div className="pointer-events-none relative -mt-1 flex items-start gap-3">
           <h3 className="min-w-0 flex-1 break-words text-[21px] font-bold leading-snug text-ink">
             {card.title}
           </h3>
@@ -104,6 +107,7 @@ export function MemoryCardView({
             {card.body}
           </p>
         )}
+        {preview && <div className="pointer-events-none relative"><MomentPreview kind={preview} /></div>}
       </article>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="dossier-readable max-h-[85dvh] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-3xl border-line bg-paper p-5 shadow-none sm:p-6">
@@ -129,6 +133,7 @@ export function MemoryCardView({
               {card.body}
             </p>
           )}
+          {preview && <MomentPreview kind={preview} />}
           {entryLoading && (
             <p role="status" className="text-ink-2">
               Opening original note…

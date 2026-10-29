@@ -140,24 +140,24 @@
   --aqua: #4fc2b9;
   --aqua-soft: #daf2ef;
   --aqua-ink: #1d6660;
-  --sun: #ffc43d;
-  --sun-soft: #fff1c8;
-  --sun-ink: #855700;
+  --sun: var(--action);
+  --sun-soft: var(--action-soft);
+  --sun-ink: var(--action-ink);
   --bubblegum: #f59ac6;
   --bubblegum-soft: #fde5f0;
   --bubblegum-ink: #9e2f67;
 
   /* Action: every button and everything AI. One colour, so the product reads as one thing. */
-  --action: #f9b934;
-  --action-hover: #eeab22;
-  --action-soft: #fef1cf;
-  --action-ink: #7a5300;
+  --action: oklch(0.78 0.075 174);
+  --action-hover: oklch(0.72 0.08 174);
+  --action-soft: oklch(0.95 0.027 174);
+  --action-ink: oklch(0.36 0.055 174);
   --on-action: #1a1a1a;
   --action-glow: color-mix(in srgb, var(--action) 38%, transparent);
   --danger: #d92d20;
   --danger-soft: #feebe9;
   --success: #2c6a51;
-  /* Q1 "what you did for them" is sun yellow; Q2 "what they did" is sky blue */
+  /* Q1 "what you did for them" is seafoam; Q2 "what they did" is sky blue */
   --q1: var(--sun);
   --q1-soft: var(--sun-soft);
   --q2: var(--sky);
@@ -622,7 +622,7 @@
   animation: ai-sparkle 2.2s ease-in-out infinite;
 }
 
-/* The memory-lane age slider: a soft track and a sunflower thumb. */
+/* The memory-lane age slider: a soft track and a seafoam thumb. */
 .memory-lane-range {
   -webkit-appearance: none;
   appearance: none;
