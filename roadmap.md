@@ -19,3 +19,4 @@
 16. **Openable moments** (complete) — Compact previews open full memories and their original notes or voice transcripts.
 17. **Multimedia timeline placeholders** (complete) — Add clearly marked free sample photos and static audio-waveform previews, and move chips/date toward the top edge. Real family media remains a future upload flow.
 18. **Replace sunflower yellow** (complete) — Use a coordinated soft seafoam action palette across buttons, AI, slider and legacy yellow tints.
+19. **Compact Ask Dossier page** (in progress) — Reflow subscription copy at full width, move Dossier+ to the upper right, enlarge the chat heading and reserve fresh lemon yellow for delicate AI sparkles.

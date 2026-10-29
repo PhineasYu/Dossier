@@ -101,6 +101,8 @@
   --color-action-hover: var(--action-hover);
   --color-action-soft: var(--action-soft);
   --color-action-ink: var(--action-ink);
+  --color-ai-spark: var(--ai-spark);
+  --color-ai-spark-line: var(--ai-spark-line);
   --color-on-action: var(--on-action);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
@@ -152,6 +154,8 @@
   --action-hover: oklch(0.72 0.08 174);
   --action-soft: oklch(0.95 0.027 174);
   --action-ink: oklch(0.36 0.055 174);
+  --ai-spark: oklch(0.91 0.17 102);
+  --ai-spark-line: oklch(0.69 0.10 102);
   --on-action: #1a1a1a;
   --action-glow: color-mix(in srgb, var(--action) 38%, transparent);
   --danger: #d92d20;

@@ -143,5 +143,7 @@ phone column, the onboarding "add your children" flow, the waitlist page, the ye
 ## Current refinements
 
 - All former sunflower-yellow roles now use the seafoam action palette; legacy sun tokens alias the action colours. Other child crayons remain unchanged.
+- AI mascot sparkles alone use fresh lemon yellow (`--ai-spark`) with a delicate tonal outline (`--ai-spark-line`); action buttons and other AI surfaces remain seafoam.
 - Timeline tags and dates align near the top edge with quiet 28px chips and accessible interaction targets.
 - Stock photos and static audio waveforms are explicitly labelled samples, never fabricated family attachments.
+- Ask Dossier's conversation heading is 24px. The subscription card uses full-width copy, a readable upper-right Dossier+ badge, and a compact QR underneath rather than a narrow poster column.

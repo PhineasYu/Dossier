@@ -81,14 +81,14 @@ export function ArchiveChat() {
       className="flex flex-col gap-5 rounded-3xl bg-action-soft p-5 sm:p-6"
       aria-label="Ask Dossier conversation"
     >
-      <div className="flex items-start gap-3">
-        <AiBuddy size={44} />
+      <div className="flex flex-wrap items-start gap-3">
+        <AiBuddy size={52} />
         <div className="min-w-0 flex-1 pt-0.5">
-          <h2 className="text-[17px] font-bold leading-snug">Ask anything about {name}</h2>
+          <h2 className="text-[24px] font-bold leading-tight text-ink">Ask anything about {name}</h2>
         </div>
         {turns.length > 0 && (
-          <Button type="button" variant="outline" size="sm" onClick={() => setTurns([])}>
-            <RotateCcw aria-hidden="true" /> New
+          <Button type="button" variant="ghost" size="icon" aria-label="New chat" title="New chat" onClick={() => setTurns([])}>
+            <RotateCcw aria-hidden="true" />
           </Button>
         )}
       </div>
