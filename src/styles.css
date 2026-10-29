@@ -162,7 +162,12 @@
   --premium-foreground: oklch(0.98 0.012 174);
   --premium-muted: oklch(0.83 0.03 174);
   --premium-line: oklch(0.48 0.045 174);
-  --premium-foil: linear-gradient(115deg, var(--action) 0%, var(--action-soft) 45%, var(--action) 100%);
+  --premium-foil: linear-gradient(
+    115deg,
+    var(--action) 0%,
+    var(--action-soft) 45%,
+    var(--action) 100%
+  );
   --ai-spark: oklch(0.91 0.17 102);
   --ai-spark-line: oklch(0.69 0.1 102);
   --on-action: #1a1a1a;

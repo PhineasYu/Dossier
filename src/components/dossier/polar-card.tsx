@@ -7,11 +7,15 @@ export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
 /** Full-width subscription copy above a compact, centred QR. */
 export function PolarCard() {
   return (
-    <section className="rounded-3xl border border-premium-line bg-premium p-5 text-premium-foreground sm:p-6" aria-label="Dossier+">
+    <section
+      className="rounded-3xl border border-premium-line bg-premium p-5 text-premium-foreground sm:p-6"
+      aria-label="Dossier+"
+    >
       <div className="flex items-start justify-between gap-3">
         <h2 className="display min-w-0 pt-1 text-[32px] sm:text-[38px]">Keep every year</h2>
         <span className="premium-badge inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-[17px] font-semibold text-on-action">
-          <Sparkles className="size-4" strokeWidth={1.25} aria-hidden="true" />Dossier+
+          <Sparkles className="size-4" strokeWidth={1.25} aria-hidden="true" />
+          Dossier+
         </span>
       </div>
       <p className="mt-4 text-[17px] leading-relaxed text-premium-muted">
