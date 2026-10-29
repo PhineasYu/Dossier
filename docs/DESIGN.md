@@ -105,7 +105,7 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
   to an age shrinks the child's buddy to the size they were and shows only that year's
   memories. This is the emotional centre of the app; give it room.
 - **Back then**: one older memory shown directly like a taped photo, a spontaneous reminder. Swipe or dismiss after reading; never collapse it into a drawer and never delete the saved memory.
-- **Story title**: use Fraunces, like the wordmark, in sentence case. Other page display titles keep Archivo.
+- **Story title**: use the original Archivo display styling at 44px, matching Tell Dossier and other page titles. Fraunces is reserved for the Dossier wordmark.
 - **Documents**: simple thumbnail file rows showing title and date. Open a file's details in a dialog; no decorative folder layers or stacked tabs.
 - **Reading sizes**: authenticated screens use 17px body, 20–21px card headings and 14–16px metadata. Memory Lane uses a 34px child name and a quieter temporal state. Display titles remain 44px.
 - **Prompt cards** (`prompt-deck.tsx`): an optional stack of tinted cards with a display
