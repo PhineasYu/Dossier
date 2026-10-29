@@ -149,7 +149,7 @@ export function DocumentArchive({
             <Button
               variant="ghost"
               onClick={() => setSelectedId(doc.id)}
-              className="h-auto min-h-20 w-full justify-start gap-3 whitespace-normal rounded-none px-0 py-3 text-left hover:bg-paper/50"
+              className="h-auto min-h-20 w-full justify-start gap-3 whitespace-normal rounded-xl px-0 py-3 text-left hover:bg-transparent hover:text-action-ink focus-visible:ring-1 focus-visible:ring-action-ink"
               aria-label={`View ${doc.doc_type ?? "document"}`}
             >
               <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-paper">
