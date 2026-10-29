@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, History } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Buddy } from "@/components/dossier/buddy";
@@ -78,47 +78,55 @@ export function MemoryLane({
       className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6"
       aria-label="Memory lane"
     >
-      <div className="flex items-center gap-3">
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(100px,42%)] items-center gap-x-2">
         <div className="min-w-0 flex-1">
           <h2 className="break-words text-[34px] font-bold leading-tight text-ink">
             {active.name}
           </h2>
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={label}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+                className="text-[18px] font-medium leading-snug text-child-ink"
+              >
+                {age === null ? "Now" : `At ${age}`}
+              </motion.p>
+            </AnimatePresence>
+            <span className="text-ink-2" aria-hidden="true">
+              ·
+            </span>
+            <p className="text-[14px] leading-snug text-ink-2">{when}</p>
+          </div>
+          <p className="mt-1 text-[13px] text-ink-2">
+            {inYear === null
+              ? `${cards.length} memories so far`
+              : inYear === 0
+                ? "No memories kept yet"
+                : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
+          </p>
         </div>
-        <div className="grid h-[72px] w-[72px] shrink-0 place-items-end justify-items-center">
+        <div className="grid h-[132px] min-w-0 place-items-center sm:h-[152px]">
           <motion.div
             animate={{ scale: growth }}
             transition={{ type: "spring", stiffness: 180, damping: 18 }}
             style={{ originY: 1 }}
+            className="w-full max-w-[152px]"
           >
-            <Buddy shape={look.shape} color={look.body} size={72} limbs smile />
+            <Buddy
+              shape={look.shape}
+              color={look.body}
+              size={152}
+              className="h-auto w-full"
+              limbs
+              smile
+            />
           </motion.div>
         </div>
       </div>
-      <div className="-mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.p
-            key={label}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18 }}
-            className="text-[18px] font-medium leading-snug text-child-ink"
-          >
-            {age === null ? "Now" : `At ${age}`}
-          </motion.p>
-        </AnimatePresence>
-        <span className="text-ink-2" aria-hidden="true">
-          ·
-        </span>
-        <p className="text-[14px] leading-snug text-ink-2">{when}</p>
-      </div>
-      <p className="mt-1 text-[13px] text-ink-2">
-        {inYear === null
-          ? `${cards.length} memories so far`
-          : inYear === 0
-            ? "No memories kept yet"
-            : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
-      </p>
 
       <label className="sr-only" htmlFor="memory-lane-age">
         Choose an age
@@ -160,7 +168,7 @@ function ago(iso: string) {
 
 /** One older memory, pinned like a photo, so the past comes to you. */
 export function BackThen({ cards }: { cards: MemoryCard[] }) {
-  const [open, setOpen] = useState(false);
+  const [dismissed, setDismissed] = useState<string[]>([]);
   const pick = useMemo(() => {
     const now = Date.now();
     const old = cards
@@ -177,35 +185,44 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
   if (!pick) return null;
 
   return (
-    <section aria-label="Back then">
-      <Button
-        variant="ghost"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-controls="back-then-memory"
-        className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-2xl bg-cloud px-4 py-3 text-left"
-      >
-        <span className="flex min-w-0 items-center gap-3">
-          <History className="shrink-0" aria-hidden="true" />
-          <span className="text-[16px] font-medium text-ink">{ago(pick.date)}</span>
-        </span>
-        {open ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
-      </Button>
-      {open && (
+    <AnimatePresence>
+      {!dismissed.includes(pick.id) && (
         <motion.article
-          id="back-then-memory"
+          key={pick.id}
+          aria-label="Back then reminder"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.65}
+          onDragEnd={(_, info) => {
+            if (Math.abs(info.offset.x) > 70 || Math.abs(info.velocity.x) > 450)
+              setDismissed((current) => [...current, pick.id]);
+          }}
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative mx-2 mt-5 rounded-2xl bg-paper px-5 pb-5 pt-7 ring-1 ring-line"
+          exit={{ opacity: 0, x: 120, height: 0, margin: 0, padding: 0 }}
+          className="relative mx-2 touch-pan-y rounded-2xl bg-paper px-5 pb-5 pt-7 ring-1 ring-line"
         >
           <span
             className="absolute -top-2.5 left-1/2 h-5 w-20 -translate-x-1/2 rotate-[3deg] rounded-sm bg-sun-soft/90"
             aria-hidden="true"
           />
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[14px] text-ink-2">{ago(pick.date)}</p>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-mr-2 -mt-2"
+              aria-label="Dismiss memory reminder"
+              title="Dismiss reminder"
+              onClick={() => setDismissed((current) => [...current, pick.id])}
+            >
+              <X className="size-4" strokeWidth={1.25} />
+            </Button>
+          </div>
           <h3 className="text-[21px] font-bold leading-snug text-ink">{pick.title}</h3>
           {pick.body && <p className="mt-2 text-[17px] leading-relaxed text-ink-2">{pick.body}</p>}
         </motion.article>
       )}
-    </section>
+    </AnimatePresence>
   );
 }
