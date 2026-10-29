@@ -10,20 +10,21 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 function season(iso: string) {
   const d = new Date(iso + "T00:00:00");
-  const name = [
-    "Winter",
-    "Winter",
-    "Spring",
-    "Spring",
-    "Spring",
-    "Summer",
-    "Summer",
-    "Summer",
-    "Autumn",
-    "Autumn",
-    "Autumn",
-    "Winter",
-  ][d.getMonth()]!;
+  const name =
+    [
+      "Winter",
+      "Winter",
+      "Spring",
+      "Spring",
+      "Spring",
+      "Summer",
+      "Summer",
+      "Summer",
+      "Autumn",
+      "Autumn",
+      "Autumn",
+      "Winter",
+    ][d.getMonth()] ?? "Winter";
   return `${name} ${d.getFullYear()}`;
 }
 
@@ -74,7 +75,10 @@ export function MemoryLane({
   const inYear = age === null ? null : (counts.get(age) ?? 0);
 
   return (
-    <section className="rounded-3xl bg-child-soft px-5 pb-5 pt-5" aria-label="Memory lane">
+    <section
+      className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6"
+      aria-label="Memory lane"
+    >
       <div className="flex items-end gap-4">
         <div className="min-w-0 flex-1 pb-1">
           <AnimatePresence mode="wait" initial={false}>
@@ -84,7 +88,7 @@ export function MemoryLane({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.18 }}
-              className="display text-[34px] text-ink"
+              className="break-words text-[24px] font-bold leading-tight text-ink"
             >
               {label}
             </motion.h2>
@@ -123,15 +127,9 @@ export function MemoryLane({
         className="memory-lane-range mt-4 w-full"
         aria-valuetext={label}
       />
-      <div
-        className="mt-1 flex justify-between text-[12px] font-semibold text-ink-3"
-        aria-hidden="true"
-      >
+      <div className="flex justify-between text-[12px] font-medium text-ink-2" aria-hidden="true">
         {Array.from({ length: stops + 1 }, (_, i) => (
-          <span
-            key={i}
-            className={`w-6 text-center ${i === value ? "text-ink" : ""} ${i < stops && !counts.get(i) ? "opacity-50" : ""}`}
-          >
+          <span key={i} className={`w-7 text-center ${i === value ? "font-bold text-ink" : ""}`}>
             {i === stops ? "Now" : i}
           </span>
         ))}
@@ -159,7 +157,7 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
       .filter(({ days }) => days >= 150);
     if (!old.length) return null;
     old.sort((a, b) => Math.abs(a.days - 365) - Math.abs(b.days - 365));
-    return old[0]!.card;
+    return old[0]?.card ?? null;
   }, [cards]);
 
   if (!pick) return null;
@@ -175,7 +173,7 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
         className="absolute -top-2.5 left-1/2 h-5 w-20 -translate-x-1/2 rotate-[3deg] rounded-sm bg-sun-soft/90"
         aria-hidden="true"
       />
-      <p className="text-[13px] font-semibold text-ink-3">{ago(pick.date)}</p>
+      <p className="text-[13px] font-medium text-ink-2">{ago(pick.date)}</p>
       <h3 className="mt-1 text-[19px] font-bold leading-snug text-ink">{pick.title}</h3>
       {pick.body && <p className="mt-1 text-[15px] leading-relaxed text-ink-2">{pick.body}</p>}
     </motion.article>

@@ -58,9 +58,9 @@ export function ArchiveSearch({
           event.preventDefault();
           ask();
         }}
-        className="flex h-12 items-center gap-2 rounded-full bg-cloud pl-4 pr-1.5 focus-within:ring-2 focus-within:ring-action-ink"
+        className="flex h-14 items-center gap-2 rounded-full bg-cloud pl-4 pr-1.5 transition-shadow focus-within:ring-2 focus-within:ring-action-ink"
       >
-        <Search className="size-4 shrink-0 text-ink-3" aria-hidden="true" />
+        <Search className="size-[18px] shrink-0 text-ink-2" aria-hidden="true" />
         <input
           value={query}
           onChange={(event) => {
@@ -75,20 +75,25 @@ export function ArchiveSearch({
               : `Search ${active?.name ?? "your child"}'s file`
           }
           aria-label={scope === "timeline" ? "Search the story" : "Search the file"}
-          className="min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink-3"
+          className="h-full min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink-2"
         />
         {query && (
           <Button
             type="button"
             variant="ghost"
-            size="icon-sm"
+            size="icon"
             onClick={clear}
             aria-label="Clear search"
           >
             <X />
           </Button>
         )}
-        <Button type="submit" variant="ai" disabled={isAsking || !query.trim()} size="sm">
+        <Button
+          type="submit"
+          variant="ai"
+          disabled={isAsking || !query.trim()}
+          className="shrink-0 px-4"
+        >
           {isAsking ? <Loader2 className="animate-spin" /> : "Ask"}
         </Button>
       </form>

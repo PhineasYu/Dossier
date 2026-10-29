@@ -12,7 +12,22 @@ import { CRAYON_HEX } from "@/lib/palette";
  */
 export const Route = createFileRoute("/design/widgets")({
   head: () => ({
-    meta: [{ title: "Widgets preview | Dossier" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Buddies widgets preview | Dossier" },
+      {
+        name: "description",
+        content:
+          "Dossier family widgets: everyday memories, gentle prompts, growth and allergies at a glance.",
+      },
+      { property: "og:title", content: "Buddies widgets preview | Dossier" },
+      {
+        property: "og:description",
+        content: "A preview of Dossier family memories, prompts and growth widgets.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: WidgetsPreview,
 });

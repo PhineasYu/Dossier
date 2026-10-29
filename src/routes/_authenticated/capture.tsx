@@ -51,7 +51,7 @@ function CapturePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-4 pb-32 pt-4">
+      <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-5 pb-32 pt-5 sm:px-6">
         <div>
           <h1 className="display text-[44px] text-ink">Tell Dossier</h1>
           <p className="mt-2 max-w-sm text-[15px] text-ink-2">

@@ -11,10 +11,11 @@ export function useTimeline(childId: string | null) {
     queryKey: ["cards", childId],
     enabled: Boolean(childId),
     queryFn: async () => {
+      if (!childId) return [];
       const { data, error } = await supabase
         .from("cards")
         .select("id, child_id, entry_id, date, title, body, category, question_origin")
-        .eq("child_id", childId!)
+        .eq("child_id", childId)
         .order("date", { ascending: false })
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -77,7 +78,7 @@ export function Timeline({
           layout
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: smartCardIds ? index * 0.4 : 0, duration: 0.35 }}
+          transition={{ delay: smartCardIds ? Math.min(index * 0.055, 0.22) : 0, duration: 0.25 }}
         >
           <MemoryCardView card={card} />
         </motion.div>
