@@ -2,7 +2,8 @@ import { CATEGORY_LABEL, shortDate, type MemoryCard } from "@/lib/dossier";
 import { CATEGORY_TINT } from "@/lib/palette";
 import { Button } from "@/components/ui/button";
 
-const pillClass = "inline-flex h-11 items-center gap-1.5 rounded-full bg-paper px-3 text-[15px] font-medium leading-none text-ink-2";
+const pillClass =
+  "inline-flex h-11 items-center gap-1.5 rounded-full bg-paper px-3 text-[15px] font-medium leading-none text-ink-2";
 
 const QUESTION_LABEL = {
   for_child: { text: "For them", dot: "bg-q1" },

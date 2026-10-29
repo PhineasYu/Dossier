@@ -173,15 +173,34 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
 
   return (
     <section aria-label="Back then">
-      <Button variant="ghost" onClick={()=>setOpen(value=>!value)} aria-expanded={open} aria-controls="back-then-memory" className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-2xl bg-cloud px-4 py-3 text-left">
-        <span className="flex min-w-0 items-center gap-3"><History className="shrink-0" aria-hidden="true" /><span className="text-[16px] font-medium text-ink">{ago(pick.date)}</span></span>
+      <Button
+        variant="ghost"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-controls="back-then-memory"
+        className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-2xl bg-cloud px-4 py-3 text-left"
+      >
+        <span className="flex min-w-0 items-center gap-3">
+          <History className="shrink-0" aria-hidden="true" />
+          <span className="text-[16px] font-medium text-ink">{ago(pick.date)}</span>
+        </span>
         {open ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
       </Button>
-      {open && <motion.article id="back-then-memory" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} className="relative mx-2 mt-5 rounded-2xl bg-paper px-5 pb-5 pt-7 ring-1 ring-line">
-        <span className="absolute -top-2.5 left-1/2 h-5 w-20 -translate-x-1/2 rotate-[3deg] rounded-sm bg-sun-soft/90" aria-hidden="true" />
-        <h3 className="text-[21px] font-bold leading-snug text-ink">{pick.title}</h3>
-        {pick.body && <p className="mt-2 text-[17px] leading-relaxed text-ink-2">{pick.body}</p>}
-      </motion.article>}
+      {open && (
+        <motion.article
+          id="back-then-memory"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative mx-2 mt-5 rounded-2xl bg-paper px-5 pb-5 pt-7 ring-1 ring-line"
+        >
+          <span
+            className="absolute -top-2.5 left-1/2 h-5 w-20 -translate-x-1/2 rotate-[3deg] rounded-sm bg-sun-soft/90"
+            aria-hidden="true"
+          />
+          <h3 className="text-[21px] font-bold leading-snug text-ink">{pick.title}</h3>
+          {pick.body && <p className="mt-2 text-[17px] leading-relaxed text-ink-2">{pick.body}</p>}
+        </motion.article>
+      )}
     </section>
   );
 }

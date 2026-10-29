@@ -6,7 +6,13 @@ import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useChildren } from "@/lib/child-context";
 import { extractDocument } from "@/lib/dossier.functions";
 import type { DocumentRow } from "@/lib/dossier";
@@ -115,7 +121,9 @@ export function DocumentArchive({
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-[20px] font-bold">Documents</h2>
-          <p className="mt-1 text-[15px] text-ink-2">{visibleDocs.length} {visibleDocs.length === 1 ? "file" : "files"}</p>
+          <p className="mt-1 text-[15px] text-ink-2">
+            {visibleDocs.length} {visibleDocs.length === 1 ? "file" : "files"}
+          </p>
         </div>
         <Button type="button" onClick={() => inputRef.current?.click()} disabled={upload.isPending}>
           {upload.isPending ? <Loader2 className="animate-spin" /> : <Upload />} Add
@@ -152,37 +160,86 @@ export function DocumentArchive({
         </div>
       ) : (
         <ul className="mt-4 divide-y divide-paper" aria-label="Saved documents">
-          {visibleDocs.map(doc => {
+          {visibleDocs.map((doc) => {
             const image = !doc.file_url.toLowerCase().endsWith(".pdf");
-            return <li key={doc.id}>
-              <Button variant="ghost" onClick={()=>setSelectedId(doc.id)} className="h-auto min-h-24 w-full justify-start gap-4 whitespace-normal rounded-none px-0 py-4 text-left hover:bg-paper/50" aria-label={`View ${doc.doc_type ?? "document"}`}>
-                <span className="grid size-14 shrink-0 place-items-center overflow-hidden rounded-lg bg-paper">
-                  {image && previews[doc.id] ? <img src={previews[doc.id]} alt="" className="size-full object-cover" /> : <FileText className="size-6 text-ink-2" strokeWidth={1.25} />}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block break-words text-[17px] font-semibold text-ink">{doc.doc_type ?? "Untitled document"}</span>
-                  <span className="mt-1 block text-[15px] font-normal text-ink-2">{new Date(doc.uploaded_at).toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"})}</span>
-                </span>
-                <ArrowUpRight className="text-ink-2" aria-hidden="true" />
-              </Button>
-            </li>;
+            return (
+              <li key={doc.id}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setSelectedId(doc.id)}
+                  className="h-auto min-h-24 w-full justify-start gap-4 whitespace-normal rounded-none px-0 py-4 text-left hover:bg-paper/50"
+                  aria-label={`View ${doc.doc_type ?? "document"}`}
+                >
+                  <span className="grid size-14 shrink-0 place-items-center overflow-hidden rounded-lg bg-paper">
+                    {image && previews[doc.id] ? (
+                      <img src={previews[doc.id]} alt="" className="size-full object-cover" />
+                    ) : (
+                      <FileText className="size-6 text-ink-2" strokeWidth={1.25} />
+                    )}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block break-words text-[17px] font-semibold text-ink">
+                      {doc.doc_type ?? "Untitled document"}
+                    </span>
+                    <span className="mt-1 block text-[15px] font-normal text-ink-2">
+                      {new Date(doc.uploaded_at).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </span>
+                  <ArrowUpRight className="text-ink-2" aria-hidden="true" />
+                </Button>
+              </li>
+            );
           })}
         </ul>
       )}
-      <Dialog open={Boolean(selected)} onOpenChange={open=>{if (!open) setSelectedId(null);}}>
+      <Dialog
+        open={Boolean(selected)}
+        onOpenChange={(open) => {
+          if (!open) setSelectedId(null);
+        }}
+      >
         <DialogContent className="dossier-readable max-h-[85dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-3xl border-0 shadow-none sm:rounded-3xl">
           <DialogHeader className="pr-6 text-left">
-            <DialogTitle className="break-words text-[22px] font-bold">{selected?.doc_type ?? "Document"}</DialogTitle>
-            <DialogDescription className="text-[15px]">{selected && new Date(selected.uploaded_at).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</DialogDescription>
+            <DialogTitle className="break-words text-[22px] font-bold">
+              {selected?.doc_type ?? "Document"}
+            </DialogTitle>
+            <DialogDescription className="text-[15px]">
+              {selected &&
+                new Date(selected.uploaded_at).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+            </DialogDescription>
           </DialogHeader>
-          {selectedUrl && selectedIsImage && <img src={selectedUrl} alt={selected?.doc_type ?? "Document"} className="max-h-80 w-full rounded-lg object-contain" />}
+          {selectedUrl && selectedIsImage && (
+            <img
+              src={selectedUrl}
+              alt={selected?.doc_type ?? "Document"}
+              className="max-h-80 w-full rounded-lg object-contain"
+            />
+          )}
           <dl className="divide-y divide-line text-[17px]">
-            {Object.entries(selectedFields).map(([key,value])=><div key={key} className="space-y-1 py-3">
-              <dt className="text-[15px] capitalize text-ink-2">{key.replaceAll("_"," ")}</dt>
-              <dd className="break-words font-medium text-ink">{typeof value === "object" ? JSON.stringify(value) : String(value)}</dd>
-            </div>)}
+            {Object.entries(selectedFields).map(([key, value]) => (
+              <div key={key} className="space-y-1 py-3">
+                <dt className="text-[15px] capitalize text-ink-2">{key.replaceAll("_", " ")}</dt>
+                <dd className="break-words font-medium text-ink">
+                  {typeof value === "object" ? JSON.stringify(value) : String(value)}
+                </dd>
+              </div>
+            ))}
           </dl>
-          {selectedUrl && <Button asChild><a href={selectedUrl} target="_blank" rel="noreferrer">Open original <ArrowUpRight /></a></Button>}
+          {selectedUrl && (
+            <Button asChild>
+              <a href={selectedUrl} target="_blank" rel="noreferrer">
+                Open original <ArrowUpRight />
+              </a>
+            </Button>
+          )}
         </DialogContent>
       </Dialog>
     </section>

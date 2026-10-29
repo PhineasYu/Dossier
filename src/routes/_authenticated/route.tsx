@@ -11,5 +11,9 @@ export const Route = createFileRoute("/_authenticated")({
     if (error || !data.user) throw redirect({ to: "/" });
     return { user: data.user };
   },
-  component: () => <div className="dossier-readable"><Outlet /></div>,
+  component: () => (
+    <div className="dossier-readable">
+      <Outlet />
+    </div>
+  ),
 });
