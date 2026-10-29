@@ -44,7 +44,9 @@ export function ChildSwitcher() {
               >
                 {kid.name}
               </span>
-              {age !== null && <span className="mt-0.5 block text-xs font-normal text-ink-2">{age} years old</span>}
+              {age !== null && (
+                <span className="mt-0.5 block text-xs font-normal text-ink-2">{age} years old</span>
+              )}
             </span>
           </Button>
         );

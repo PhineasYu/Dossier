@@ -10,20 +10,21 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 function season(iso: string) {
   const d = new Date(iso + "T00:00:00");
-  const name = [
-    "Winter",
-    "Winter",
-    "Spring",
-    "Spring",
-    "Spring",
-    "Summer",
-    "Summer",
-    "Summer",
-    "Autumn",
-    "Autumn",
-    "Autumn",
-    "Winter",
-  ][d.getMonth()] ?? "Winter";
+  const name =
+    [
+      "Winter",
+      "Winter",
+      "Spring",
+      "Spring",
+      "Spring",
+      "Summer",
+      "Summer",
+      "Summer",
+      "Autumn",
+      "Autumn",
+      "Autumn",
+      "Winter",
+    ][d.getMonth()] ?? "Winter";
   return `${name} ${d.getFullYear()}`;
 }
 
@@ -74,7 +75,10 @@ export function MemoryLane({
   const inYear = age === null ? null : (counts.get(age) ?? 0);
 
   return (
-    <section className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6" aria-label="Memory lane">
+    <section
+      className="rounded-3xl bg-child-soft p-5 transition-colors duration-300 sm:p-6"
+      aria-label="Memory lane"
+    >
       <div className="flex items-end gap-4">
         <div className="min-w-0 flex-1 pb-1">
           <AnimatePresence mode="wait" initial={false}>
@@ -123,15 +127,9 @@ export function MemoryLane({
         className="memory-lane-range mt-4 w-full"
         aria-valuetext={label}
       />
-      <div
-        className="flex justify-between text-[12px] font-medium text-ink-2"
-        aria-hidden="true"
-      >
+      <div className="flex justify-between text-[12px] font-medium text-ink-2" aria-hidden="true">
         {Array.from({ length: stops + 1 }, (_, i) => (
-          <span
-            key={i}
-            className={`w-7 text-center ${i === value ? "font-bold text-ink" : ""}`}
-          >
+          <span key={i} className={`w-7 text-center ${i === value ? "font-bold text-ink" : ""}`}>
             {i === stops ? "Now" : i}
           </span>
         ))}

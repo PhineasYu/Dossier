@@ -88,7 +88,12 @@ export function ArchiveSearch({
             <X />
           </Button>
         )}
-        <Button type="submit" variant="ai" disabled={isAsking || !query.trim()} className="shrink-0 px-4">
+        <Button
+          type="submit"
+          variant="ai"
+          disabled={isAsking || !query.trim()}
+          className="shrink-0 px-4"
+        >
           {isAsking ? <Loader2 className="animate-spin" /> : "Ask"}
         </Button>
       </form>
