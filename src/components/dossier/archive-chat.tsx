@@ -2,18 +2,14 @@ import { useServerFn } from "@tanstack/react-start";
 import { RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { AiRing } from "@/components/dossier/ai-ring";
+import { AiBuddy } from "@/components/dossier/buddy";
+import { Button } from "@/components/ui/button";
 import {
   Conversation,
   ConversationContent,
-  ConversationEmptyState,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
-import {
-  Message,
-  MessageContent,
-  MessageResponse,
-} from "@/components/ai-elements/message";
+import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import {
   PromptInput,
   PromptInputFooter,
@@ -39,18 +35,11 @@ export function ArchiveChat() {
   const [busy, setBusy] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  useEffect(() => {
-    textareaRef.current?.focus();
-  }, []);
-
   const send = useCallback(
     async (text: string) => {
       const question = text.trim();
       if (!question || busy || !active) return;
-      const next: Turn[] = [
-        ...turns,
-        { id: crypto.randomUUID(), role: "user", content: question },
-      ];
+      const next: Turn[] = [...turns, { id: crypto.randomUUID(), role: "user", content: question }];
       setTurns(next);
       setBusy(true);
       try {
@@ -84,61 +73,49 @@ export function ArchiveChat() {
     [active, ask, busy, turns],
   );
 
-  const names = kids.length
-    ? kids.map((kid) => kid.name).join(" and ")
-    : "your child";
+  const names = kids.length ? kids.map((kid) => kid.name).join(" and ") : "your child";
+  const name = active?.name ?? names;
 
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl border border-line bg-surface">
-      <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
-        <div className="flex items-center gap-3">
-          <AiRing className="size-8" />
-          <div>
-            <h2 className="font-display text-base leading-tight">Ask Dossier</h2>
-            <p className="text-xs text-muted-foreground">
-              Every memory, fact and document for {active?.name ?? names}
-            </p>
-          </div>
+    <section className="flex flex-col gap-5">
+      <div className="flex items-start gap-3">
+        <AiBuddy size={44} />
+        <div className="min-w-0 flex-1 pt-0.5">
+          <h2 className="text-[17px] font-bold leading-snug">Ask anything about {name}</h2>
+          <p className="mt-0.5 text-[14px] leading-snug text-ink-2">
+            Dossier answers only from what you have saved.
+          </p>
         </div>
         {turns.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setTurns([])}
-            className="flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1.5 text-xs text-ink-2"
-          >
-            <RotateCcw className="size-3.5" aria-hidden="true" />
-            New chat
-          </button>
+          <Button type="button" variant="outline" size="sm" onClick={() => setTurns([])}>
+            <RotateCcw aria-hidden="true" /> New
+          </Button>
         )}
-      </header>
+      </div>
 
-      <Conversation className="max-h-[46vh] min-h-[220px]">
-        <ConversationContent className="gap-4 px-5 py-5">
-          {turns.length === 0 && !busy ? (
-            <ConversationEmptyState className="gap-3 py-4">
-              <div className="space-y-1">
-                <h3 className="font-display text-base">Ask anything about {names}</h3>
-                <p className="text-sm text-muted-foreground">
-                  Answers come only from what you have already saved.
-                </p>
-              </div>
-              <div className="flex flex-wrap justify-center gap-2">
-                {SUGGESTIONS.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    onClick={() => void send(suggestion)}
-                    className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-xs text-ink-2"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </ConversationEmptyState>
-          ) : (
-            turns.map((turn) => (
+      {turns.length === 0 && !busy ? (
+        <div>
+          <p className="mb-2 text-[13px] font-semibold text-ink-3">Try asking</p>
+          <ul className="space-y-2">
+            {SUGGESTIONS.map((suggestion) => (
+              <li key={suggestion}>
+                <button
+                  type="button"
+                  onClick={() => void send(suggestion)}
+                  className="press w-full rounded-2xl bg-cloud px-4 py-3 text-left text-[15px] leading-snug text-ink"
+                >
+                  {suggestion}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <Conversation className="max-h-[52vh] min-h-[200px] rounded-3xl bg-cloud">
+          <ConversationContent className="gap-4 px-4 py-5">
+            {turns.map((turn) => (
               <Message key={turn.id} from={turn.role}>
-                <MessageContent>
+                <MessageContent className={turn.role === "user" ? "bg-paper text-ink" : undefined}>
                   {turn.role === "assistant" ? (
                     <MessageResponse>{turn.content}</MessageResponse>
                   ) : (
@@ -146,20 +123,19 @@ export function ArchiveChat() {
                   )}
                 </MessageContent>
               </Message>
-            ))
-          )}
+            ))}
+            {busy && (
+              <div className="flex items-center gap-3">
+                <AiBuddy size={28} motion="wiggle" />
+                <Shimmer className="text-sm">Reading the archive…</Shimmer>
+              </div>
+            )}
+          </ConversationContent>
+          <ConversationScrollButton />
+        </Conversation>
+      )}
 
-          {busy && (
-            <div className="flex items-center gap-3">
-              <AiRing className="size-6" active />
-              <Shimmer className="text-sm">Reading the archive…</Shimmer>
-            </div>
-          )}
-        </ConversationContent>
-        <ConversationScrollButton />
-      </Conversation>
-
-      <div className="border-t border-line p-3">
+      <div className="[&_[data-slot=input-group]]:rounded-3xl [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-cloud [&_[data-slot=input-group]]:shadow-none">
         <PromptInput
           onSubmit={(message, event) => {
             event.preventDefault();
@@ -168,12 +144,10 @@ export function ArchiveChat() {
             void send(text);
           }}
         >
-          <PromptInputTextarea
-            ref={textareaRef}
-            placeholder={`Ask about ${active?.name ?? names}…`}
-          />
+          <PromptInputTextarea ref={textareaRef} placeholder={`Ask about ${name}…`} />
           <PromptInputFooter className="justify-end">
             <PromptInputSubmit
+              className="rounded-full bg-action text-on-action hover:bg-action-hover"
               {...(busy ? { status: "submitted" as const } : {})}
               disabled={busy || !active}
             />

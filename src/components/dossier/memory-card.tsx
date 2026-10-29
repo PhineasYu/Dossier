@@ -1,22 +1,35 @@
-import { CATEGORY_LABEL, formatDate, type MemoryCard } from "@/lib/dossier";
+import { CATEGORY_LABEL, shortDate, type MemoryCard } from "@/lib/dossier";
+import { CATEGORY_TINT } from "@/lib/palette";
 
-export function MemoryCardView({ card, accent }: { card: MemoryCard; accent: string }) {
-  const question = card.question_origin === "for_child" ? 1 : card.question_origin === "child_moment" ? 2 : null;
-  const questionStyle = question === 1 ? "bg-orange-50 text-orange-ink" : "bg-green-50 text-green-ink";
+const QUESTION_LABEL = {
+  for_child: { text: "For them", dot: "bg-q1" },
+  child_moment: { text: "Their moment", dot: "bg-q2" },
+} as const;
+
+function sentence(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+export function MemoryCardView({ card }: { card: MemoryCard }) {
+  const question = card.question_origin ? QUESTION_LABEL[card.question_origin] : null;
   return (
-    <article
-      className="material-card p-5"
-    >
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        {question && <span className="size-2 rounded-full" style={{ backgroundColor: question === 1 ? "var(--orange)" : "var(--green)" }} />}
-        <span className={`rounded-lg px-2 py-1 font-medium ${question ? questionStyle : "bg-surface-2 text-ink-2"}`}>
-          {question ? `Q${question} · ` : ""}{CATEGORY_LABEL[card.category] ?? card.category}
+    <article className={`rounded-3xl p-5 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}>
+      <div className="flex flex-wrap items-center gap-1.5 text-[13px]">
+        {question && (
+          <span className="flex items-center gap-1.5 rounded-full bg-paper px-2.5 py-0.5 font-medium text-ink-2">
+            <span className={`size-2 rounded-full ${question.dot}`} aria-hidden="true" />
+            {question.text}
+          </span>
+        )}
+        <span className="rounded-full bg-paper px-2.5 py-0.5 font-medium text-ink-2">
+          {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
         </span>
-        <span className="ml-auto size-2 rounded-full" style={{ backgroundColor: accent }} aria-label="Child theme" />
-        <span>{formatDate(card.date)}</span>
+        <time dateTime={card.date} className="ml-auto text-ink-3">
+          {shortDate(card.date)}
+        </time>
       </div>
-      <h3 className="mt-3 text-lg leading-snug">{card.title}</h3>
-      {card.body && <p className="mt-1.5 text-sm text-muted-foreground">{card.body}</p>}
+      <h3 className="mt-3 text-[19px] font-bold leading-snug text-ink">{card.title}</h3>
+      {card.body && <p className="mt-1.5 text-[15px] leading-relaxed text-ink-2">{card.body}</p>}
     </article>
   );
 }

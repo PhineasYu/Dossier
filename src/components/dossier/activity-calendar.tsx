@@ -1,5 +1,3 @@
-import { withAlpha } from "@/lib/dossier";
-
 const WEEKS = 18;
 
 function isoDay(date: Date) {
@@ -25,39 +23,51 @@ function buildGrid() {
   return columns;
 }
 
-export function ActivityCalendar({
-  counts,
-  color,
-}: {
-  counts: Record<string, number>;
-  color: string;
-}) {
+const LEVELS = [
+  "var(--cloud-2)",
+  "color-mix(in srgb, var(--child) 40%, white)",
+  "color-mix(in srgb, var(--child) 70%, white)",
+  "var(--child)",
+];
+
+function level(count: number) {
+  return count === 0 ? 0 : count === 1 ? 1 : count === 2 ? 2 : 3;
+}
+
+/** Every evening a parent showed up, GitHub style, in the active child's crayon. */
+export function ActivityCalendar({ counts }: { counts: Record<string, number> }) {
   const columns = buildGrid();
   const today = isoDay(new Date());
+  const shown = Object.entries(counts).filter(([day]) => day >= isoDay(columns[0]![0]!)).length;
 
   return (
-    <div className="material-card p-5">
-      <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-lg">Showing up</h2>
-        <p className="text-xs text-muted-foreground">last {WEEKS} weeks</p>
+    <section className="tile p-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="text-lg font-bold">Days with a memory</h2>
+        <p className="text-[13px] text-ink-3">
+          {shown} in {WEEKS} weeks
+        </p>
       </div>
 
-      <div className="mt-4 flex gap-1 overflow-x-auto pb-1">
+      <div
+        className="mt-4 flex gap-[3px] overflow-x-auto pb-1"
+        role="img"
+        aria-label={`${shown} evenings with an entry in the last ${WEEKS} weeks`}
+      >
         {columns.map((column, index) => (
-          <div key={index} className="flex flex-col gap-1">
+          <div key={index} className="flex flex-col gap-[3px]">
             {column.map((day) => {
               const key = isoDay(day);
               const count = counts[key] ?? 0;
               const future = key > today;
-              const alpha = count === 0 ? 0.06 : count === 1 ? 0.35 : count === 2 ? 0.6 : 0.9;
               return (
                 <div
                   key={key}
-                  title={`${key} — ${count} ${count === 1 ? "entry" : "entries"}`}
-                  className="size-3 rounded-[3px]"
+                  title={`${key}: ${count} ${count === 1 ? "entry" : "entries"}`}
+                  className="size-[13px] rounded-[4px]"
                   style={{
-                    backgroundColor: future ? "transparent" : withAlpha(color, alpha),
-                    outline: key === today ? `1px solid ${color}` : undefined,
+                    backgroundColor: future ? "transparent" : LEVELS[level(count)],
+                    outline: key === today ? "1.5px solid var(--ink)" : undefined,
                     outlineOffset: 1,
                   }}
                 />
@@ -66,19 +76,7 @@ export function ActivityCalendar({
           </div>
         ))}
       </div>
-
-      <div className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-widest text-muted-foreground">
-        quiet
-        {[0.06, 0.35, 0.6, 0.9].map((alpha) => (
-          <span
-            key={alpha}
-            className="size-3 rounded-[3px]"
-            style={{ backgroundColor: withAlpha(color, alpha) }}
-          />
-        ))}
-        present
-      </div>
-    </div>
+    </section>
   );
 }
 

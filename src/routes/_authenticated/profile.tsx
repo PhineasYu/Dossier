@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
+import { BottomNav } from "@/components/dossier/bottom-nav";
 import { AppHeader } from "@/components/dossier/app-header";
 import { DocumentArchive } from "@/components/dossier/document-archive";
+import { FamilyCircle } from "@/components/dossier/family-circle";
 import { ProfilePanel } from "@/components/dossier/profile-panel";
 import { useChildren } from "@/lib/child-context";
 import { ArchiveSearch } from "@/components/dossier/archive-search";
@@ -40,14 +41,23 @@ function ProfilePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <AddTodayBar />
-      <main className="mx-auto w-full max-w-xl flex-1 space-y-3 px-4 pb-8">
-        <h1 className="pt-7 pb-1 font-display text-2xl">
-          {active ? `${active.name}'s file` : "The file"}
+      <main className="mx-auto w-full max-w-xl flex-1 space-y-3 px-4 pb-32">
+        <h1 className="display pb-2 pt-4 text-[44px] text-ink">
+          {active ? `${active.name}\u2019s file` : "The file"}
         </h1>
-        <ArchiveSearch scope="archive" query={q ?? ""} onQueryChange={(value) => navigate({ search: (previous) => ({ ...previous, q: value || undefined }), replace: true })} />
+        <ArchiveSearch
+          scope="archive"
+          query={q ?? ""}
+          onQueryChange={(value) =>
+            navigate({
+              search: (previous) => ({ ...previous, q: value || undefined }),
+              replace: true,
+            })
+          }
+        />
         <ProfilePanel query={q ?? ""} />
         <DocumentArchive autoOpen={add === "photo"} query={q ?? ""} />
+        <FamilyCircle name={active?.name ?? "your child"} />
       </main>
       <BottomNav />
     </div>

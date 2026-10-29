@@ -1,3 +1,6 @@
+@import "@fontsource-variable/archivo/standard.css";
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource-variable/figtree";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -5,21 +8,28 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Dossier Material 3 system — warm paper, dusty archival blues, and dynamic
- * per-child accents. Brand typography stays expressive while components use
- * Material surface, shape, state, motion, and elevation roles.
+ * Dossier "Buddies" design system — see docs/DESIGN.md.
+ *
+ * White paper, pastel cards tinted by what they hold, six crayon colours that
+ * belong to children, one ink for words and lines, one action colour for buttons and AI. The only neutral card colour is "mist" (--cloud),
+ * a grey with a breath of pink so it never reads cold or beige. Headlines are condensed black caps; the wordmark is a soft heavy
+ * serif with a trailing comma. Colour always means something: a child,
+ * a question, or a warning. Everything else is ink on white.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --font-display: "Onest", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Onest", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
+  --radius-3xl: 2rem;
+  --radius-4xl: 2.5rem;
+
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Arial Narrow", ui-sans-serif, sans-serif;
+  --font-brand: "Fraunces Variable", Georgia, serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -40,30 +50,6 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-child: var(--child);
-  --color-child-soft: var(--child-soft);
-  --color-folder-blue: var(--folder-blue);
-  --color-folder-sage: var(--folder-sage);
-  --color-folder-stone: var(--folder-stone);
-  --color-folder-paper: var(--folder-paper);
-  --color-surface: var(--surface);
-  --color-surface-dim: var(--surface-dim);
-  --color-surface-bright: var(--surface-bright);
-  --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container: var(--surface-container);
-  --color-surface-container-high: var(--surface-container-high);
-  --color-surface-container-highest: var(--surface-container-highest);
-  --color-on-surface: var(--on-surface);
-  --color-on-surface-variant: var(--on-surface-variant);
-  --color-outline: var(--outline);
-  --color-outline-variant: var(--outline-variant);
-  --color-primary-container: var(--primary-container);
-  --color-on-primary-container: var(--on-primary-container);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -72,79 +58,150 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-canvas: var(--canvas);
-  --color-surface-2: var(--surface-2);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Neutrals */
+  --color-paper: var(--paper);
+  --color-cloud: var(--cloud);
+  --color-cloud-2: var(--cloud-2);
   --color-line: var(--line);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
-  --color-blue: var(--blue);
-  --color-blue-600: var(--blue-600);
-  --color-blue-100: var(--blue-100);
-  --color-blue-50: var(--blue-50);
-  --color-blue-ink: var(--blue-ink);
-  --color-purple: var(--purple);
-  --color-purple-600: var(--purple-600);
-  --color-purple-100: var(--purple-100);
-  --color-purple-50: var(--purple-50);
-  --color-purple-ink: var(--purple-ink);
-  --color-orange: var(--orange);
-  --color-orange-600: var(--orange-600);
-  --color-orange-100: var(--orange-100);
-  --color-orange-50: var(--orange-50);
-  --color-orange-ink: var(--orange-ink);
-  --color-green: var(--green);
-  --color-green-600: var(--green-600);
-  --color-green-100: var(--green-100);
-  --color-green-50: var(--green-50);
-  --color-green-ink: var(--green-ink);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
+
+  /* Crayons: each has a body colour, a soft tint and an ink for text on the tint */
+  --color-tomato: var(--tomato);
+  --color-tomato-soft: var(--tomato-soft);
+  --color-tomato-ink: var(--tomato-ink);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-sky-ink: var(--sky-ink);
+  --color-lilac: var(--lilac);
+  --color-lilac-soft: var(--lilac-soft);
+  --color-lilac-ink: var(--lilac-ink);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-sage-ink: var(--sage-ink);
+  --color-aqua: var(--aqua);
+  --color-aqua-soft: var(--aqua-soft);
+  --color-aqua-ink: var(--aqua-ink);
+  --color-sun: var(--sun);
+  --color-sun-soft: var(--sun-soft);
+  --color-sun-ink: var(--sun-ink);
+  --color-bubblegum: var(--bubblegum);
+  --color-bubblegum-soft: var(--bubblegum-soft);
+  --color-bubblegum-ink: var(--bubblegum-ink);
+
+  /* Meaning */
+  --color-action: var(--action);
+  --color-action-hover: var(--action-hover);
+  --color-action-soft: var(--action-soft);
+  --color-action-ink: var(--action-ink);
+  --color-on-action: var(--on-action);
   --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-q1: var(--q1);
+  --color-q1-soft: var(--q1-soft);
+  --color-q2: var(--q2);
+  --color-q2-soft: var(--q2-soft);
+
+  /* The active child, set at runtime by ChildProvider */
+  --color-child: var(--child);
+  --color-child-soft: var(--child-soft);
+  --color-child-ink: var(--child-ink);
 }
 
 :root {
-  --radius: 0.5rem;
-  --canvas: #f7f8f9;
-  --surface: #ffffff;
-  --surface-2: #f1f2f4;
-  --line: #dcdfe4;
-  --ink: #101214;
-  --ink-2: #44546f;
-  --ink-3: #626f86;
-  --blue: #3267d4; --blue-600: #2552b0; --blue-100: #d6e2f8; --blue-50: #eef3fd; --blue-ink: #1e4ba8;
-  --purple: #b368ec; --purple-600: #8a3fc8; --purple-100: #ebdcfb; --purple-50: #f6effd; --purple-ink: #6a2ba3;
-  --orange: #f0ab3c; --orange-600: #d98b14; --orange-100: #fce6c4; --orange-50: #fef6ea; --orange-ink: #9a5a00;
-  --green: #8db44b; --green-600: #6e9430; --green-100: #dfedcb; --green-50: #f2f8ea; --green-ink: #4a6b1e;
-  --success: #6e9430; --warning: #f0ab3c; --danger: #c9372c;
-  --background: var(--canvas); --foreground: var(--ink);
-  --card: var(--surface); --card-foreground: var(--ink);
-  --popover: var(--surface); --popover-foreground: var(--ink);
-  --primary: var(--ink); --primary-foreground: #ffffff;
-  --secondary: var(--surface-2); --secondary-foreground: var(--ink);
-  --muted: var(--surface-2); --muted-foreground: var(--ink-3);
-  --accent: var(--surface-2); --accent-foreground: var(--ink);
-  --destructive: var(--danger); --destructive-foreground: #ffffff;
-  --border: var(--line); --input: var(--line); --ring: var(--blue);
-  --child: var(--blue); --child-soft: var(--blue-50);
-  --folder-blue: var(--blue-100); --folder-sage: var(--green-100); --folder-stone: var(--surface-2); --folder-paper: var(--surface);
-  --surface-dim: var(--surface-2); --surface-bright: var(--surface); --surface-container-low: var(--surface); --surface-container: var(--surface); --surface-container-high: var(--surface-2); --surface-container-highest: var(--surface-2);
-  --on-surface: var(--ink); --on-surface-variant: var(--ink-2); --outline: var(--line); --outline-variant: var(--line);
-  --primary-container: var(--surface-2); --on-primary-container: var(--ink);
-  --elevation-1: 0 1px 1px rgba(9, 30, 66, 0.06); --elevation-2: var(--elevation-1); --elevation-3: var(--elevation-1);
-  --motion-standard: cubic-bezier(0.2, 0, 0, 1);
-  --motion-emphasized: cubic-bezier(0.2, 0, 0, 1);
-  --chart-1: var(--blue); --chart-2: var(--purple); --chart-3: var(--orange); --chart-4: var(--green); --chart-5: var(--danger);
-  --sidebar: var(--surface); --sidebar-foreground: var(--ink); --sidebar-primary: var(--ink); --sidebar-primary-foreground: #ffffff; --sidebar-accent: var(--surface-2); --sidebar-accent-foreground: var(--ink); --sidebar-border: var(--line); --sidebar-ring: var(--blue);
-}
+  --paper: #ffffff;
+  --cloud: #f6f3f4;
+  --cloud-2: #ece6e8;
+  --line: #e8e2e4;
+  --ink: #1a1a1a;
+  --ink-2: #55565c;
+  --ink-3: #8b8c93;
 
-.dark {
-  --canvas: #161a1d; --surface: #1f2328; --surface-2: #272c32; --line: #2e343b;
-  --ink: #dee4ea; --ink-2: #b6c2cf; --ink-3: #8c9bab;
-  --background: var(--canvas); --foreground: var(--ink); --card: var(--surface); --card-foreground: var(--ink); --popover: var(--surface); --popover-foreground: var(--ink);
-  --primary: #dee4ea; --primary-foreground: #101214; --secondary: var(--surface-2); --secondary-foreground: var(--ink); --muted: var(--surface-2); --muted-foreground: var(--ink-3); --accent: var(--surface-2); --accent-foreground: var(--ink);
-  --border: var(--line); --input: var(--line); --surface-dim: var(--canvas); --surface-bright: var(--surface-2); --surface-container-low: var(--surface); --surface-container: var(--surface); --surface-container-high: var(--surface-2); --surface-container-highest: var(--surface-2); --on-surface: var(--ink); --on-surface-variant: var(--ink-2); --outline: var(--line); --outline-variant: var(--line); --primary-container: var(--surface-2); --on-primary-container: var(--ink);
-  --sidebar: var(--surface); --sidebar-foreground: var(--ink); --sidebar-primary: var(--primary); --sidebar-primary-foreground: var(--primary-foreground); --sidebar-accent: var(--surface-2); --sidebar-accent-foreground: var(--ink); --sidebar-border: var(--line);
+  --tomato: #f2643a;
+  --tomato-soft: #fde4db;
+  --tomato-ink: #9c3214;
+  --sky: #4f9df7;
+  --sky-soft: #ddebfe;
+  --sky-ink: #1d5aa6;
+  --lilac: #b4a2f2;
+  --lilac-soft: #ebe4fd;
+  --lilac-ink: #5a42ad;
+  --sage: #5fa98a;
+  --sage-soft: #dcefe6;
+  --sage-ink: #2c6a51;
+  --aqua: #4fc2b9;
+  --aqua-soft: #daf2ef;
+  --aqua-ink: #1d6660;
+  --sun: #ffc43d;
+  --sun-soft: #fff1c8;
+  --sun-ink: #855700;
+  --bubblegum: #f59ac6;
+  --bubblegum-soft: #fde5f0;
+  --bubblegum-ink: #9e2f67;
+
+  /* Action: every button and everything AI. One colour, so the product reads as one thing. */
+  --action: #f9b934;
+  --action-hover: #eeab22;
+  --action-soft: #fef1cf;
+  --action-ink: #7a5300;
+  --on-action: #1a1a1a;
+  --action-glow: color-mix(in srgb, var(--action) 38%, transparent);
+  --danger: #d92d20;
+  --danger-soft: #feebe9;
+  --success: #2c6a51;
+  /* Q1 "what you did for them" is sun yellow; Q2 "what they did" is sky blue */
+  --q1: var(--sun);
+  --q1-soft: var(--sun-soft);
+  --q2: var(--sky);
+  --q2-soft: var(--sky-soft);
+
+  --child: var(--sky);
+  --child-soft: var(--sky-soft);
+  --child-ink: var(--sky-ink);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--cloud);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--action);
+  --primary-foreground: var(--on-action);
+  --secondary: var(--cloud);
+  --secondary-foreground: var(--ink);
+  --muted: var(--cloud);
+  --muted-foreground: var(--ink-2);
+  --accent: var(--cloud);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--action);
+  --chart-1: var(--sky);
+  --chart-2: var(--lilac);
+  --chart-3: var(--tomato);
+  --chart-4: var(--aqua);
+  --chart-5: var(--sun);
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--action);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--cloud);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--action);
+
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @layer base {
@@ -161,19 +218,23 @@
   }
 
   body {
-    background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 400ms ease, color 400ms ease;
   }
 
   h1,
   h2,
   h3 {
-    font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: 0;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--child-soft);
   }
 
   button,
@@ -184,79 +245,400 @@
   }
 }
 
-@utility material-surface {
-  background-color: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--elevation-1);
+/* Condensed black caps — page titles, poster questions, big numbers. */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 62%;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.005em;
 }
 
-@utility material-card {
-  background-color: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 0.75rem;
-  box-shadow: var(--elevation-1);
+/* The brand serif — the wordmark and nothing else. */
+@utility brand {
+  font-family: var(--font-brand);
+  font-weight: 900;
+  font-variation-settings:
+    "opsz" 144,
+    "SOFT" 100,
+    "WONK" 0;
+  letter-spacing: -0.035em;
 }
 
-@utility material-state {
+/* A mist card: no border, no shadow. Tinted cards use bg-<crayon>-soft instead. */
+@utility tile {
+  background-color: var(--cloud);
+  border-radius: 1.5rem;
+}
+
+/* Press feedback for anything tappable. */
+@utility press {
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out);
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/*
+ * Buddy motion. Plain classes (not @utility) because components build the names at
+ * runtime. Every buddy has an idle personality, blinks, glances around and waves;
+ * each instance gets its own delay so a row of buddies never moves in lockstep.
+ */
+.buddy-body,
+.buddy-part {
+  transform-box: fill-box;
+}
+.buddy-body {
+  transform-origin: 50% 100%;
+}
+
+@keyframes buddy-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+@keyframes buddy-hop {
+  0%,
+  62%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  70% {
+    transform: translateY(0) scale(1.08, 0.9);
+  }
+  80% {
+    transform: translateY(-14%) scale(0.96, 1.05);
+  }
+  90% {
+    transform: translateY(0) scale(1.05, 0.95);
+  }
+}
+@keyframes buddy-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6%);
+  }
+}
+@keyframes buddy-breathe {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.05, 0.96);
+  }
+}
+@keyframes buddy-wobble {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-5deg);
+  }
+  40% {
+    transform: rotate(4deg);
+  }
+  60% {
+    transform: rotate(-2deg);
+  }
+  80% {
+    transform: rotate(1deg);
+  }
+}
+@keyframes buddy-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8%);
+  }
+}
+@keyframes buddy-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+@keyframes buddy-squash {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.08, 0.9);
+  }
+}
+@keyframes buddy-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes buddy-blink {
+  0%,
+  44%,
+  50%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  46%,
+  48% {
+    transform: scaleY(0.08);
+  }
+  92%,
+  94% {
+    transform: scaleY(0.08);
+  }
+  93% {
+    transform: scaleY(1);
+  }
+}
+@keyframes buddy-look {
+  0%,
+  30%,
+  100% {
+    transform: translate(0, 0);
+  }
+  36%,
+  52% {
+    transform: translate(-3px, 0);
+  }
+  58%,
+  74% {
+    transform: translate(3px, -1px);
+  }
+  80% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes buddy-wave-r {
+  0%,
+  64%,
+  100% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(-38deg);
+  }
+  76% {
+    transform: rotate(6deg);
+  }
+  82% {
+    transform: rotate(-32deg);
+  }
+  88% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes buddy-wave-l {
+  0%,
+  30%,
+  100% {
+    transform: rotate(0deg);
+  }
+  36% {
+    transform: rotate(30deg);
+  }
+  44% {
+    transform: rotate(0deg);
+  }
+}
+
+.buddy-idle-flower {
+  animation: buddy-sway 3.4s ease-in-out infinite;
+}
+.buddy-idle-star {
+  animation: buddy-hop 3s ease-in-out infinite;
+}
+.buddy-idle-cloud {
+  animation: buddy-float 3.8s ease-in-out infinite;
+}
+.buddy-idle-blob {
+  animation: buddy-breathe 3.2s ease-in-out infinite;
+}
+.buddy-idle-burst {
+  animation: buddy-breathe 2.8s ease-in-out infinite;
+}
+.buddy-idle-bean {
+  animation: buddy-wobble 2.9s ease-in-out infinite;
+}
+.buddy-bob {
+  animation: buddy-bob 1.4s ease-in-out infinite;
+}
+.buddy-wiggle {
+  animation: buddy-wiggle 0.8s ease-in-out infinite;
+  transform-origin: 50% 70%;
+}
+.buddy-squash {
+  animation: buddy-squash 0.45s ease-in-out infinite;
+}
+.buddy-spin {
+  animation: buddy-spin 26s linear infinite;
+  transform-origin: 50% 50%;
+}
+.buddy-blink {
+  animation: buddy-blink 4.6s linear infinite;
+  transform-origin: 50% 50%;
+}
+.buddy-look {
+  animation: buddy-look 7s ease-in-out infinite;
+}
+.buddy-wave-r {
+  animation: buddy-wave-r 5.5s ease-in-out infinite;
+  transform-origin: 0% 100%;
+}
+.buddy-wave-l {
+  animation: buddy-wave-l 6.5s ease-in-out infinite;
+  transform-origin: 100% 100%;
+}
+
+/* Confetti in the illustrations: a slow twinkle, a drift, a lazy turn. */
+@keyframes confetti-twinkle {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(18deg) scale(1.18);
+  }
+}
+@keyframes confetti-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -7px);
+  }
+}
+@keyframes confetti-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.confetti-twinkle,
+.confetti-drift,
+.confetti-turn {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.confetti-twinkle {
+  animation: confetti-twinkle 2.6s ease-in-out infinite;
+}
+.confetti-drift {
+  animation: confetti-drift 4s ease-in-out infinite;
+}
+.confetti-turn {
+  animation: confetti-turn 14s linear infinite;
+}
+
+/*
+ * Liquid glass for the floating navigation: frosted, slightly saturated, with a
+ * specular edge on top and a soft lift. The highlight is white fading to clear.
+ */
+.liquid-glass {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
-  transition: color 200ms var(--motion-standard), background-color 200ms var(--motion-standard), box-shadow 200ms var(--motion-standard), transform 200ms var(--motion-standard);
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: currentColor;
-    opacity: 0;
-    transition: opacity 200ms var(--motion-standard);
-  }
-  &:hover::after { opacity: 0.08; }
-  &:focus-visible::after { opacity: 0.1; }
-  &:active::after { opacity: 0.12; }
+  background: rgb(255 255 255 / 0.62);
+  -webkit-backdrop-filter: blur(22px) saturate(185%);
+  backdrop-filter: blur(22px) saturate(185%);
+  border: 1px solid rgb(255 255 255 / 0.75);
+  box-shadow:
+    0 12px 32px -12px rgb(40 60 48 / 0.24),
+    0 2px 8px rgb(40 60 48 / 0.06),
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -1px 0 rgb(255 255 255 / 0.35);
 }
-
-@utility paper {
-  background-image: none;
-}
-
-@keyframes ai-ring-spin { to { transform: rotate(360deg); } }
-
-@utility ai-ring {
-  position: relative;
-  display: grid;
-  place-items: center;
-  padding: 5px;
-}
-
-@utility ai-ring-active {
-  & > .ai-ring-segment { animation: ai-ring-spin 7s linear infinite; }
-}
-
-@utility ai-ring-segment {
+.liquid-glass::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  border: 3px solid transparent;
-  border-radius: 9999px;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.6) 0%, rgb(255 255 255 / 0) 55%);
+  pointer-events: none;
+}
+.liquid-lens {
+  background: rgb(255 255 255 / 0.85);
+  box-shadow:
+    0 4px 12px -4px rgb(40 60 48 / 0.18),
+    inset 0 1px 0 rgb(255 255 255 / 1);
 }
 
-@utility ai-ring-orange { border-top-color: var(--orange); transform: rotate(10deg); }
-@utility ai-ring-purple { border-right-color: var(--purple); transform: rotate(10deg); }
-@utility ai-ring-green { border-bottom-color: var(--green); transform: rotate(10deg); }
-@utility ai-ring-blue { border-left-color: var(--blue); transform: rotate(10deg); }
-@utility ai-ring-content { position: relative; display: grid; height: 100%; width: 100%; place-items: center; border-radius: 9999px; }
-
-@keyframes dossier-shimmer {
-  0% {
-    transform: translateX(-120%) rotate(8deg);
-  }
+@keyframes ai-sparkle {
+  0%,
   100% {
-    transform: translateX(220%) rotate(8deg);
+    transform: scale(0.75) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1) rotate(45deg);
+    opacity: 1;
   }
 }
+.ai-sparkle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: ai-sparkle 2.2s ease-in-out infinite;
+}
 
-@utility shimmer-sweep {
-  animation: dossier-shimmer 2.6s ease-in-out infinite;
+/* The memory-lane age slider: a soft track and a sunflower thumb. */
+.memory-lane-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+.memory-lane-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.85);
+}
+.memory-lane-range::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.85);
+}
+.memory-lane-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -11px;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: var(--action);
+  border: 2px solid var(--ink);
+}
+.memory-lane-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--action);
+  border: 2px solid var(--ink);
+}
+.memory-lane-range:focus-visible {
+  outline: 1.5px solid var(--ink-3);
+  outline-offset: 4px;
+  border-radius: 9999px;
 }
 
 @keyframes fact-glow {
@@ -274,7 +656,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

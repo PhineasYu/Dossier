@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useChildren } from "@/lib/child-context";
-import type { MemoryCard } from "@/lib/dossier";
+import { ageAt, type MemoryCard } from "@/lib/dossier";
 import { MemoryCardView } from "./memory-card";
 
 export function useTimeline(childId: string | null) {
@@ -23,12 +23,21 @@ export function useTimeline(childId: string | null) {
   });
 }
 
-export function Timeline({ query = "", smartCardIds }: { query?: string; smartCardIds?: string[] }) {
+export function Timeline({
+  query = "",
+  smartCardIds,
+  age = null,
+}: {
+  query?: string;
+  smartCardIds?: string[];
+  /** Only show memories from the year the child was this age. */
+  age?: number | null;
+}) {
   const { active } = useChildren();
   const { data: cards = [], isLoading } = useTimeline(active?.id ?? null);
-  const accent = active?.theme_color ?? "var(--primary)";
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const filteredCards = cards.filter((card) => {
+    if (age !== null && ageAt(active?.birthdate ?? null, card.date) !== age) return false;
     if (smartCardIds) return smartCardIds.includes(card.id);
     if (!normalizedQuery) return true;
     return [card.title, card.body ?? "", card.category, card.date]
@@ -38,19 +47,26 @@ export function Timeline({ query = "", smartCardIds }: { query?: string; smartCa
   });
 
   if (isLoading) {
-    return <p className="py-10 text-center text-sm text-muted-foreground">Opening the archive…</p>;
+    return <p className="py-10 text-center text-[15px] text-ink-3">Opening the story…</p>;
   }
 
   if (!cards.length) {
     return (
-      <p className="py-10 text-center text-sm text-muted-foreground">
-        Nothing here yet. Talk to Dossier and the first memory appears.
-      </p>
+      <div className="tile px-6 py-10 text-center">
+        <p className="text-lg font-bold">No memories yet</p>
+        <p className="mx-auto mt-1 max-w-xs text-[15px] text-ink-2">
+          Answer tonight&apos;s two questions and the first card appears here.
+        </p>
+      </div>
     );
   }
 
   if (!filteredCards.length) {
-    return <p className="py-10 text-center text-sm text-muted-foreground">No timeline memories match this search.</p>;
+    return (
+      <p className="py-10 text-center text-[15px] text-ink-3">
+        Nothing in the story matches that. Try another word.
+      </p>
+    );
   }
 
   return (
@@ -58,11 +74,12 @@ export function Timeline({ query = "", smartCardIds }: { query?: string; smartCa
       {filteredCards.map((card, index) => (
         <motion.div
           key={card.id}
+          layout
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: Math.min(index * 0.04, 0.4), duration: 0.35 }}
+          transition={{ delay: smartCardIds ? index * 0.4 : 0, duration: 0.35 }}
         >
-          <MemoryCardView card={card} accent={accent} />
+          <MemoryCardView card={card} />
         </motion.div>
       ))}
     </div>

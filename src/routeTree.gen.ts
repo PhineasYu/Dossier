@@ -15,6 +15,7 @@ import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/ap
 import { Route as AuthenticatedCaptureRouteImport } from './routes/_authenticated/capture'
 import { Route as AuthenticatedDossierPlusRouteImport } from './routes/_authenticated/dossier-plus'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as DesignWidgetsRouteImport } from './routes/design/widgets'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const DesignWidgetsRoute = DesignWidgetsRouteImport.update({
+  id: '/design/widgets',
+  path: '/design/widgets',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/capture': typeof AuthenticatedCaptureRoute
   '/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/design/widgets': typeof DesignWidgetsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/capture': typeof AuthenticatedCaptureRoute
   '/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/design/widgets': typeof DesignWidgetsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,12 +77,15 @@ export interface FileRoutesById {
   '/_authenticated/capture': typeof AuthenticatedCaptureRoute
   '/_authenticated/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/design/widgets': typeof DesignWidgetsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/capture' | '/dossier-plus' | '/profile'
+  fullPaths:
+    '/' | '/app' | '/capture' | '/dossier-plus' | '/profile' | '/design/widgets'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/capture' | '/dossier-plus' | '/profile'
+  to:
+    '/' | '/app' | '/capture' | '/dossier-plus' | '/profile' | '/design/widgets'
   id:
     | '__root__'
     | '/'
@@ -83,11 +94,13 @@ export interface FileRouteTypes {
     | '/_authenticated/capture'
     | '/_authenticated/dossier-plus'
     | '/_authenticated/profile'
+    | '/design/widgets'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  DesignWidgetsRoute: typeof DesignWidgetsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -134,6 +147,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/design/widgets': {
+      id: '/design/widgets'
+      path: '/design/widgets'
+      fullPath: '/design/widgets'
+      preLoaderRoute: typeof DesignWidgetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -157,6 +177,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  DesignWidgetsRoute: DesignWidgetsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

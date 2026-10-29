@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 
-import { AddTodayBar, BottomNav } from "@/components/dossier/bottom-nav";
-import { ActivityCalendar, currentStreak } from "@/components/dossier/activity-calendar";
+import { BottomNav } from "@/components/dossier/bottom-nav";
+import { ActivityCalendar } from "@/components/dossier/activity-calendar";
 import { BrainDump } from "@/components/dossier/brain-dump";
 import { AppHeader } from "@/components/dossier/app-header";
-import { DailyCheckin } from "@/components/dossier/daily-checkin";
-import { useChildren } from "@/lib/child-context";
+import { PromptDeck, type Prompt } from "@/components/dossier/prompt-deck";
 import { getCheckinActivity } from "@/lib/dossier.functions";
 
 export const Route = createFileRoute("/_authenticated/capture")({
@@ -19,16 +19,16 @@ export const Route = createFileRoute("/_authenticated/capture")({
   }),
   head: () => ({
     meta: [
-      { title: "Capture today — two questions and a brain dump | Dossier" },
+      { title: "Tell Dossier | Dossier" },
       {
         name: "description",
         content:
-          "Answer today's two questions out loud, keep your showing-up streak alive, or talk freely and let Dossier sort everything into each child's story.",
+          "Tell Dossier anything about anyone in the family, by voice or text. It files each piece under the right child.",
       },
-      { property: "og:title", content: "Capture today — two questions and a brain dump" },
+      { property: "og:title", content: "Tell Dossier" },
       {
         property: "og:description",
-        content: "One minute a day keeps every year of your child's story.",
+        content: "Anything about anyone in the family, filed under the right child.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,8 +39,8 @@ export const Route = createFileRoute("/_authenticated/capture")({
 
 function CapturePage() {
   const { mode } = Route.useSearch();
-  const { active } = useChildren();
   const fetchActivity = useServerFn(getCheckinActivity);
+  const [prompt, setPrompt] = useState<Prompt | null>(null);
   const { data } = useQuery({
     queryKey: ["checkin-activity"],
     queryFn: () => fetchActivity({}),
@@ -51,20 +51,21 @@ function CapturePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <AddTodayBar />
-      <main className="mx-auto w-full max-w-xl flex-1 space-y-8 px-4 pb-8 pt-6">
-        <h1 className="font-display text-2xl">Today with {active?.name ?? "your child"}</h1>
-        <DailyCheckin streak={currentStreak(counts)} />
-        <ActivityCalendar counts={counts} color={active?.theme_color ?? "#3267D4"} />
-
-        <section className="space-y-3">
-          <h2 className="font-display text-xl">Or just talk it out</h2>
-          <p className="text-sm text-muted-foreground">
-            Say everything from today in one go — Dossier splits it into memories and profile
-            updates for each child.
+      <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-4 pb-32 pt-4">
+        <div>
+          <h1 className="display text-[44px] text-ink">Tell Dossier</h1>
+          <p className="mt-2 max-w-sm text-[15px] text-ink-2">
+            Anything about anyone in the family. Dossier files it under the right child.
           </p>
-          <BrainDump initialMode={mode} />
-        </section>
+        </div>
+        <BrainDump initialMode={mode} prompt={prompt} onClearPrompt={() => setPrompt(null)} />
+        <PromptDeck
+          onUse={(next) => {
+            setPrompt(next);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+        <ActivityCalendar counts={counts} />
       </main>
       <BottomNav />
     </div>

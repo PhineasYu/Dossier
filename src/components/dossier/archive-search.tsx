@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { AiRing } from "@/components/dossier/ai-ring";
+import { AiBuddy } from "@/components/dossier/buddy";
 import { useChildren } from "@/lib/child-context";
 import { askArchive } from "@/lib/dossier.functions";
 
@@ -54,10 +54,13 @@ export function ArchiveSearch({
   return (
     <section className="space-y-3" aria-label={`${scope} search`}>
       <form
-        onSubmit={(event) => { event.preventDefault(); ask(); }}
-        className="flex min-h-14 items-center gap-2 rounded-lg border border-line bg-surface px-4 focus-within:ring-2 focus-within:ring-ring"
+        onSubmit={(event) => {
+          event.preventDefault();
+          ask();
+        }}
+        className="flex h-12 items-center gap-2 rounded-full bg-cloud pl-4 pr-1.5 focus-within:ring-2 focus-within:ring-action-ink"
       >
-        <Search className="size-4 shrink-0 text-muted-foreground" />
+        <Search className="size-4 shrink-0 text-ink-3" aria-hidden="true" />
         <input
           value={query}
           onChange={(event) => {
@@ -66,26 +69,51 @@ export function ArchiveSearch({
             setSources([]);
             onTimelineMatches?.(undefined);
           }}
-          placeholder={scope === "timeline" ? `Search ${active?.name ?? "your child's"} timeline…` : `Search ${active?.name ?? "your child's"} archive…`}
-          aria-label={scope === "timeline" ? "Search timeline" : "Search archive"}
-          className="min-w-0 flex-1 bg-transparent py-1.5 text-sm outline-none"
+          placeholder={
+            scope === "timeline"
+              ? `Search or ask about ${active?.name ?? "your child"}`
+              : `Search ${active?.name ?? "your child"}'s file`
+          }
+          aria-label={scope === "timeline" ? "Search the story" : "Search the file"}
+          className="min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink-3"
         />
-        {query && <Button type="button" variant="ghost" size="icon-sm" onClick={clear} aria-label="Clear search"><X /></Button>}
-        <Button type="submit" disabled={isAsking || !query.trim()} size="sm">
-          {isAsking ? <AiRing active className="size-5"><Loader2 className="size-3 animate-spin" /></AiRing> : "Ask"}
+        {query && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            onClick={clear}
+            aria-label="Clear search"
+          >
+            <X />
+          </Button>
+        )}
+        <Button type="submit" variant="ai" disabled={isAsking || !query.trim()} size="sm">
+          {isAsking ? <Loader2 className="animate-spin" /> : "Ask"}
         </Button>
       </form>
 
       <AnimatePresence>
         {answer && (
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="material-card overflow-hidden px-4 pb-3 pt-0">
-            <div className="-mx-4 mb-3 grid h-1 grid-cols-4 gap-1 bg-surface"><span className="bg-orange" /><span className="bg-purple" /><span className="bg-green" /><span className="bg-blue" /></div>
-            <p className="text-sm leading-relaxed">{answer}</p>
-            {sources.length > 0 && (
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {sources.map((source) => <li key={source.id} className="rounded-full bg-child-soft px-3 py-1 text-xs"><span className="capitalize text-muted-foreground">{source.kind}</span> · {source.label}</li>)}
-              </ul>
-            )}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="flex gap-3 rounded-3xl bg-action-soft p-4"
+          >
+            <AiBuddy size={36} className="mt-0.5" />
+            <div className="min-w-0">
+              <p className="text-[15px] leading-relaxed">{answer}</p>
+              {sources.length > 0 && (
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {sources.map((source) => (
+                    <li key={source.id} className="rounded-full bg-paper px-3 py-1 text-[13px]">
+                      {source.label}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

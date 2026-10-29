@@ -2,15 +2,16 @@ import { CommitStrategy, useScribe } from "@elevenlabs/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
-import { Loader2, Mic, Square, Undo2 } from "lucide-react";
+import { AudioLines, Loader2, Square, Undo2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { AiRing } from "@/components/dossier/ai-ring";
+import { AiBuddy, Buddy } from "@/components/dossier/buddy";
+import type { Prompt } from "@/components/dossier/prompt-deck";
 import { captureEntry, getScribeToken, undoEntry } from "@/lib/dossier.functions";
 import { useChildren } from "@/lib/child-context";
-import { CATEGORY_LABEL, FIELD_LABEL, withAlpha } from "@/lib/dossier";
+import { CATEGORY_LABEL, FIELD_LABEL } from "@/lib/dossier";
 
 type SortedItem = {
   id: string;
@@ -20,8 +21,17 @@ type SortedItem = {
   text: string;
 };
 
-export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | undefined }) {
-  const { kids } = useChildren();
+export function BrainDump({
+  initialMode,
+  prompt,
+  onClearPrompt,
+}: {
+  initialMode: "voice" | "text" | undefined;
+  /** A prompt card the parent chose; it gives the AI context and keeps the question chip. */
+  prompt?: Prompt | null | undefined;
+  onClearPrompt?: (() => void) | undefined;
+}) {
+  const { kids, lookOf } = useChildren();
   const queryClient = useQueryClient();
   const runCapture = useServerFn(captureEntry);
   const runUndo = useServerFn(undoEntry);
@@ -59,7 +69,13 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
       setItems([]);
       setSummary(null);
       try {
-        const result = await runCapture({ data: { transcript, source } });
+        const result = await runCapture({
+          data: {
+            transcript: prompt ? `${prompt.text} — ${transcript}` : transcript,
+            source,
+            ...(prompt?.origin ? { questionOrigin: prompt.origin } : {}),
+          },
+        });
         const sorted: SortedItem[] = [
           ...result.cards.map((card) => ({
             id: card.id,
@@ -87,7 +103,7 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
         setIsSorting(false);
       }
     },
-    [queryClient, runCapture],
+    [queryClient, runCapture, prompt],
   );
 
   const start = useCallback(async () => {
@@ -127,33 +143,89 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
   }, [entryId, queryClient, runUndo]);
 
   const isRecording = scribe.isConnected;
+  const plural = (count: number, one: string, many: string) =>
+    `${count} ${count === 1 ? one : many}`;
 
   return (
-    <section className="space-y-5">
-      <div className="material-card p-6 text-center">
-        <h2 className="font-display text-xl">Just talk</h2>
-        <p className="mx-auto mt-1 max-w-xs text-sm text-muted-foreground">
-          Mix everything together. Dossier sorts it into each child&apos;s story.
-        </p>
-
-        <AiRing active={isSorting} className="mx-auto mt-6 size-28">
-          <Button type="button" onClick={isRecording ? stop : start} disabled={isSorting} size="icon" className="size-24 rounded-full [&_svg]:size-9" aria-label={isRecording ? "Stop and sort" : "Start talking"}>
-            {isSorting ? <Loader2 className="size-9 animate-spin" /> : isRecording ? <Square className="size-8" /> : <Mic className="size-9" />}
+    <section className="space-y-3">
+      <div className="tile p-5">
+        {prompt && (
+          <div className="mb-4 flex items-start gap-2 rounded-2xl bg-paper px-4 py-3">
+            <p className="flex-1 text-[15px] leading-snug">
+              <span className="block text-[13px] font-semibold text-ink-3">Answering</span>
+              {prompt.text}
+            </p>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              onClick={onClearPrompt}
+              aria-label="Clear the prompt"
+            >
+              <X />
+            </Button>
+          </div>
+        )}
+        <div className="flex items-center gap-4">
+          <Button
+            type="button"
+            variant="ai"
+            onClick={isRecording ? stop : start}
+            disabled={isSorting}
+            size="icon"
+            className="size-16 shrink-0 [&_svg]:size-7"
+            aria-label={isRecording ? "Stop and sort" : "Start talking"}
+          >
+            {isSorting ? (
+              <Loader2 className="animate-spin" />
+            ) : isRecording ? (
+              <Square />
+            ) : (
+              <AudioLines />
+            )}
           </Button>
-        </AiRing>
-
-        <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">
-          {isSorting
-            ? "Sorting…"
-            : isRecording
-              ? "Listening — tap to stop"
-              : "Tap the mic and speak"}
-        </p>
+          <div className="min-w-0" aria-live="polite">
+            <p className="text-[15px] font-semibold">
+              {isSorting
+                ? "Sorting into each child's story…"
+                : isRecording
+                  ? "Listening. Tap to stop."
+                  : "Tap and tell Dossier anything"}
+            </p>
+            <p className="mt-0.5 text-[13px] leading-snug text-ink-3">
+              &ldquo;Lucy was nervous before swimming. Luca&apos;s teacher says he shares his toys
+              now.&rdquo;
+            </p>
+          </div>
+          {isSorting && <AiBuddy size={44} motion="wiggle" className="ml-auto" />}
+        </div>
 
         {(isRecording || liveTranscript) && (
-          <p className="mt-4 min-h-16 rounded-xl bg-surface-container-high p-4 text-left text-sm leading-relaxed">
+          <p className="mt-4 min-h-16 rounded-2xl bg-paper p-4 text-left text-[15px] leading-relaxed">
             {liveTranscript || "…"}
           </p>
+        )}
+
+        {showTyping && (
+          <div className="mt-4 space-y-2">
+            <textarea
+              value={typed}
+              onChange={(event) => setTyped(event.target.value)}
+              rows={4}
+              placeholder="Luca tried mango today and his lips got a bit swollen…"
+              aria-label="Type everything from today"
+              className="w-full rounded-2xl bg-paper p-4 text-[15px] outline-none placeholder:text-ink-3 focus:ring-2 focus:ring-action-ink"
+            />
+            <Button
+              type="button"
+              variant="ai"
+              onClick={() => sort(typed, "text")}
+              disabled={isSorting || !typed.trim()}
+              className="w-full"
+            >
+              Sort it for me
+            </Button>
+          </div>
         )}
 
         <Button
@@ -161,93 +233,71 @@ export function BrainDump({ initialMode }: { initialMode: "voice" | "text" | und
           onClick={() => setShowTyping((value) => !value)}
           variant="ghost"
           size="sm"
-          className="mt-4 text-xs text-on-surface-variant"
+          className="-ml-2 mt-3"
         >
-          {showTyping ? "Hide typing" : "Type instead"}
+          {showTyping ? "Hide the keyboard" : "Type instead"}
         </Button>
-
-        {showTyping && (
-          <div className="mt-3 space-y-2 text-left">
-            <textarea
-              value={typed}
-              onChange={(event) => setTyped(event.target.value)}
-              rows={4}
-              placeholder="Luca tried mango today and his lips got a bit swollen…"
-              className="w-full rounded-xl border border-outline bg-surface-container-low p-4 text-sm outline-none focus:ring-2 focus:ring-ring"
-              style={{ boxShadow: "none" }}
-            />
-            <Button
-              type="button"
-              onClick={() => sort(typed, "text")}
-              disabled={isSorting || !typed.trim()}
-              className="w-full"
-            >
-              Sort this
-            </Button>
-          </div>
-        )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        {kids.map((kid) => (
-          <div
-            key={kid.id}
-            className="min-h-40 rounded-xl border border-line bg-surface p-3"
-            style={{
-              borderColor: withAlpha(kid.theme_color, 0.4),
-              backgroundColor: withAlpha(kid.theme_color, 0.05),
-            }}
-          >
-            <p className="mb-2 font-display text-sm" style={{ color: kid.theme_color }}>
-              {kid.name}
-            </p>
-            <ul className="space-y-2">
-              <AnimatePresence>
-                {items
-                  .filter((item) => item.childId === kid.id)
-                  .map((item, index) => (
-                    <motion.li
-                      key={item.id}
-                      initial={{ opacity: 0, y: -40, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ delay: index * 0.25, type: "spring", stiffness: 220, damping: 22 }}
-                      className="rounded-lg border border-line bg-surface p-2.5 text-left text-xs"
-                    >
-                      <span
-                        className="block text-[10px] uppercase tracking-wide"
-                        style={{ color: kid.theme_color }}
-                      >
-                        {item.kind === "card" ? item.label : `${item.label} · updated`}
-                      </span>
-                      {item.text}
-                    </motion.li>
-                  ))}
-              </AnimatePresence>
-            </ul>
-          </div>
-        ))}
-      </div>
+      {items.length > 0 && (
+        <div className="grid grid-cols-2 gap-3">
+          {kids.map((kid) => {
+            const look = lookOf(kid.id);
+            return (
+              <div
+                key={kid.id}
+                className="min-h-36 rounded-3xl p-3"
+                style={{ backgroundColor: look.soft }}
+              >
+                <p className="mb-2 flex items-center gap-2 text-[15px] font-bold">
+                  <Buddy shape={look.shape} color={look.body} size={26} />
+                  {kid.name}
+                </p>
+                <ul className="space-y-2">
+                  <AnimatePresence>
+                    {items
+                      .filter((item) => item.childId === kid.id)
+                      .map((item, index) => (
+                        <motion.li
+                          key={item.id}
+                          initial={{ opacity: 0, y: -40, scale: 0.9 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{
+                            delay: index * 0.25,
+                            type: "spring",
+                            stiffness: 220,
+                            damping: 22,
+                          }}
+                          className="rounded-2xl bg-paper p-3 text-left text-sm leading-snug"
+                        >
+                          <span className="block text-xs font-semibold" style={{ color: look.ink }}>
+                            {item.kind === "card" ? item.label : `${item.label} updated`}
+                          </span>
+                          {item.text}
+                        </motion.li>
+                      ))}
+                  </AnimatePresence>
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {summary && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: items.length * 0.25 + 0.2 }}
-          className="material-card flex items-center justify-between px-4 py-3 text-sm"
+          className="tile flex items-center justify-between gap-3 px-5 py-3 text-[15px]"
         >
           <span>
-            {summary.memories} {summary.memories === 1 ? "memory" : "memories"} ·{" "}
-            {summary.updates} profile {summary.updates === 1 ? "update" : "updates"} ·{" "}
-            {summary.children} {summary.children === 1 ? "child" : "children"}
+            {plural(summary.memories, "memory", "memories")} and{" "}
+            {plural(summary.updates, "profile update", "profile updates")} for{" "}
+            {plural(summary.children, "child", "children")}
           </span>
-          <Button
-            type="button"
-            onClick={undo}
-            variant="ghost"
-            size="sm"
-            className="text-on-surface-variant"
-          >
-            <Undo2 className="size-3.5" /> Undo
+          <Button type="button" onClick={undo} variant="outline" size="sm">
+            <Undo2 /> Undo
           </Button>
         </motion.div>
       )}

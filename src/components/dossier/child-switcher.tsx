@@ -1,42 +1,48 @@
 import { motion } from "motion/react";
 
+import { Buddy } from "@/components/dossier/buddy";
 import { useChildren } from "@/lib/child-context";
-import { ageAt, withAlpha } from "@/lib/dossier";
+import { ageAt } from "@/lib/dossier";
 
+/** One buddy per child. The chosen child's crayon recolours the app. */
 export function ChildSwitcher() {
-  const { kids, activeId, setActiveId } = useChildren();
+  const { kids, activeId, setActiveId, lookOf } = useChildren();
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <div className="flex items-center justify-center gap-2" role="group" aria-label="Choose a child">
+    <div
+      className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
+      role="group"
+      aria-label="Choose a child"
+    >
       {kids.map((kid) => {
         const isActive = kid.id === activeId;
         const age = ageAt(kid.birthdate, today);
+        const look = lookOf(kid.id);
         return (
           <button
             key={kid.id}
             type="button"
             onClick={() => setActiveId(kid.id)}
             aria-pressed={isActive}
-            className="material-state flex min-h-12 items-center gap-2 rounded-lg border border-line px-3 py-1.5 shadow-none transition-all duration-[400ms] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
-            style={{
-              borderColor: isActive ? kid.theme_color : "var(--line)",
-              backgroundColor: isActive ? withAlpha(kid.theme_color, 0.1) : "transparent",
-              opacity: isActive ? 1 : 0.72,
-            }}
+            className="press flex shrink-0 items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink"
+            style={{ backgroundColor: isActive ? look.soft : "transparent" }}
           >
             <motion.span
-              layout
-              className="grid size-9 place-items-center rounded-full border-2 border-surface font-display text-lg text-primary-foreground ring-1 ring-line"
-              style={{ backgroundColor: kid.theme_color }}
+              key={isActive ? "on" : "off"}
+              animate={isActive ? { y: [0, -7, 0] } : { y: 0 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              style={{ opacity: isActive ? 1 : 0.6 }}
             >
-              {kid.name.slice(0, 1)}
+              <Buddy shape={look.shape} color={look.body} size={40} />
             </motion.span>
-            <span className="text-left leading-tight">
-              <span className="block font-display text-base">{kid.name}</span>
-              {age !== null && (
-                <span className="block text-xs text-muted-foreground">{age} years</span>
-              )}
+            <span className="leading-tight">
+              <span
+                className={`block text-[15px] font-semibold ${isActive ? "text-ink" : "text-ink-2"}`}
+              >
+                {kid.name}
+              </span>
+              {age !== null && <span className="block text-xs text-ink-3">{age} years old</span>}
             </span>
           </button>
         );

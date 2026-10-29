@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 
 import { supabase } from "@/integrations/supabase/client";
 import type { Child } from "./dossier";
+import { lookFor, type ChildLook } from "./palette";
 
 type ChildContextValue = {
   kids: Child[];
@@ -10,6 +11,8 @@ type ChildContextValue = {
   activeId: string | null;
   setActiveId: (id: string) => void;
   isLoading: boolean;
+  /** Crayon colours and buddy shape for any child id (falls back to the first crayon). */
+  lookOf: (id: string | null | undefined) => ChildLook;
 };
 
 const ChildContext = createContext<ChildContextValue>({
@@ -18,6 +21,7 @@ const ChildContext = createContext<ChildContextValue>({
   activeId: null,
   setActiveId: () => {},
   isLoading: true,
+  lookOf: () => lookFor(null, 0),
 });
 
 export function useChildren() {
@@ -45,16 +49,27 @@ export function ChildProvider({ children }: { children: ReactNode }) {
 
   const active = kids.find((kid) => kid.id === activeId) ?? kids[0] ?? null;
 
+  const lookOf = (id: string | null | undefined) => {
+    const index = Math.max(
+      0,
+      kids.findIndex((kid) => kid.id === id),
+    );
+    return lookFor(kids[index], index);
+  };
+
   useEffect(() => {
     if (!active) return;
+    const look = lookOf(active.id);
     const root = document.documentElement;
-    root.style.setProperty("--child", active.theme_color);
-    root.style.setProperty("--child-soft", active.name.toLocaleLowerCase().includes("lucy") ? "var(--purple-50)" : "var(--blue-50)");
-  }, [active]);
+    root.style.setProperty("--child", `var(--${look.crayon})`);
+    root.style.setProperty("--child-soft", `var(--${look.crayon}-soft)`);
+    root.style.setProperty("--child-ink", `var(--${look.crayon}-ink)`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, kids]);
 
   return (
     <ChildContext.Provider
-      value={{ kids, active, activeId: active?.id ?? null, setActiveId, isLoading }}
+      value={{ kids, active, activeId: active?.id ?? null, setActiveId, isLoading, lookOf }}
     >
       {children}
     </ChildContext.Provider>
