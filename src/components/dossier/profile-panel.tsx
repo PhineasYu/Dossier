@@ -55,9 +55,7 @@ function FactList({
             key={row.id}
             className={`flex items-baseline justify-between gap-4 py-3 ${isFresh(row) ? "fact-glow" : ""}`}
           >
-            <span className="text-[15px] text-ink-2">
-              {FIELD_LABEL[row.field] ?? row.field}
-            </span>
+            <span className="text-[15px] text-ink-2">{FIELD_LABEL[row.field] ?? row.field}</span>
             <span className="flex-1 text-right">
               <span className="text-[15px] font-semibold text-ink">{row.value}</span>
               {isFresh(row) && (

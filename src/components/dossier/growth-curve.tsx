@@ -41,7 +41,9 @@ export function GrowthCurve({
         </p>
       )}
       {latestHeight && (
-        <p className="mt-3 border-t border-paper/80 pt-3 text-[13px] text-ink-2">Last measured {shortDate(latestHeight.date)}</p>
+        <p className="mt-3 border-t border-paper/80 pt-3 text-[13px] text-ink-2">
+          Last measured {shortDate(latestHeight.date)}
+        </p>
       )}
     </section>
   );

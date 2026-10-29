@@ -25,18 +25,18 @@ Family wallet onboarding (white space, flat characters, pill buttons), Headspace
 
 ## Colour
 
-| Meaning | Token | Value | Where |
-| --- | --- | --- | --- |
-| Tap me / AI | `--action` | `#F9B934` sunflower | Every primary button, AI sparkles, "New" chip |
-| | `--action-hover` | `#EEAB22` | Hover/pressed |
-| | `--action-soft` | `#FEF1CF` | AI cards (check-in card, AI answers), Dossier+ card |
-| | `--on-action` | `#1A1A1A` | Text and icons on action (ink, never white) |
-| Child crayons | `--sky` `--lilac` `--aqua` `--bubblegum` `--sage` `--tomato` | `#4F9DF7` `#B4A2F2` `#4FC2B9` `#F59AC6` `#5FA98A` `#F2643A` | Buddies, child switcher pill (`-soft`), growth card (`--child-soft`), sorting lanes |
-| Moment tints | `bg-<crayon>-soft`, `bg-sun-soft` | see `CATEGORY_TINT` | Memory cards: courage sun, dream lilac, fear sky, friendship bubblegum, first time sage, interest aqua, other mist |
-| Questions | `--q1` / `--q2` | sun `#FFC43D` / sky `#4F9DF7` | Question cards use the `-soft` tint; memory-card chips show a dot |
-| Danger | `--danger` / `--danger-soft` | `#D92D20` / `#FEEBE9` | Allergies and medical only, always with an alert icon |
-| Neutrals | `--paper` `--cloud` (mist) `--cloud-2` `--line` | `#FFFFFF` `#F6F3F4` `#ECE6E8` `#E8E2E4` | Page, neutral cards and inputs, empty calendar cells, borders |
-| Ink | `--ink` `--ink-2` `--ink-3` | `#1A1A1A` `#55565C` `#8B8C93` | Text, line drawings, pencil marks |
+| Meaning       | Token                                                        | Value                                                       | Where                                                                                                              |
+| ------------- | ------------------------------------------------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Tap me / AI   | `--action`                                                   | `#F9B934` sunflower                                         | Every primary button, AI sparkles, "New" chip                                                                      |
+|               | `--action-hover`                                             | `#EEAB22`                                                   | Hover/pressed                                                                                                      |
+|               | `--action-soft`                                              | `#FEF1CF`                                                   | AI cards (check-in card, AI answers), Dossier+ card                                                                |
+|               | `--on-action`                                                | `#1A1A1A`                                                   | Text and icons on action (ink, never white)                                                                        |
+| Child crayons | `--sky` `--lilac` `--aqua` `--bubblegum` `--sage` `--tomato` | `#4F9DF7` `#B4A2F2` `#4FC2B9` `#F59AC6` `#5FA98A` `#F2643A` | Buddies, child switcher pill (`-soft`), growth card (`--child-soft`), sorting lanes                                |
+| Moment tints  | `bg-<crayon>-soft`, `bg-sun-soft`                            | see `CATEGORY_TINT`                                         | Memory cards: courage sun, dream lilac, fear sky, friendship bubblegum, first time sage, interest aqua, other mist |
+| Questions     | `--q1` / `--q2`                                              | sun `#FFC43D` / sky `#4F9DF7`                               | Question cards use the `-soft` tint; memory-card chips show a dot                                                  |
+| Danger        | `--danger` / `--danger-soft`                                 | `#D92D20` / `#FEEBE9`                                       | Allergies and medical only, always with an alert icon                                                              |
+| Neutrals      | `--paper` `--cloud` (mist) `--cloud-2` `--line`              | `#FFFFFF` `#F6F3F4` `#ECE6E8` `#E8E2E4`                     | Page, neutral cards and inputs, empty calendar cells, borders                                                      |
+| Ink           | `--ink` `--ink-2` `--ink-3`                                  | `#1A1A1A` `#55565C` `#8B8C93`                               | Text, line drawings, pencil marks                                                                                  |
 
 Rules:
 
@@ -49,11 +49,11 @@ Rules:
 
 ## Type
 
-| Role | Family | Use |
-| --- | --- | --- |
-| Display | Archivo, width 62%, weight 900, uppercase, line-height 0.9 (`.display`) | Page titles (`text-[44px]`), the landing headline (52px), question cards (34px) |
-| Brand | Fraunces 900, `opsz 144`, `SOFT 100` (`.brand`) | The wordmark "Dossier" only. No comma. |
-| UI / body | Figtree | Body 15–17px; card titles 19px/700; section titles 17–18px/700; captions 13px |
+| Role      | Family                                                                  | Use                                                                             |
+| --------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Display   | Archivo, width 62%, weight 900, uppercase, line-height 0.9 (`.display`) | Page titles (`text-[44px]`), the landing headline (52px), question cards (34px) |
+| Brand     | Fraunces 900, `opsz 144`, `SOFT 100` (`.brand`)                         | The wordmark "Dossier" only. No comma.                                          |
+| UI / body | Figtree                                                                 | Body 15–17px; card titles 19px/700; section titles 17–18px/700; captions 13px   |
 
 Fonts are self-hosted through `@fontsource-variable/*` (no Google Fonts request).
 Sentence case everywhere except display titles. No all-caps labels, no tracked eyebrows.
@@ -62,13 +62,13 @@ Sentence case everywhere except display titles. No all-caps labels, no tracked e
 
 **Buttons** (`src/components/ui/button.tsx`), all pills:
 
-| Variant | Look | Use |
-| --- | --- | --- |
-| `default` | action yellow, ink text | The main action of a view |
-| `ai` | identical to default (kept as a name so AI actions can be found and changed together) | Anything that hands words to the AI: Talk now, Ask, Sort it for me, Answer this, record buttons, chat send |
-| `outline` | white, 1.5px `--line` border | Secondary actions, especially on tinted cards |
-| `ghost` | text only, ink-2 | Quiet actions: Later, Skip, Type instead |
-| `secondary` | mist fill | Icon buttons in the header |
+| Variant     | Look                                                                                  | Use                                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `default`   | action yellow, ink text                                                               | The main action of a view                                                                                  |
+| `ai`        | identical to default (kept as a name so AI actions can be found and changed together) | Anything that hands words to the AI: Talk now, Ask, Sort it for me, Answer this, record buttons, chat send |
+| `outline`   | white, 1.5px `--line` border                                                          | Secondary actions, especially on tinted cards                                                              |
+| `ghost`     | text only, ink-2                                                                      | Quiet actions: Later, Skip, Type instead                                                                   |
+| `secondary` | mist fill                                                                             | Icon buttons in the header                                                                                 |
 
 One `default`/`ai` button per card. Never black buttons, never white text on yellow.
 
