@@ -10,5 +10,5 @@
 8. **Tech-white design system** (complete) — Replace the warm palette with exact neutral and emphasis tokens, 1px frames, child/question color meaning, and the segmented AI signature.
 9. **Buddies visual refinement** (complete) — Refine shared alignment, spacing, typography, search controls and navigation without changing functionality or the current palette.
 
-10. **Memory filters and card hierarchy** (in progress) — Restore functional category filtering, delicate age controls, child/time hierarchy and unified Ask Dossier after missing changes.
-11. **File card refinement** (in progress) — Restore compact Pencil marks, 1px strokes/separators and reduced decorative red.
+10. **Memory filters and card hierarchy** (complete) — Restore functional category filtering, delicate age controls, child/time hierarchy and unified Ask Dossier after missing changes.
+11. **File card refinement** (complete) — Restore compact Pencil marks, 1px strokes/separators and reduced decorative red.
