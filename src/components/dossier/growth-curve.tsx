@@ -1,78 +1,48 @@
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { GrowthDoorframe } from "@/components/dossier/doorframe";
+import { shortDate, type ProfileFact } from "@/lib/dossier";
+import type { ChildLook } from "@/lib/palette";
 
-import { formatDate, type ProfileFact } from "@/lib/dossier";
-
+/** Height and weight, drawn as pencil marks on a doorframe. */
 export function GrowthCurve({
   heights,
   weights,
-  accent,
+  look,
+  name,
 }: {
   heights: ProfileFact[];
   weights: ProfileFact[];
-  accent: string;
+  look: ChildLook;
+  name: string;
 }) {
-  const points = [...heights]
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .map((fact) => {
-      const weight = [...weights]
-        .sort((a, b) => a.date.localeCompare(b.date))
-        .filter((w) => w.date <= fact.date)
-        .at(-1);
-      return {
-        date: fact.date,
-        label: fact.date.slice(0, 7),
-        height: Number(fact.value),
-        weight: weight ? Number(weight.value) : null,
-      };
-    });
-
-  const latestHeight = points.at(-1);
+  const marks = heights
+    .map((fact) => ({ cm: Number(fact.value), date: fact.date }))
+    .filter((mark) => Number.isFinite(mark.cm));
+  const latestHeight = [...marks].sort((a, b) => a.date.localeCompare(b.date)).at(-1);
   const latestWeight = [...weights].sort((a, b) => a.date.localeCompare(b.date)).at(-1);
+  if (!latestHeight && !latestWeight) return null;
 
   return (
-    <div className="material-card p-5">
-      <div className="flex items-baseline justify-between">
-        <h3 className="font-display text-lg">Pencil marks</h3>
-        <p className="text-sm text-muted-foreground">
-          {latestHeight ? `${latestHeight.height} cm` : "—"}
-          {latestWeight ? ` · ${latestWeight.value} kg` : ""}
+    <section className="rounded-3xl bg-child-soft p-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="text-lg font-bold">Pencil marks</h2>
+        <p className="text-[15px] font-semibold text-ink">
+          {latestHeight ? `${latestHeight.cm} cm` : ""}
+          {latestHeight && latestWeight ? " · " : ""}
+          {latestWeight ? `${latestWeight.value} kg` : ""}
         </p>
       </div>
-      {points.length > 1 ? (
-        <div className="mt-4 h-44">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={points} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-              <CartesianGrid strokeDasharray="2 4" stroke="var(--border)" vertical={false} />
-              <XAxis
-                dataKey="label"
-                tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
-                stroke="var(--border)"
-              />
-              <YAxis
-                domain={["dataMin - 6", "dataMax + 6"]}
-                tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
-                stroke="var(--border)"
-              />
-              <Line
-                type="monotone"
-                dataKey="height"
-                stroke={accent}
-                strokeWidth={2.5}
-                dot={{ r: 3, fill: accent }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+      {marks.length > 0 ? (
+        <div className="mt-2">
+          <GrowthDoorframe marks={marks} look={look} name={name} />
         </div>
       ) : (
-        <p className="mt-3 text-sm text-muted-foreground">
-          One measurement so far. Say a new height out loud and the line starts.
+        <p className="mt-2 text-[15px] text-ink-2">
+          Say a height out loud and the first mark appears.
         </p>
       )}
       {latestHeight && (
-        <p className="mt-2 text-xs text-muted-foreground">
-          Last measured {formatDate(latestHeight.date)}
-        </p>
+        <p className="mt-1 text-[13px] text-ink-3">Last measured {shortDate(latestHeight.date)}</p>
       )}
-    </div>
+    </section>
   );
 }

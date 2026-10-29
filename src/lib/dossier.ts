@@ -54,6 +54,8 @@ export const FIELD_LABEL: Record<string, string> = {
   food_dislike: "Won't eat",
   interest: "Interest",
   friend: "Friend",
+  wellbeing: "Feeling",
+  school: "From school",
 };
 
 export function withAlpha(hex: string, alpha: number) {
@@ -79,4 +81,16 @@ export function ageAt(birthdate: string | null, on: string) {
     d.getMonth() < b.getMonth() || (d.getMonth() === b.getMonth() && d.getDate() < b.getDate());
   if (before) years -= 1;
   return years;
+}
+
+/** "29 Oct" this year, "29 Oct 2025" otherwise. */
+export function shortDate(iso: string) {
+  const date = new Date(iso + "T00:00:00");
+  const sameYear = date.getFullYear() === new Date().getFullYear();
+  return date.toLocaleDateString(
+    "en-GB",
+    sameYear
+      ? { day: "numeric", month: "short" }
+      : { day: "numeric", month: "short", year: "numeric" },
+  );
 }

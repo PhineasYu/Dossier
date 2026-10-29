@@ -42,7 +42,7 @@ async function parseItems(transcript: string, children: { id: string; name: stri
 Children: ${children.map((c) => `${c.name} = ${c.id}`).join("; ")}
 
 Return JSON ONLY, no prose, in this exact shape:
-{"items":[{"child_ids":["<child uuid>"],"kind":"card"|"profile_fact","category":"courage|dream|fear|friendship|first-time|interest|other","field":"allergy|height|weight|food_like|food_dislike|interest|friend|medical","title":"short memory title","text":"one or two warm sentences","value":"the fact value"}]}
+{"items":[{"child_ids":["<child uuid>"],"kind":"card"|"profile_fact","category":"courage|dream|fear|friendship|first-time|interest|other","field":"allergy|height|weight|food_like|food_dislike|interest|friend|medical|wellbeing|school","title":"short memory title","text":"one or two warm sentences","value":"the fact value"}]}
 
 Rules:
 - Split into the smallest meaningful items. One idea per item.
@@ -50,6 +50,7 @@ Rules:
 - kind "profile_fact" is structured data: use field and value; omit category, title and text. For height use centimetres as a bare number, for weight kilograms as a bare number.
 - A sentence about two children becomes one item per child (each with a single child_id).
 - Use only the child ids listed above. If a child is unclear, use the first child.
+- wellbeing is how a child is feeling lately (worries, moods, sleep, confidence); school is what a teacher or preschool reported. Keep the parent's words.
 - Never invent facts that were not said.`;
 
   const attempt = async () => {
@@ -69,10 +70,20 @@ Rules:
 
 /** Split a transcript, store everything, and return what was created. */
 export const captureEntry = createServerFn({ method: "POST" })
-  .inputValidator((input: { transcript: string; source: "voice" | "text"; questionOrigin?: "for_child" | "child_moment" }) => {
-    if (!input?.transcript?.trim()) throw new Error("Nothing to save yet.");
-    return { transcript: input.transcript.trim(), source: input.source, questionOrigin: input.questionOrigin };
-  })
+  .inputValidator(
+    (input: {
+      transcript: string;
+      source: "voice" | "text";
+      questionOrigin?: "for_child" | "child_moment";
+    }) => {
+      if (!input?.transcript?.trim()) throw new Error("Nothing to save yet.");
+      return {
+        transcript: input.transcript.trim(),
+        source: input.source,
+        questionOrigin: input.questionOrigin,
+      };
+    },
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: children, error: childErr } = await supabaseAdmin
@@ -176,45 +187,54 @@ export const undoEntry = createServerFn({ method: "POST" })
 
 /** Answer a question from either the child's timeline or structured archive. */
 export const askArchive = createServerFn({ method: "POST" })
-  .inputValidator((input: { question: string; childId: string; scope?: "timeline" | "archive" }) => {
-    if (!input?.question?.trim()) throw new Error("Ask something first.");
-    return {
-      question: input.question.trim(),
-      childId: input.childId,
-      scope: input.scope === "archive" ? ("archive" as const) : ("timeline" as const),
-    };
-  })
+  .inputValidator(
+    (input: { question: string; childId: string; scope?: "timeline" | "archive" }) => {
+      if (!input?.question?.trim()) throw new Error("Ask something first.");
+      return {
+        question: input.question.trim(),
+        childId: input.childId,
+        scope: input.scope === "archive" ? ("archive" as const) : ("timeline" as const),
+      };
+    },
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const [{ data: child }, { data: cards }, { data: facts }, { data: documents }] = await Promise.all([
-      supabaseAdmin.from("children").select("name, birthdate").eq("id", data.childId).single(),
-      supabaseAdmin
-        .from("cards")
-        .select("id, date, title, body, category")
-        .eq("child_id", data.childId)
-        .order("date", { ascending: false }),
-      supabaseAdmin
-        .from("profile_facts")
-        .select("id, field, value, date")
-        .eq("child_id", data.childId)
-        .order("date", { ascending: false }),
-      supabaseAdmin
-        .from("documents")
-        .select("id, doc_type, extracted_json, uploaded_at")
-        .eq("child_id", data.childId)
-        .order("uploaded_at", { ascending: false }),
-    ]);
+    const [{ data: child }, { data: cards }, { data: facts }, { data: documents }] =
+      await Promise.all([
+        supabaseAdmin.from("children").select("name, birthdate").eq("id", data.childId).single(),
+        supabaseAdmin
+          .from("cards")
+          .select("id, date, title, body, category")
+          .eq("child_id", data.childId)
+          .order("date", { ascending: false }),
+        supabaseAdmin
+          .from("profile_facts")
+          .select("id, field, value, date")
+          .eq("child_id", data.childId)
+          .order("date", { ascending: false }),
+        supabaseAdmin
+          .from("documents")
+          .select("id, doc_type, extracted_json, uploaded_at")
+          .eq("child_id", data.childId)
+          .order("uploaded_at", { ascending: false }),
+      ]);
 
     const catalogue = (cards ?? [])
       .map((c) => `${c.id} | ${c.date} | ${c.category} | ${c.title} | ${c.body ?? ""}`)
       .join("\n");
-    const factList = (facts ?? []).map((f) => `${f.id} | ${f.date} | ${f.field} | ${f.value}`).join("\n");
-    const documentList = (documents ?? [])
-      .map((document) => `${document.id} | ${document.uploaded_at} | ${document.doc_type ?? "Document"} | ${JSON.stringify(document.extracted_json ?? {})}`)
+    const factList = (facts ?? [])
+      .map((f) => `${f.id} | ${f.date} | ${f.field} | ${f.value}`)
       .join("\n");
-    const sourceMaterial = data.scope === "timeline"
-      ? `Memory cards (id | date | category | title | body):\n${catalogue}`
-      : `Profile facts (id | date | field | value):\n${factList}\n\nDocuments (id | uploaded | type | extracted details):\n${documentList}`;
+    const documentList = (documents ?? [])
+      .map(
+        (document) =>
+          `${document.id} | ${document.uploaded_at} | ${document.doc_type ?? "Document"} | ${JSON.stringify(document.extracted_json ?? {})}`,
+      )
+      .join("\n");
+    const sourceMaterial =
+      data.scope === "timeline"
+        ? `Memory cards (id | date | category | title | body):\n${catalogue}`
+        : `Profile facts (id | date | field | value):\n${factList}\n\nDocuments (id | uploaded | type | extracted details):\n${documentList}`;
 
     const raw = await callGateway([
       {
@@ -229,15 +249,36 @@ Only use ids from the supplied ${data.scope}. Return at most 6 ids. If nothing m
     ]);
 
     try {
-      const parsed = JSON.parse(stripFences(raw)) as { answer: string; source_ids?: string[]; card_ids?: string[] };
+      const parsed = JSON.parse(stripFences(raw)) as {
+        answer: string;
+        source_ids?: string[];
+        card_ids?: string[];
+      };
       const sourceIds = parsed.source_ids ?? parsed.card_ids ?? [];
-      const archiveSources = data.scope === "archive"
-        ? [
-            ...(facts ?? []).filter((fact) => sourceIds.includes(fact.id)).map((fact) => ({ id: fact.id, label: `${fact.field.replaceAll("_", " ")}: ${fact.value}`, kind: "fact" as const })),
-            ...(documents ?? []).filter((document) => sourceIds.includes(document.id)).map((document) => ({ id: document.id, label: document.doc_type ?? "Document", kind: "document" as const })),
-          ]
-        : [];
-      return { answer: parsed.answer ?? "", cardIds: data.scope === "timeline" ? sourceIds : [], sources: archiveSources };
+      const archiveSources =
+        data.scope === "archive"
+          ? [
+              ...(facts ?? [])
+                .filter((fact) => sourceIds.includes(fact.id))
+                .map((fact) => ({
+                  id: fact.id,
+                  label: `${fact.field.replaceAll("_", " ")}: ${fact.value}`,
+                  kind: "fact" as const,
+                })),
+              ...(documents ?? [])
+                .filter((document) => sourceIds.includes(document.id))
+                .map((document) => ({
+                  id: document.id,
+                  label: document.doc_type ?? "Document",
+                  kind: "document" as const,
+                })),
+            ]
+          : [];
+      return {
+        answer: parsed.answer ?? "",
+        cardIds: data.scope === "timeline" ? sourceIds : [],
+        sources: archiveSources,
+      };
     } catch {
       return { answer: "", cardIds: [], sources: [] };
     }
@@ -316,31 +357,35 @@ export const chatArchive = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const [{ data: child }, { data: cards }, { data: facts }, { data: documents }] = await Promise.all([
-      supabaseAdmin.from("children").select("name, birthdate").eq("id", data.childId).single(),
-      supabaseAdmin
-        .from("cards")
-        .select("date, title, body, category, question_origin")
-        .eq("child_id", data.childId)
-        .order("date", { ascending: false }),
-      supabaseAdmin
-        .from("profile_facts")
-        .select("field, value, date")
-        .eq("child_id", data.childId)
-        .order("date", { ascending: false }),
-      supabaseAdmin
-        .from("documents")
-        .select("doc_type, extracted_json, uploaded_at")
-        .eq("child_id", data.childId)
-        .order("uploaded_at", { ascending: false }),
-    ]);
+    const [{ data: child }, { data: cards }, { data: facts }, { data: documents }] =
+      await Promise.all([
+        supabaseAdmin.from("children").select("name, birthdate").eq("id", data.childId).single(),
+        supabaseAdmin
+          .from("cards")
+          .select("date, title, body, category, question_origin")
+          .eq("child_id", data.childId)
+          .order("date", { ascending: false }),
+        supabaseAdmin
+          .from("profile_facts")
+          .select("field, value, date")
+          .eq("child_id", data.childId)
+          .order("date", { ascending: false }),
+        supabaseAdmin
+          .from("documents")
+          .select("doc_type, extracted_json, uploaded_at")
+          .eq("child_id", data.childId)
+          .order("uploaded_at", { ascending: false }),
+      ]);
 
     const memories = (cards ?? [])
       .map((c) => `${c.date} | ${c.category} | ${c.title} | ${c.body ?? ""}`)
       .join("\n");
     const factList = (facts ?? []).map((f) => `${f.date} | ${f.field} | ${f.value}`).join("\n");
     const documentList = (documents ?? [])
-      .map((d) => `${d.uploaded_at} | ${d.doc_type ?? "Document"} | ${JSON.stringify(d.extracted_json ?? {})}`)
+      .map(
+        (d) =>
+          `${d.uploaded_at} | ${d.doc_type ?? "Document"} | ${JSON.stringify(d.extracted_json ?? {})}`,
+      )
       .join("\n");
 
     const instructions = `You are Dossier, a warm family archivist talking with the parent of ${child?.name ?? "this child"} (born ${child?.birthdate ?? "unknown"}). Today is ${new Date().toISOString().slice(0, 10)}.

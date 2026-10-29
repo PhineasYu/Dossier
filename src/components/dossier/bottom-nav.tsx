@@ -1,57 +1,39 @@
 import { Link } from "@tanstack/react-router";
-import { Archive, Camera, Mic, ScrollText, Sparkles, Type } from "lucide-react";
+import { AudioLines, FolderHeart, ScrollText, Sparkles } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-
+/** Story, capture and file first; asking Dossier's AI is the last stop. */
 const ITEMS = [
   { to: "/app", label: "Timeline", icon: ScrollText },
-  { to: "/profile", label: "Archive", icon: Archive },
-  { to: "/capture", label: "Capture", icon: Mic },
-  { to: "/dossier-plus", label: "Dossier+", icon: Sparkles },
+  { to: "/capture", label: "Today", icon: AudioLines },
+  { to: "/profile", label: "Archive", icon: FolderHeart },
+  { to: "/dossier-plus", label: "Ask Dossier", icon: Sparkles },
 ] as const;
 
+/**
+ * One floating liquid-glass capsule. Every destination is drawn the same way, as an
+ * icon; the current page sits on a white lens. Names are for screen readers.
+ */
 export function BottomNav() {
   return (
-    <nav aria-label="Main navigation" className="sticky bottom-0 z-20 border-t border-line bg-surface">
-      <ul className="mx-auto flex max-w-xl items-stretch justify-between px-2 py-2">
+    <nav
+      aria-label="Main navigation"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-6 pb-[max(1rem,env(safe-area-inset-bottom))]"
+    >
+      <div className="liquid-glass pointer-events-auto mx-auto flex max-w-sm items-center gap-1 rounded-full p-1.5">
         {ITEMS.map(({ to, label, icon: Icon }) => (
-          <li key={to} className="flex-1">
-            <Link
-              to={to}
-              className="group flex min-h-12 flex-col items-center gap-0.5 rounded-lg px-1 py-1 text-[10px] font-medium text-ink-3 transition-colors"
-              activeProps={{ className: "text-ink [&_svg]:rounded-lg [&_svg]:bg-surface-2 [&_svg]:p-1.5 [&_svg]:box-content" }}
-              activeOptions={{ exact: to === "/app" }}
-            >
-               <Icon className="size-5 transition-all" strokeWidth={1.8} />
-              {label}
-            </Link>
-          </li>
+          <Link
+            key={to}
+            to={to}
+            activeOptions={{ exact: to === "/app", includeSearch: false }}
+            aria-label={label}
+            title={label}
+            className="press grid h-12 flex-1 place-items-center rounded-full text-ink-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink"
+            activeProps={{ className: "liquid-lens text-ink" }}
+          >
+            {({ isActive }) => <Icon className="size-[22px]" strokeWidth={isActive ? 2.2 : 1.8} />}
+          </Link>
         ))}
-      </ul>
-    </nav>
-  );
-}
-
-export function AddTodayBar() {
-  return (
-    <div className="border-b border-line bg-surface/95 backdrop-blur">
-      <div className="mx-auto grid max-w-xl grid-cols-3 gap-2 px-4 py-3">
-        <Button asChild className="h-10">
-          <Link to="/capture" search={{ mode: "voice" }} aria-label="Add today by voice">
-            <Mic /> Voice
-          </Link>
-        </Button>
-        <Button asChild variant="secondary" className="h-10">
-          <Link to="/profile" search={{ add: "photo", q: undefined }} aria-label="Add a photo today">
-            <Camera /> Photo
-          </Link>
-        </Button>
-        <Button asChild variant="secondary" className="h-10">
-          <Link to="/capture" search={{ mode: "text" }} aria-label="Add today by text">
-            <Type /> Text
-          </Link>
-        </Button>
       </div>
-    </div>
+    </nav>
   );
 }

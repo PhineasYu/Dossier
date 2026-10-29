@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { LandingIllustration } from "@/components/dossier/landing-illustration";
+import { DoorframeScene } from "@/components/dossier/doorframe";
 import { Wordmark } from "@/components/dossier/wordmark";
 import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable/index";
@@ -66,33 +66,27 @@ function Landing() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-background px-5 pb-8 pt-16">
-      <h1 className="pt-6">
-        <Wordmark className="h-10" />
-        <span className="sr-only">Dossier</span>
-      </h1>
+    <main className="flex min-h-screen flex-col items-center bg-paper px-6 pb-8 pt-12">
+      <Wordmark className="text-[34px]" />
 
-      <div className="flex w-full flex-1 items-center justify-center py-5">
-        <LandingIllustration />
+      <div className="flex w-full max-w-sm flex-1 flex-col items-center justify-center py-6">
+        <DoorframeScene className="w-full max-w-[340px]" />
+        <h1 className="display mt-6 text-balance text-center text-[52px] text-ink">
+          Every day before they&rsquo;re taller than you
+        </h1>
+        <p className="mt-4 text-center text-[17px] text-ink-2">
+          One minute a night, for every child.
+        </p>
       </div>
 
-      <div className="w-full max-w-sm space-y-2">
-          <Button
-            onClick={signIn}
-            disabled={busy}
-            size="lg"
-            className="h-12 w-full"
-          >
-            <GoogleGlyph />
-            {busy ? "Connecting…" : "Sign in with Google"}
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={lookAround}
-            className="w-full text-sm text-muted-foreground"
-          >
-            Just look around
-          </Button>
+      <div className="w-full max-w-sm space-y-3">
+        <Button onClick={signIn} disabled={busy} size="lg" className="w-full">
+          <GoogleGlyph />
+          {busy ? "Connecting…" : "Continue with Google"}
+        </Button>
+        <Button variant="outline" size="lg" onClick={lookAround} className="w-full">
+          Look around first
+        </Button>
       </div>
     </main>
   );

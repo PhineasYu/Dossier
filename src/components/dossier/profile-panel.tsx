@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useChildren } from "@/lib/child-context";
-import { FIELD_LABEL, formatDate, type ProfileFact } from "@/lib/dossier";
+import { FIELD_LABEL, shortDate, type ProfileFact } from "@/lib/dossier";
 import { GrowthCurve } from "./growth-curve";
 import { TriangleAlert } from "lucide-react";
 
@@ -28,45 +28,55 @@ function isFresh(row: FactRow) {
   return Date.now() - new Date(row.created_at).getTime() < 90_000;
 }
 
-function FactList({ rows, title, danger = false }: { rows: FactRow[]; title: string; danger?: boolean }) {
+function FactList({
+  rows,
+  title,
+  danger = false,
+  tint = "bg-cloud",
+}: {
+  rows: FactRow[];
+  title: string;
+  danger?: boolean;
+  tint?: string;
+}) {
   if (!rows.length) return null;
   return (
-    <div className="material-card p-5">
-      <h3 className={danger ? "flex items-center gap-2 font-display text-lg text-danger" : "font-display text-lg"}>{danger && <TriangleAlert className="size-5" />}{title}</h3>
-      <ul className="mt-3 divide-y">
+    <section className={`rounded-3xl p-5 ${danger ? "bg-danger-soft" : tint}`}>
+      <h2
+        className={`flex items-center gap-2 text-lg font-bold ${danger ? "text-danger" : "text-ink"}`}
+      >
+        {danger && <TriangleAlert className="size-5" aria-hidden="true" />}
+        {title}
+      </h2>
+      <ul className={`mt-2 divide-y-[1.5px] ${danger ? "divide-[#f9d3cf]" : "divide-paper/80"}`}>
         {rows.map((row) => (
           <li
             key={row.id}
-            className={`flex items-baseline justify-between gap-3 rounded-lg px-1 py-2.5 text-sm ${
-              isFresh(row) ? "fact-glow" : ""
-            }`}
+            className={`-mx-2 flex items-baseline justify-between gap-4 rounded-xl px-2 py-3 ${isFresh(row) ? "fact-glow" : ""}`}
           >
-            <span className={danger ? "font-medium text-danger" : "text-muted-foreground"}>{FIELD_LABEL[row.field] ?? row.field}</span>
+            <span className={`text-[15px] ${danger ? "font-semibold text-danger" : "text-ink-2"}`}>
+              {FIELD_LABEL[row.field] ?? row.field}
+            </span>
             <span className="flex-1 text-right">
-              {row.value}
+              <span className="text-[15px] font-semibold text-ink">{row.value}</span>
               {isFresh(row) && (
-                <span
-                  className="ml-2 rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide"
-                  style={{ backgroundColor: "var(--child-soft)", color: "var(--child)" }}
-                >
-                  new
+                <span className="ml-2 rounded-full bg-action px-2 py-0.5 text-[11px] font-bold text-on-action">
+                  New
                 </span>
               )}
-              <span className="block text-[11px] text-muted-foreground">
-                {formatDate(row.date)}
-              </span>
+              <span className="block text-[12px] text-ink-3">{shortDate(row.date)}</span>
             </span>
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
 
 export function ProfilePanel({ query = "" }: { query?: string }) {
-  const { active } = useChildren();
+  const { active, lookOf } = useChildren();
   const { data: facts = [], isLoading } = useFacts(active?.id ?? null);
-  const accent = active?.theme_color ?? "#c2703d";
+  const look = lookOf(active?.id);
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const visibleFacts = normalizedQuery
     ? facts.filter((fact) =>
@@ -78,7 +88,7 @@ export function ProfilePanel({ query = "" }: { query?: string }) {
     : facts;
 
   if (isLoading) {
-    return <p className="py-10 text-center text-sm text-muted-foreground">Opening the file…</p>;
+    return <p className="py-10 text-center text-[15px] text-ink-3">Opening the file…</p>;
   }
 
   const pick = (...fields: string[]) => visibleFacts.filter((fact) => fields.includes(fact.field));
@@ -86,12 +96,21 @@ export function ProfilePanel({ query = "" }: { query?: string }) {
   return (
     <div className="space-y-3">
       <FactList rows={pick("allergy", "medical")} title="Allergies & medical" danger />
-      <GrowthCurve heights={pick("height")} weights={pick("weight")} accent={accent} />
-      <FactList rows={pick("food_like", "food_dislike")} title="Food" />
-      <FactList rows={pick("interest")} title="Interests" />
-      <FactList rows={pick("friend")} title="Friends" />
+      <GrowthCurve
+        heights={pick("height")}
+        weights={pick("weight")}
+        look={look}
+        name={active?.name ?? "Your child"}
+      />
+      <FactList rows={pick("wellbeing")} title="Feelings lately" tint="bg-lilac-soft" />
+      <FactList rows={pick("school")} title="From school" tint="bg-sky-soft" />
+      <FactList rows={pick("food_like", "food_dislike")} title="Food" tint="bg-tomato-soft" />
+      <FactList rows={pick("interest")} title="Interests" tint="bg-aqua-soft" />
+      <FactList rows={pick("friend")} title="Friends" tint="bg-bubblegum-soft" />
       {normalizedQuery && !visibleFacts.length && (
-        <p className="py-6 text-center text-sm text-muted-foreground">No profile details match this search.</p>
+        <p className="py-6 text-center text-[15px] text-ink-3">
+          Nothing in the file matches that. Try another word.
+        </p>
       )}
     </div>
   );

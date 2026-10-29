@@ -22,7 +22,7 @@ export function StatsLine() {
   const fears = cards.filter((card) => card.category === "fear").length;
 
   return (
-    <p className="px-2 py-8 text-center font-display text-lg leading-relaxed text-muted-foreground">
+    <p className="mx-auto max-w-sm text-balance px-2 py-10 text-center text-lg font-medium leading-snug text-ink-2">
       In {days.toLocaleString("en-GB")} days, you were there for {spell(dreams)}{" "}
       {dreams === 1 ? "change" : "changes"} of dream, {spell(courage)} small{" "}
       {courage === 1 ? "act" : "acts"} of courage and {spell(fears)}{" "}
