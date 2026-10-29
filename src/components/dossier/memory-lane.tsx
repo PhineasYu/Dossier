@@ -95,26 +95,30 @@ export function MemoryLane({
         </div>
       </div>
       <div className="-mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p
-              key={label}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.18 }}
-              className="text-[18px] font-medium leading-snug text-child-ink"
-            >
-              {age === null ? "Now" : `At ${age}`}
-            </motion.p>
-          </AnimatePresence>
-          <span className="text-ink-2" aria-hidden="true">·</span>
-          <p className="text-[14px] leading-snug text-ink-2">{when}</p>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.p
+            key={label}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18 }}
+            className="text-[18px] font-medium leading-snug text-child-ink"
+          >
+            {age === null ? "Now" : `At ${age}`}
+          </motion.p>
+        </AnimatePresence>
+        <span className="text-ink-2" aria-hidden="true">
+          ·
+        </span>
+        <p className="text-[14px] leading-snug text-ink-2">{when}</p>
       </div>
-            <p className="mt-1 text-[13px] text-ink-2">
-              {inYear === null ? `${cards.length} memories so far` : inYear === 0
-                ? "No memories kept yet"
-                : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
-            </p>
+      <p className="mt-1 text-[13px] text-ink-2">
+        {inYear === null
+          ? `${cards.length} memories so far`
+          : inYear === 0
+            ? "No memories kept yet"
+            : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
+      </p>
 
       <label className="sr-only" htmlFor="memory-lane-age">
         Choose an age
@@ -133,7 +137,10 @@ export function MemoryLane({
         className="memory-lane-range mt-1 block w-full"
         aria-valuetext={label}
       />
-      <div className="-mt-2 flex justify-between text-[12px] font-medium text-ink-2" aria-hidden="true">
+      <div
+        className="-mt-2 flex justify-between text-[12px] font-medium text-ink-2"
+        aria-hidden="true"
+      >
         {Array.from({ length: stops + 1 }, (_, i) => (
           <span key={i} className={`w-7 text-center ${i === value ? "font-bold text-ink" : ""}`}>
             {i === stops ? "Now" : i}
