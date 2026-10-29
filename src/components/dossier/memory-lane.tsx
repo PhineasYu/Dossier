@@ -83,31 +83,31 @@ export function MemoryLane({
           <h2 className="break-words text-[34px] font-bold leading-tight text-ink">
             {active.name}
           </h2>
-      <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.p
-            key={label}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18 }}
-            className="text-[18px] font-medium leading-snug text-child-ink"
-          >
-            {age === null ? "Now" : `At ${age}`}
-          </motion.p>
-        </AnimatePresence>
-        <span className="text-ink-2" aria-hidden="true">
-          ·
-        </span>
-        <p className="text-[14px] leading-snug text-ink-2">{when}</p>
-      </div>
-      <p className="mt-1 text-[13px] text-ink-2">
-        {inYear === null
-          ? `${cards.length} memories so far`
-          : inYear === 0
-            ? "No memories kept yet"
-            : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
-      </p>
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={label}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+                className="text-[18px] font-medium leading-snug text-child-ink"
+              >
+                {age === null ? "Now" : `At ${age}`}
+              </motion.p>
+            </AnimatePresence>
+            <span className="text-ink-2" aria-hidden="true">
+              ·
+            </span>
+            <p className="text-[14px] leading-snug text-ink-2">{when}</p>
+          </div>
+          <p className="mt-1 text-[13px] text-ink-2">
+            {inYear === null
+              ? `${cards.length} memories so far`
+              : inYear === 0
+                ? "No memories kept yet"
+                : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
+          </p>
         </div>
         <div className="grid h-[132px] min-w-0 place-items-center sm:h-[152px]">
           <motion.div
@@ -116,7 +116,14 @@ export function MemoryLane({
             style={{ originY: 1 }}
             className="w-full max-w-[152px]"
           >
-            <Buddy shape={look.shape} color={look.body} size={152} className="h-auto w-full" limbs smile />
+            <Buddy
+              shape={look.shape}
+              color={look.body}
+              size={152}
+              className="h-auto w-full"
+              limbs
+              smile
+            />
           </motion.div>
         </div>
       </div>
