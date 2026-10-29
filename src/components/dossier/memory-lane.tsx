@@ -1,5 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { ChevronDown, ChevronUp, History } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import { Buddy } from "@/components/dossier/buddy";
 import { useChildren } from "@/lib/child-context";
@@ -81,7 +83,7 @@ export function MemoryLane({
     >
       <div className="flex items-center gap-4">
         <div className="min-w-0 flex-1">
-          <h2 className="break-words text-[18px] font-semibold leading-snug text-child-ink">
+          <h2 className="break-words text-[34px] font-bold leading-tight text-ink">
             {active.name}
           </h2>
           <AnimatePresence mode="wait" initial={false}>
@@ -91,7 +93,7 @@ export function MemoryLane({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.18 }}
-              className="mt-1 break-words text-[30px] font-bold leading-tight text-ink"
+              className="mt-2 break-words text-[18px] font-medium leading-snug text-child-ink"
             >
               {age === null ? "Now" : `At ${age}`}
             </motion.p>
@@ -153,6 +155,7 @@ function ago(iso: string) {
 
 /** One older memory, pinned like a photo, so the past comes to you. */
 export function BackThen({ cards }: { cards: MemoryCard[] }) {
+  const [open, setOpen] = useState(false);
   const pick = useMemo(() => {
     const now = Date.now();
     const old = cards
@@ -169,19 +172,16 @@ export function BackThen({ cards }: { cards: MemoryCard[] }) {
   if (!pick) return null;
 
   return (
-    <motion.article
-      initial={{ opacity: 0, rotate: 0, y: 10 }}
-      animate={{ opacity: 1, rotate: -1.5, y: 0 }}
-      transition={{ type: "spring", stiffness: 140, damping: 16, delay: 0.2 }}
-      className="relative mx-2 rounded-2xl bg-paper px-5 pb-5 pt-7 shadow-[0_10px_30px_-14px_rgb(60_40_50/0.35)] ring-1 ring-line"
-    >
-      <span
-        className="absolute -top-2.5 left-1/2 h-5 w-20 -translate-x-1/2 rotate-[3deg] rounded-sm bg-sun-soft/90"
-        aria-hidden="true"
-      />
-      <p className="text-[13px] font-medium text-ink-2">{ago(pick.date)}</p>
-      <h3 className="mt-1 text-[19px] font-bold leading-snug text-ink">{pick.title}</h3>
-      {pick.body && <p className="mt-1 text-[15px] leading-relaxed text-ink-2">{pick.body}</p>}
-    </motion.article>
+    <section aria-label="Back then">
+      <Button variant="ghost" onClick={()=>setOpen(value=>!value)} aria-expanded={open} aria-controls="back-then-memory" className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-2xl bg-cloud px-4 py-3 text-left">
+        <span className="flex min-w-0 items-center gap-3"><History className="shrink-0" aria-hidden="true" /><span className="text-[16px] font-medium text-ink">{ago(pick.date)}</span></span>
+        {open ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
+      </Button>
+      {open && <motion.article id="back-then-memory" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} className="relative mx-2 mt-5 rounded-2xl bg-paper px-5 pb-5 pt-7 ring-1 ring-line">
+        <span className="absolute -top-2.5 left-1/2 h-5 w-20 -translate-x-1/2 rotate-[3deg] rounded-sm bg-sun-soft/90" aria-hidden="true" />
+        <h3 className="text-[21px] font-bold leading-snug text-ink">{pick.title}</h3>
+        {pick.body && <p className="mt-2 text-[17px] leading-relaxed text-ink-2">{pick.body}</p>}
+      </motion.article>}
+    </section>
   );
 }

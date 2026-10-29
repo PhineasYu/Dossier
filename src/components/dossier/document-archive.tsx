@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AnimatePresence, motion } from "motion/react";
-import { CalendarDays, FileText, Loader2, Upload } from "lucide-react";
+import { ArrowUpRight, FileText, Loader2, Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useChildren } from "@/lib/child-context";
 import { extractDocument } from "@/lib/dossier.functions";
 import type { DocumentRow } from "@/lib/dossier";
@@ -105,36 +105,20 @@ export function DocumentArchive({
           .includes(normalizedQuery),
       )
     : docs;
-  const selected = visibleDocs.find((doc) => doc.id === selectedId) ?? visibleDocs[0];
+  const selected = visibleDocs.find((doc) => doc.id === selectedId);
   const selectedUrl = selected ? previews[selected.id] : undefined;
   const selectedIsImage = selected ? !selected.file_url.toLowerCase().endsWith(".pdf") : false;
   const selectedFields = (selected?.extracted_json ?? {}) as Record<string, unknown>;
 
   return (
-    <section className="overflow-hidden rounded-3xl bg-sun-soft">
-      <div className="flex items-center justify-between px-5 pt-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold">Documents</h2>
-            <p className="mt-0.5 text-[13px] text-ink-3">
-              {visibleDocs.length} {visibleDocs.length === 1 ? "file" : "files"}, each next to what
-              Dossier read
-            </p>
-          </div>
+    <section className="rounded-3xl bg-cloud p-5 sm:p-6" aria-label="Documents">
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className="text-[20px] font-bold">Documents</h2>
+          <p className="mt-1 text-[15px] text-ink-2">{visibleDocs.length} {visibleDocs.length === 1 ? "file" : "files"}</p>
         </div>
-        <Button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          disabled={upload.isPending}
-          size="sm"
-          className=""
-        >
-          {upload.isPending ? (
-            <Loader2 className="size-3.5 animate-spin" />
-          ) : (
-            <Upload className="size-3.5" />
-          )}
-          Add
+        <Button type="button" onClick={() => inputRef.current?.click()} disabled={upload.isPending}>
+          {upload.isPending ? <Loader2 className="animate-spin" /> : <Upload />} Add
         </Button>
       </div>
       <input
@@ -161,123 +145,46 @@ export function DocumentArchive({
         }}
       />
 
-      <div className="px-4 pb-5 pt-6">
-        {!visibleDocs.length ? (
-          <div className="relative mx-auto max-w-md pt-9">
-            <div className="absolute left-0 top-0 h-14 w-48 rounded-t-[20px] bg-sky-soft px-5 pt-3 text-[13px] font-bold text-ink">
-              School & health
-            </div>
-            <div className="relative min-h-52 rounded-b-3xl rounded-tr-3xl bg-sky-soft p-6">
-              <div className="flex min-h-40 flex-col items-center justify-center text-center">
-                <FileText className="mb-3 size-8 text-sky-ink" strokeWidth={1.5} />
-                <p className="text-lg font-bold">
-                  {normalizedQuery ? "No documents match" : "Nothing filed yet"}
-                </p>
-                <p className="mt-1 max-w-xs text-sm text-muted-foreground">
-                  {normalizedQuery
-                    ? "Try another word or clear the search."
-                    : "Add a check-up sheet or school report. The original stays beside the details Dossier reads."}
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="mx-auto max-w-md">
-            <div className="relative h-44" aria-label="Document folders">
-              {visibleDocs.slice(0, 5).map((doc, index) => {
-                const isSelected = doc.id === selected?.id;
-                const tones = ["bg-sky", "bg-sage", "bg-aqua", "bg-lilac", "bg-bubblegum"];
-                const alignRight = index % 2 === 1;
-                return (
-                  <motion.button
-                    key={doc.id}
-                    type="button"
-                    onClick={() => setSelectedId(doc.id)}
-                    animate={{ y: isSelected ? -8 : 0 }}
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
-                    className={`absolute h-24 w-full rounded-t-[20px] px-5 pt-3 text-left text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink ${tones[index % tones.length]}`}
-                    style={{
-                      top: `${index * 28}px`,
-                      zIndex: index + 1,
-                      clipPath: alignRight
-                        ? "polygon(0 30%, 55% 30%, 62% 0, 100% 0, 100% 100%, 0 100%)"
-                        : "polygon(0 0, 40% 0, 47% 30%, 100% 30%, 100% 100%, 0 100%)",
-                    }}
-                    aria-pressed={isSelected}
-                  >
-                    <span
-                      className={`block max-w-[42%] truncate text-[13px] font-bold ${alignRight ? "ml-auto text-right" : ""}`}
-                    >
-                      {doc.doc_type ?? "Untitled document"}
-                    </span>
-                  </motion.button>
-                );
-              })}
-            </div>
-
-            <AnimatePresence mode="wait">
-              {selected && (
-                <motion.article
-                  key={selected.id}
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.3, ease: [0.2, 0, 0, 1] }}
-                  className="relative z-10 grid gap-4 rounded-3xl bg-paper p-4 sm:grid-cols-[1.1fr_1fr]"
-                >
-                  <a
-                    href={selectedUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex min-h-48 overflow-hidden rounded-2xl bg-cloud"
-                  >
-                    {selectedUrl && selectedIsImage ? (
-                      <img
-                        src={selectedUrl}
-                        alt={selected.doc_type ?? "Document"}
-                        className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                      />
-                    ) : (
-                      <span className="m-auto flex flex-col items-center gap-2 text-sm text-muted-foreground">
-                        <FileText className="size-9" strokeWidth={1.3} />
-                        Open original
-                      </span>
-                    )}
-                  </a>
-                  <div className="min-w-0">
-                    <p className="text-lg font-bold">{selected.doc_type ?? "Document"}</p>
-                    <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <CalendarDays className="size-3.5" />
-                      {new Date(selected.uploaded_at).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </p>
-                    {Object.keys(selectedFields).length ? (
-                      <dl className="mt-3 divide-y divide-line text-[15px]">
-                        {Object.entries(selectedFields).map(([key, value]) => (
-                          <div key={key} className="flex justify-between gap-3 py-2">
-                            <dt className="capitalize text-muted-foreground">
-                              {key.replaceAll("_", " ")}
-                            </dt>
-                            <dd className="text-right font-medium">{String(value)}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : (
-                      <p className="mt-4 text-sm text-muted-foreground">
-                        No details were found in this file.
-                      </p>
-                    )}
-                  </div>
-                </motion.article>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
-      </div>
+      {!visibleDocs.length ? (
+        <div className="py-8 text-center text-[17px] text-ink-2">
+          <FileText className="mx-auto mb-3 size-8" strokeWidth={1.25} />
+          {normalizedQuery ? "No documents match" : "Nothing filed yet"}
+        </div>
+      ) : (
+        <ul className="mt-4 divide-y divide-paper" aria-label="Saved documents">
+          {visibleDocs.map(doc => {
+            const image = !doc.file_url.toLowerCase().endsWith(".pdf");
+            return <li key={doc.id}>
+              <Button variant="ghost" onClick={()=>setSelectedId(doc.id)} className="h-auto min-h-24 w-full justify-start gap-4 whitespace-normal rounded-none px-0 py-4 text-left hover:bg-paper/50" aria-label={`View ${doc.doc_type ?? "document"}`}>
+                <span className="grid size-14 shrink-0 place-items-center overflow-hidden rounded-lg bg-paper">
+                  {image && previews[doc.id] ? <img src={previews[doc.id]} alt="" className="size-full object-cover" /> : <FileText className="size-6 text-ink-2" strokeWidth={1.25} />}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block break-words text-[17px] font-semibold text-ink">{doc.doc_type ?? "Untitled document"}</span>
+                  <span className="mt-1 block text-[15px] font-normal text-ink-2">{new Date(doc.uploaded_at).toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"})}</span>
+                </span>
+                <ArrowUpRight className="text-ink-2" aria-hidden="true" />
+              </Button>
+            </li>;
+          })}
+        </ul>
+      )}
+      <Dialog open={Boolean(selected)} onOpenChange={open=>{if (!open) setSelectedId(null);}}>
+        <DialogContent className="dossier-readable max-h-[85dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-3xl border-0 shadow-none sm:rounded-3xl">
+          <DialogHeader className="pr-6 text-left">
+            <DialogTitle className="break-words text-[22px] font-bold">{selected?.doc_type ?? "Document"}</DialogTitle>
+            <DialogDescription className="text-[15px]">{selected && new Date(selected.uploaded_at).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</DialogDescription>
+          </DialogHeader>
+          {selectedUrl && selectedIsImage && <img src={selectedUrl} alt={selected?.doc_type ?? "Document"} className="max-h-80 w-full rounded-lg object-contain" />}
+          <dl className="divide-y divide-line text-[17px]">
+            {Object.entries(selectedFields).map(([key,value])=><div key={key} className="space-y-1 py-3">
+              <dt className="text-[15px] capitalize text-ink-2">{key.replaceAll("_"," ")}</dt>
+              <dd className="break-words font-medium text-ink">{typeof value === "object" ? JSON.stringify(value) : String(value)}</dd>
+            </div>)}
+          </dl>
+          {selectedUrl && <Button asChild><a href={selectedUrl} target="_blank" rel="noreferrer">Open original <ArrowUpRight /></a></Button>}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
