@@ -2,10 +2,11 @@
 
 **One line:** Dossier is the AI that knows your family.
 
-**Positioning (2026-10-30):** a family AI context platform. Parents tell Dossier anything,
-any time; AI keeps each child's body, mind and memories in one living record; everyone who
-cares for the children (partner, grandparents, babysitter, teacher) works from the same
-context, each seeing what they need.
+**Positioning (2026-10-30):** the context management platform for the whole family. Anyone
+in the family tells Dossier anything, any time; AI keeps each child's body, mind and
+memories in one living record, and later the grandparents' stories and care needs too.
+Everyone who cares for the family (partner, grandparents, babysitter, teacher) works from
+the same context, each seeing what they need.
 
 **Vision:** every service that will help a family (schools, doctors, childcare, and the AI
 assistants and home-care robots now arriving) fails for the same reason a new babysitter
@@ -35,10 +36,32 @@ the babysitter) is why it gets opened on an ordinary Tuesday.
 4. **Remember.** Memory lane by age, a memory from back then, search, and Ask Dossier,
    which answers only from what the family saved.
 
+## Platform: virtual first, physical later
+
+| Layer | What | When |
+| --- | --- | --- |
+| Input | Parents (voice, text, documents); later children (watch), grandparents (their stories), babysitters and teachers (notes) | Parents now, the rest with the family circle |
+| Family context | Each person's body, feelings and memories; relationships, routines, care needs; permissions (who sees what) | Now, children first |
+| Virtual layer | App (timeline, memory lane, archive), widgets and shortcuts, Ask Dossier, the family circle, a permissioned family context API for schools, doctors and care services | Now and next |
+| Physical layer | A printed book of each year, kids' watches and home devices (speakers, frames), home-care robots that draw on the family's context | Later, once the context is trusted |
+
+Every output goes through the family's permission. Build the virtual layer so the physical
+one can plug in later: the context, not the app screens, is the product's core.
+
+## Why Qeepsake and Remento make the case
+
+[Qeepsake](https://techcrunch.com/2022/08/16/qeepsake-a-journaling-app-that-helps-families-capture-and-store-memories-raises-2m)
+texts parents a different question every day (700,000+ registered users in 2022), which
+raises how much parents notice. [Remento](https://home.remento.co/how-it-works) asks a
+grandparent one question a week and prints the stories as a $99 book. Both prove families
+pay for these habits; both serve one person and one use. Dossier keeps their mechanisms as
+entry points (prompt cards for parents now, grandparents' stories later) and puts the
+answers into one shared family context.
+
 ## Who it is for
 
-Parents of two to four children, and the people around them: grandparents, babysitters,
-teachers. Secondary: friends who give Dossier+ to new parents.
+Start with parents of two to four children, then the people around them: grandparents,
+babysitters, teachers; in time the whole family across three generations. Secondary: friends who give Dossier+ to new parents.
 
 ## Screens (current build)
 
