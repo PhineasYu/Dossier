@@ -3,7 +3,7 @@ import { CATEGORY_TINT } from "@/lib/palette";
 import { Button } from "@/components/ui/button";
 
 const pillClass =
-  "inline-flex h-11 items-center gap-1.5 rounded-full bg-paper px-3 text-[15px] font-medium leading-none text-ink-2";
+  "inline-flex h-7 items-center gap-1.5 rounded-full bg-paper px-2.5 text-[14px] font-normal leading-none text-ink-2";
 
 const QUESTION_LABEL = {
   for_child: { text: "For them", dot: "bg-q1" },
@@ -26,23 +26,25 @@ export function MemoryCardView({
     <article className={`rounded-3xl p-5 sm:p-6 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}>
       <div className="flex flex-wrap items-center gap-1.5 text-[13px]">
         {question && (
-          <span className={pillClass}>
-            <span className={`size-2 rounded-full ${question.dot}`} aria-hidden="true" />
-            {question.text}
+          <span className="inline-flex h-11 items-center">
+            <span className={pillClass}>
+              <span className={`size-1.5 rounded-full ${question.dot}`} aria-hidden="true" />
+              {question.text}
+            </span>
           </span>
         )}
         {onCategoryChange ? (
           <Button
             variant="ghost"
-            className={pillClass}
+            className="h-11 rounded-full px-0 font-normal hover:bg-transparent"
             aria-label={`Filter by ${CATEGORY_LABEL[card.category] ?? card.category}`}
             onClick={() => onCategoryChange(card.category)}
           >
-            {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+            <span className={pillClass}>{sentence(CATEGORY_LABEL[card.category] ?? card.category)}</span>
           </Button>
         ) : (
-          <span className={pillClass}>
-            {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+          <span className="inline-flex h-11 items-center">
+            <span className={pillClass}>{sentence(CATEGORY_LABEL[card.category] ?? card.category)}</span>
           </span>
         )}
         <time dateTime={card.date} className="ml-auto whitespace-nowrap text-[14px] text-ink-2">
