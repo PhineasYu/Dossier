@@ -12,3 +12,4 @@
 
 10. **Memory filters and card hierarchy** (complete) — Restore functional category filtering, delicate age controls, child/time hierarchy and unified Ask Dossier after missing changes.
 11. **File card refinement** (complete) — Restore compact Pencil marks, 1px strokes/separators and reduced decorative red.
+12. **Simplified documents and legibility** (in progress) — Replace folders with file rows and a detail view, enlarge child-name hierarchy and app text, unify memory pills, and make Back then collapsible.
