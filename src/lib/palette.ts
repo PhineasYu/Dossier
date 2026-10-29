@@ -11,7 +11,11 @@ export const CRAYON_HEX: Record<Crayon | "sun", { body: string; soft: string; in
   tomato: { body: "#f2643a", soft: "#fde4db", ink: "#9c3214" },
   aqua: { body: "#4fc2b9", soft: "#daf2ef", ink: "#1d6660" },
   sage: { body: "#5fa98a", soft: "#dcefe6", ink: "#2c6a51" },
-  sun: { body: "oklch(0.78 0.075 174)", soft: "oklch(0.95 0.027 174)", ink: "oklch(0.36 0.055 174)" },
+  sun: {
+    body: "oklch(0.78 0.075 174)",
+    soft: "oklch(0.95 0.027 174)",
+    ink: "oklch(0.36 0.055 174)",
+  },
   bubblegum: { body: "#f59ac6", soft: "#fde5f0", ink: "#9e2f67" },
 };
 

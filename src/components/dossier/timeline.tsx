@@ -116,7 +116,13 @@ export function Timeline({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: smartCardIds ? Math.min(index * 0.055, 0.22) : 0, duration: 0.25 }}
         >
-          <MemoryCardView card={card} onCategoryChange={onCategoryChange} preview={index === 0 ? "photo" : index === 1 ? "audio" : index === 3 ? "art" : undefined} />
+          <MemoryCardView
+            card={card}
+            onCategoryChange={onCategoryChange}
+            preview={
+              index === 0 ? "photo" : index === 1 ? "audio" : index === 3 ? "art" : undefined
+            }
+          />
         </motion.div>
       ))}
     </section>

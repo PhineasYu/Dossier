@@ -58,7 +58,9 @@ export function MemoryCardView({
   const question = card.question_origin ? QUESTION_LABEL[card.question_origin] : null;
   return (
     <>
-      <article className={`relative rounded-3xl px-5 pb-5 pt-3 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}>
+      <article
+        className={`relative rounded-3xl px-5 pb-5 pt-3 ${CATEGORY_TINT[card.category] ?? "bg-cloud"}`}
+      >
         <Button
           variant="ghost"
           className="absolute inset-0 h-full w-full rounded-3xl p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring"
@@ -92,7 +94,10 @@ export function MemoryCardView({
               </span>
             </span>
           )}
-          <time dateTime={card.date} className="ml-auto whitespace-nowrap pt-0.5 text-[14px] text-ink-2">
+          <time
+            dateTime={card.date}
+            className="ml-auto whitespace-nowrap pt-0.5 text-[14px] text-ink-2"
+          >
             {shortDate(card.date)}
           </time>
         </div>
@@ -107,7 +112,11 @@ export function MemoryCardView({
             {card.body}
           </p>
         )}
-        {preview && <div className="pointer-events-none relative"><MomentPreview kind={preview} /></div>}
+        {preview && (
+          <div className="pointer-events-none relative">
+            <MomentPreview kind={preview} />
+          </div>
+        )}
       </article>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="dossier-readable max-h-[85dvh] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-3xl border-line bg-paper p-5 shadow-none sm:p-6">
