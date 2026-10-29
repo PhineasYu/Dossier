@@ -147,3 +147,4 @@ phone column, the onboarding "add your children" flow, the waitlist page, the ye
 - Timeline tags and dates align near the top edge with quiet 28px chips and accessible interaction targets.
 - Stock photos and static audio waveforms are explicitly labelled samples, never fabricated family attachments.
 - Ask Dossier's conversation heading is 24px. The subscription card uses full-width copy, a readable upper-right Dossier+ badge, and a compact QR underneath rather than a narrow poster column.
+- Documents previews three recent files, then opens a scrollable library grouped by year, with keyword, year and type filters. The explicit 42-file simulation is separate from saved family records.

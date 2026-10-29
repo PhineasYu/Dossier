@@ -17,5 +17,6 @@
 - Memory category filtering uses the shared pure filter in `src/lib/memory-filters.ts` so category, age, keyword and AI results intersect consistently; filter state belongs to the timeline page.
 - Authenticated reading sizes are scoped by `dossier-readable` in global CSS, including portaled document dialogs, so larger typography does not change landing pages or display-title hierarchy.
 - Documents render simple file rows with an on-demand detail dialog, avoiding decorative stacking and keeping all documents accessible.
+- The profile previews only three recent documents; the on-demand library owns year/type/search filters and signs originals only when opened, keeping large archives compact and avoiding bulk preview requests.
 - Memory cards open a shared detail dialog and load their original entry on demand; previews stay compact without truncating the saved content.
 - Timeline sample media is presentation-only and explicitly labelled; it never creates attachments or mutates family records.
