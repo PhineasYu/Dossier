@@ -107,6 +107,7 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
 - **Back then**: one older memory shown directly like a taped photo, a spontaneous reminder. Swipe or dismiss after reading; never collapse it into a drawer and never delete the saved memory.
 - **Story title**: use the original Archivo display styling at 44px, matching Tell Dossier and other page titles. Fraunces is reserved for the Dossier wordmark.
 - **Documents**: simple thumbnail file rows showing title and date. Open a file's details in a dialog; no decorative folder layers or stacked tabs.
+- **Moments**: compact, openable previews with consistent chips and a subtle opening arrow; details show the full memory and the original note or voice transcript. Never represent a transcript as a playable recording or add invented family media.
 - **Reading sizes**: authenticated screens use 17px body, 20–21px card headings and 14–16px metadata. Memory Lane uses a 34px child name and a quieter temporal state. Display titles remain 44px.
 - **Prompt cards** (`prompt-deck.tsx`): an optional stack of tinted cards with a display
   question; "Another" flips to the next. A hook for evenings with nothing to say, never a

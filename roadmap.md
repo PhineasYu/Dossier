@@ -16,4 +16,5 @@
 13. **Compact memory lane** (complete) — Put temporal state and season on one line and bring slider labels closer to the track.
 14. **Gentle memory reminders** (complete) — Replace the drawer with a visible dismissible/swipeable reminder, thin AI sparkles and pills, and use Fraunces for story titles.
 15. **Larger memory-lane mascot** (complete) — Give the child buddy a larger right-hand area above the slider while retaining compact metadata.
-16. **Openable multimedia moments** (in progress) — Open memories in a readable detail view and display genuine linked photos, videos or audio without fabricating family media.
+16. **Openable moments** (complete) — Compact previews open full memories and their original notes or voice transcripts.
+17. **Multimedia timeline** (blocked) — Existing memories have no associated media files; genuine photo/video/audio cards require a media upload and association flow, beyond this presentation-only change.
