@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
+import { ListFilter } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { filterMemories } from "@/lib/memory-filters";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useChildren } from "@/lib/child-context";
-import { ageAt, type MemoryCard } from "@/lib/dossier";
+import { CATEGORY_LABEL, type MemoryCard } from "@/lib/dossier";
 import { MemoryCardView } from "./memory-card";
 
 export function useTimeline(childId: string | null) {
@@ -28,24 +31,26 @@ export function Timeline({
   query = "",
   smartCardIds,
   age = null,
+  category = null,
+  onCategoryChange,
 }: {
   query?: string;
   smartCardIds?: string[];
   /** Only show memories from the year the child was this age. */
   age?: number | null;
+  category?: string | null;
+  onCategoryChange?: ((category: string | null) => void) | undefined;
 }) {
   const { active } = useChildren();
   const { data: cards = [], isLoading } = useTimeline(active?.id ?? null);
-  const normalizedQuery = query.trim().toLocaleLowerCase();
-  const filteredCards = cards.filter((card) => {
-    if (age !== null && ageAt(active?.birthdate ?? null, card.date) !== age) return false;
-    if (smartCardIds) return smartCardIds.includes(card.id);
-    if (!normalizedQuery) return true;
-    return [card.title, card.body ?? "", card.category, card.date]
-      .join(" ")
-      .toLocaleLowerCase()
-      .includes(normalizedQuery);
+  const filteredCards = filterMemories(cards, {
+    query,
+    smartCardIds,
+    age,
+    category,
+    birthdate: active?.birthdate,
   });
+  const categories = [...new Set(cards.map((card) => card.category))];
 
   if (isLoading) {
     return <p className="py-10 text-center text-[15px] text-ink-3">Opening the story…</p>;
@@ -62,16 +67,47 @@ export function Timeline({
     );
   }
 
-  if (!filteredCards.length) {
-    return (
-      <p className="py-10 text-center text-[15px] text-ink-3">
-        Nothing in the story matches that. Try another word.
-      </p>
-    );
-  }
-
   return (
-    <div className="space-y-3">
+    <section className="space-y-3" aria-label="Memories">
+      {onCategoryChange && (
+        <div className="space-y-2 pb-1">
+          <div className="flex items-center justify-between gap-3 text-[13px] text-ink-2">
+            <span className="flex items-center gap-1.5 font-medium">
+              <ListFilter className="size-4" aria-hidden="true" /> Filter memories
+            </span>
+            <span role="status">
+              {filteredCards.length} {filteredCards.length === 1 ? "memory" : "memories"}
+            </span>
+          </div>
+          <div
+            className="flex flex-wrap gap-1.5"
+            role="group"
+            aria-label="Filter memories by category"
+          >
+            {[null, ...categories].map((value) => (
+              <Button
+                key={value ?? "all"}
+                variant={category === value ? "default" : "secondary"}
+                className="h-11 px-3.5 text-[13px] capitalize"
+                aria-pressed={category === value}
+                onClick={() => onCategoryChange(value)}
+              >
+                {value ? (CATEGORY_LABEL[value] ?? value) : "All"}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
+      {!filteredCards.length && (
+        <div className="py-8 text-center">
+          <p className="text-[15px] text-ink-2">No memories match these filters.</p>
+          {category && onCategoryChange && (
+            <Button variant="ghost" className="mt-2" onClick={() => onCategoryChange(null)}>
+              Clear category
+            </Button>
+          )}
+        </div>
+      )}
       {filteredCards.map((card, index) => (
         <motion.div
           key={card.id}
@@ -80,9 +116,9 @@ export function Timeline({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: smartCardIds ? Math.min(index * 0.055, 0.22) : 0, duration: 0.25 }}
         >
-          <MemoryCardView card={card} />
+          <MemoryCardView card={card} onCategoryChange={onCategoryChange} />
         </motion.div>
       ))}
-    </div>
+    </section>
   );
 }

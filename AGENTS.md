@@ -13,3 +13,5 @@
 
 - Authenticated screens share a centred `max-w-xl` column with `px-5 sm:px-6` gutters in both the header and page content, keeping all visual edges aligned.
 - Visual refinements preserve the Buddies tokens and characters in `docs/DESIGN.md`; the display page title is the primary typographic emphasis.
+
+- Memory category filtering uses the shared pure filter in `src/lib/memory-filters.ts` so category, age, keyword and AI results intersect consistently; filter state belongs to the timeline page.

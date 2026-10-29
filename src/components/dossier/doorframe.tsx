@@ -162,8 +162,9 @@ export function GrowthDoorframe({
   // Keep two-line labels at least 30 apart; ticks stay where they belong.
   const labels = [...sorted].reverse().map((mark) => ({ mark, ly: y(mark.cm) }));
   for (let i = 1; i < labels.length; i += 1) {
-    const previous = labels[i - 1]!;
-    const current = labels[i]!;
+    const previous = labels[i - 1];
+    const current = labels[i];
+    if (!previous || !current) continue;
     if (current.ly - previous.ly < 30) current.ly = previous.ly + 30;
   }
 
@@ -180,8 +181,9 @@ export function GrowthDoorframe({
       <path
         d={`M${jamb} ${height + 4} V16 H304 V${height + 4}`}
         fill="none"
-        stroke={INK}
-        strokeWidth={1.75}
+        stroke="var(--ink-2)"
+        strokeWidth={1}
+        vectorEffect="non-scaling-stroke"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -195,9 +197,9 @@ export function GrowthDoorframe({
           <g key={`${mark.date}-${mark.cm}`}>
             <path
               d={`M${jamb - 6} ${my} H${jamb + (isLatest ? 150 : 16)}`}
-              stroke={isLatest ? INK : "var(--ink-2)"}
-              strokeWidth={isLatest ? 1.75 : 1.5}
-              strokeDasharray={isLatest ? "6 5" : undefined}
+              stroke="var(--ink-2)"
+              strokeWidth={1}
+              vectorEffect="non-scaling-stroke"
               strokeLinecap="round"
             />
             <text

@@ -186,7 +186,7 @@ export function DocumentArchive({
             <div className="relative h-44" aria-label="Document folders">
               {visibleDocs.slice(0, 5).map((doc, index) => {
                 const isSelected = doc.id === selected?.id;
-                const tones = ["bg-sky", "bg-tomato", "bg-aqua", "bg-lilac", "bg-bubblegum"];
+                const tones = ["bg-sky", "bg-sage", "bg-aqua", "bg-lilac", "bg-bubblegum"];
                 const alignRight = index % 2 === 1;
                 return (
                   <motion.button
@@ -256,7 +256,7 @@ export function DocumentArchive({
                       })}
                     </p>
                     {Object.keys(selectedFields).length ? (
-                      <dl className="mt-3 divide-y text-[15px]">
+                      <dl className="mt-3 divide-y divide-line text-[15px]">
                         {Object.entries(selectedFields).map(([key, value]) => (
                           <div key={key} className="flex justify-between gap-3 py-2">
                             <dt className="capitalize text-muted-foreground">
