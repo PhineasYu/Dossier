@@ -1,4 +1,5 @@
-import { describe, expect, test } from "bun:test";
+import { describe, test } from "node:test";
+import { deepStrictEqual } from "node:assert";
 import type { MemoryCard } from "./dossier";
 import { filterMemories } from "./memory-filters";
 
@@ -34,35 +35,38 @@ const cards: MemoryCard[] = [
 
 describe("memory filters", () => {
   test("a category label actually narrows the memories", () => {
-    expect(filterMemories(cards, { category: "courage" }).map((card) => card.id)).toEqual([
+    deepStrictEqual(filterMemories(cards, { category: "courage" }).map((card) => card.id), [
       "courage-old",
       "courage-new",
     ]);
   });
   test("All clears the category selection", () => {
-    expect(filterMemories(cards, { category: null }).map((card) => card.id)).toEqual([
+    deepStrictEqual(filterMemories(cards, { category: null }).map((card) => card.id), [
       "courage-old",
       "courage-new",
       "dream",
     ]);
   });
   test("category filtering respects the selected age", () => {
-    expect(
+    deepStrictEqual(
       filterMemories(cards, { category: "courage", age: 5, birthdate: "2020-01-01" }).map(
         (card) => card.id,
       ),
-    ).toEqual(["courage-old"]);
+      ["courage-old"],
+    );
   });
   test("category filtering intersects keyword search", () => {
-    expect(
+    deepStrictEqual(
       filterMemories(cards, { category: "courage", query: "swim" }).map((card) => card.id),
-    ).toEqual(["courage-old"]);
+      ["courage-old"],
+    );
   });
   test("category filtering intersects smart search results", () => {
-    expect(
+    deepStrictEqual(
       filterMemories(cards, { category: "courage", smartCardIds: ["dream", "courage-new"] }).map(
         (card) => card.id,
       ),
-    ).toEqual(["courage-new"]);
+      ["courage-new"],
+    );
   });
 });
