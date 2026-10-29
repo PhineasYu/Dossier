@@ -17,5 +17,5 @@
 14. **Gentle memory reminders** (complete) — Replace the drawer with a visible dismissible/swipeable reminder, thin AI sparkles and pills, and use Fraunces for story titles.
 15. **Larger memory-lane mascot** (complete) — Give the child buddy a larger right-hand area above the slider while retaining compact metadata.
 16. **Openable moments** (complete) — Compact previews open full memories and their original notes or voice transcripts.
-17. **Multimedia timeline placeholders** (in progress) — Add clearly marked free sample photos and static audio-waveform previews, and move chips/date toward the top edge. Real family media remains a future upload flow.
-18. **Replace sunflower yellow** (in progress) — Use a coordinated soft seafoam action palette across buttons, AI, slider and legacy yellow tints.
+17. **Multimedia timeline placeholders** (complete) — Add clearly marked free sample photos and static audio-waveform previews, and move chips/date toward the top edge. Real family media remains a future upload flow.
+18. **Replace sunflower yellow** (complete) — Use a coordinated soft seafoam action palette across buttons, AI, slider and legacy yellow tints.
