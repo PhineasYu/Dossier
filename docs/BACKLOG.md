@@ -37,7 +37,7 @@ Done when: a new account lands on an empty, friendly timeline for its own childr
 
 ### 4. Dates in the family's time zone
 Replace `new Date().toISOString().slice(0, 10)` (UTC) with the family's local date
-(`families.timezone`, default `Europe/Stockholm`) for check-ins, streaks and card dates.
+(`families.timezone`, default `Europe/Stockholm`) for captures, the activity calendar and card dates.
 
 ### 5. Production hygiene
 - Hide "Ask today's questions again" unless in guest/demo mode.
