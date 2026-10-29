@@ -44,7 +44,11 @@ export function Timeline({
   const { active } = useChildren();
   const { data: cards = [], isLoading } = useTimeline(active?.id ?? null);
   const filteredCards = filterMemories(cards, {
-    query, smartCardIds, age, category, birthdate: active?.birthdate,
+    query,
+    smartCardIds,
+    age,
+    category,
+    birthdate: active?.birthdate,
   });
   const categories = [...new Set(cards.map((card) => card.category))];
 
@@ -68,15 +72,27 @@ export function Timeline({
       {onCategoryChange && (
         <div className="space-y-2 pb-1">
           <div className="flex items-center justify-between gap-3 text-[13px] text-ink-2">
-            <span className="flex items-center gap-1.5 font-medium"><ListFilter className="size-4" aria-hidden="true" /> Filter memories</span>
-            <span role="status">{filteredCards.length} {filteredCards.length === 1 ? "memory" : "memories"}</span>
+            <span className="flex items-center gap-1.5 font-medium">
+              <ListFilter className="size-4" aria-hidden="true" /> Filter memories
+            </span>
+            <span role="status">
+              {filteredCards.length} {filteredCards.length === 1 ? "memory" : "memories"}
+            </span>
           </div>
-          <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter memories by category">
+          <div
+            className="flex flex-wrap gap-1.5"
+            role="group"
+            aria-label="Filter memories by category"
+          >
             {[null, ...categories].map((value) => (
-              <Button key={value ?? "all"} variant={category === value ? "default" : "secondary"}
-                className="h-11 px-3.5 text-[13px] capitalize" aria-pressed={category === value}
-                onClick={() => onCategoryChange(value)}>
-                {value ? CATEGORY_LABEL[value] ?? value : "All"}
+              <Button
+                key={value ?? "all"}
+                variant={category === value ? "default" : "secondary"}
+                className="h-11 px-3.5 text-[13px] capitalize"
+                aria-pressed={category === value}
+                onClick={() => onCategoryChange(value)}
+              >
+                {value ? (CATEGORY_LABEL[value] ?? value) : "All"}
               </Button>
             ))}
           </div>
@@ -85,7 +101,11 @@ export function Timeline({
       {!filteredCards.length && (
         <div className="py-8 text-center">
           <p className="text-[15px] text-ink-2">No memories match these filters.</p>
-          {category && onCategoryChange && <Button variant="ghost" className="mt-2" onClick={() => onCategoryChange(null)}>Clear category</Button>}
+          {category && onCategoryChange && (
+            <Button variant="ghost" className="mt-2" onClick={() => onCategoryChange(null)}>
+              Clear category
+            </Button>
+          )}
         </div>
       )}
       {filteredCards.map((card, index) => (

@@ -75,7 +75,13 @@ function Home() {
           }
           onTimelineMatches={setSmartCardIds}
         />
-        <Timeline query={q ?? ""} age={age} category={category} onCategoryChange={setCategory} {...(smartCardIds ? { smartCardIds } : {})} />
+        <Timeline
+          query={q ?? ""}
+          age={age}
+          category={category}
+          onCategoryChange={setCategory}
+          {...(smartCardIds ? { smartCardIds } : {})}
+        />
         <StatsLine />
       </main>
 

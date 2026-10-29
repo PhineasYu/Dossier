@@ -17,7 +17,12 @@ export function filterMemories(cards: MemoryCard[], filters: MemoryFilters) {
       return false;
     }
     if (filters.smartCardIds) return filters.smartCardIds.includes(card.id);
-    return !query || [card.title, card.body ?? "", card.category, card.date]
-      .join(" ").toLocaleLowerCase().includes(query);
+    return (
+      !query ||
+      [card.title, card.body ?? "", card.category, card.date]
+        .join(" ")
+        .toLocaleLowerCase()
+        .includes(query)
+    );
   });
 }

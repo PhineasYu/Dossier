@@ -11,7 +11,10 @@ function sentence(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-export function MemoryCardView({ card, onCategoryChange }: {
+export function MemoryCardView({
+  card,
+  onCategoryChange,
+}: {
   card: MemoryCard;
   onCategoryChange?: ((category: string | null) => void) | undefined;
 }) {
@@ -26,9 +29,12 @@ export function MemoryCardView({ card, onCategoryChange }: {
           </span>
         )}
         {onCategoryChange ? (
-          <Button variant="ghost" className="h-11 bg-paper px-3 text-[13px] font-medium"
+          <Button
+            variant="ghost"
+            className="h-11 bg-paper px-3 text-[13px] font-medium"
             aria-label={`Filter by ${CATEGORY_LABEL[card.category] ?? card.category}`}
-            onClick={() => onCategoryChange(card.category)}>
+            onClick={() => onCategoryChange(card.category)}
+          >
             {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
           </Button>
         ) : (

@@ -81,7 +81,9 @@ export function MemoryLane({
     >
       <div className="flex items-center gap-4">
         <div className="min-w-0 flex-1">
-          <h2 className="break-words text-[18px] font-semibold leading-snug text-child-ink">{active.name}</h2>
+          <h2 className="break-words text-[18px] font-semibold leading-snug text-child-ink">
+            {active.name}
+          </h2>
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
               key={label}
@@ -94,10 +96,14 @@ export function MemoryLane({
               {age === null ? "Now" : `At ${age}`}
             </motion.p>
           </AnimatePresence>
-          <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-            {when}
-          </p>
-          {inYear !== null && <p className="mt-0.5 text-[13px] text-ink-2">{inYear === 0 ? "No memories kept yet" : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}</p>}
+          <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{when}</p>
+          {inYear !== null && (
+            <p className="mt-0.5 text-[13px] text-ink-2">
+              {inYear === 0
+                ? "No memories kept yet"
+                : `${inYear} ${inYear === 1 ? "memory" : "memories"}`}
+            </p>
+          )}
         </div>
         <div className="grid h-[104px] w-[96px] shrink-0 place-items-end justify-items-center">
           <motion.div
