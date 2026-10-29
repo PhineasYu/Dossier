@@ -1,6 +1,6 @@
 import { useServerFn } from "@tanstack/react-start";
-import { RotateCcw } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowUpRight, RotateCcw } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
 
 import { AiBuddy } from "@/components/dossier/buddy";
 import { Button } from "@/components/ui/button";
@@ -77,14 +77,14 @@ export function ArchiveChat() {
   const name = active?.name ?? names;
 
   return (
-    <section className="flex flex-col gap-5">
+    <section
+      className="flex flex-col gap-5 rounded-3xl bg-action-soft p-5 sm:p-6"
+      aria-label="Ask Dossier conversation"
+    >
       <div className="flex items-start gap-3">
         <AiBuddy size={44} />
         <div className="min-w-0 flex-1 pt-0.5">
           <h2 className="text-[17px] font-bold leading-snug">Ask anything about {name}</h2>
-          <p className="mt-0.5 text-[14px] leading-snug text-ink-2">
-            Dossier answers only from what you have saved.
-          </p>
         </div>
         {turns.length > 0 && (
           <Button type="button" variant="outline" size="sm" onClick={() => setTurns([])}>
@@ -95,24 +95,25 @@ export function ArchiveChat() {
 
       {turns.length === 0 && !busy ? (
         <div>
-          <p className="mb-2 text-[13px] font-semibold text-ink-3">Try asking</p>
-          <ul className="space-y-2">
+          <ul className="divide-y divide-action/25">
             {SUGGESTIONS.map((suggestion) => (
               <li key={suggestion}>
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   onClick={() => void send(suggestion)}
-                  className="press w-full rounded-2xl bg-cloud px-4 py-3 text-left text-[15px] leading-snug text-ink"
+                  className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-none px-0 py-3 text-left text-[15px] font-normal leading-snug text-ink hover:bg-transparent hover:text-action-ink"
                 >
-                  {suggestion}
-                </button>
+                  <span>{suggestion}</span>
+                  <ArrowUpRight className="shrink-0 text-action-ink" aria-hidden="true" />
+                </Button>
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <Conversation className="max-h-[52vh] min-h-[200px] rounded-3xl bg-cloud">
-          <ConversationContent className="gap-4 px-4 py-5">
+        <Conversation className="max-h-[52vh] min-h-[200px]">
+          <ConversationContent className="gap-4 px-0 py-2">
             {turns.map((turn) => (
               <Message key={turn.id} from={turn.role}>
                 <MessageContent className={turn.role === "user" ? "bg-paper text-ink" : undefined}>
@@ -135,7 +136,7 @@ export function ArchiveChat() {
         </Conversation>
       )}
 
-      <div className="[&_[data-slot=input-group]]:rounded-3xl [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-cloud [&_[data-slot=input-group]]:shadow-none">
+      <div className="[&_[data-slot=input-group]]:rounded-2xl [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-paper [&_[data-slot=input-group]]:shadow-none">
         <PromptInput
           onSubmit={(message, event) => {
             event.preventDefault();
