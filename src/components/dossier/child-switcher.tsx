@@ -27,7 +27,7 @@ export function ChildSwitcher() {
             variant="ghost"
             onClick={() => setActiveId(kid.id)}
             aria-pressed={isActive}
-            className="h-14 shrink-0 gap-2.5 py-1.5 pl-1.5 pr-4 text-left"
+            className="h-14 shrink-0 gap-2.5 py-1.5 pl-1.5 pr-4 text-left [&_svg]:size-10"
             style={{ backgroundColor: isActive ? look.soft : "transparent" }}
           >
             <motion.span
