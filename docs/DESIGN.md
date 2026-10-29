@@ -27,20 +27,20 @@ Family wallet onboarding (white space, flat characters, pill buttons), Headspace
 
 | Meaning       | Token                                                        | Value                                                       | Where                                                                                                              |
 | ------------- | ------------------------------------------------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Tap me / AI   | `--action`                                                   | `#F9B934` sunflower                                         | Every primary button, AI sparkles, "New" chip                                                                      |
-|               | `--action-hover`                                             | `#EEAB22`                                                   | Hover/pressed                                                                                                      |
-|               | `--action-soft`                                              | `#FEF1CF`                                                   | AI cards (check-in card, AI answers), Dossier+ card                                                                |
+| Tap me / AI   | `--action`                                                   | `oklch(0.78 0.075 174)` seafoam                             | Every primary button, AI sparkles, "New" chip                                                                      |
+|               | `--action-hover`                                             | `oklch(0.72 0.08 174)`                                      | Hover/pressed                                                                                                      |
+|               | `--action-soft`                                              | `oklch(0.95 0.027 174)`                                     | AI cards (check-in card, AI answers), Dossier+ card                                                                |
 |               | `--on-action`                                                | `#1A1A1A`                                                   | Text and icons on action (ink, never white)                                                                        |
 | Child crayons | `--sky` `--lilac` `--aqua` `--bubblegum` `--sage` `--tomato` | `#4F9DF7` `#B4A2F2` `#4FC2B9` `#F59AC6` `#5FA98A` `#F2643A` | Buddies, child switcher pill (`-soft`), growth card (`--child-soft`), sorting lanes                                |
 | Moment tints  | `bg-<crayon>-soft`, `bg-sun-soft`                            | see `CATEGORY_TINT`                                         | Memory cards: courage sun, dream lilac, fear sky, friendship bubblegum, first time sage, interest aqua, other mist |
-| Questions     | `--q1` / `--q2`                                              | sun `#FFC43D` / sky `#4F9DF7`                               | Question cards use the `-soft` tint; memory-card chips show a dot                                                  |
+| Questions     | `--q1` / `--q2`                                              | seafoam `--action` / sky `#4F9DF7`                          | Question cards use the `-soft` tint; memory-card chips show a dot                                                  |
 | Danger        | `--danger` / `--danger-soft`                                 | `#D92D20` / `#FEEBE9`                                       | Allergies and medical only, always with an alert icon                                                              |
 | Neutrals      | `--paper` `--cloud` (mist) `--cloud-2` `--line`              | `#FFFFFF` `#F6F3F4` `#ECE6E8` `#E8E2E4`                     | Page, neutral cards and inputs, empty calendar cells, borders                                                      |
 | Ink           | `--ink` `--ink-2` `--ink-3`                                  | `#1A1A1A` `#55565C` `#8B8C93`                               | Text, line drawings, pencil marks                                                                                  |
 
 Rules:
 
-- Yellow is never a child's colour (it is not in `CRAYONS`). Legacy stored colours map
+- Seafoam action colour is reserved for controls and AI, not assigned as a new child's colour (it is not in `CRAYONS`). Legacy stored colours map
   to the nearest crayon in `palette.ts`; Luca stays blue (sky) and Lucy purple (lilac).
 - The active child's crayon is exposed as `--child`, `--child-soft`, `--child-ink` by
   `ChildProvider`. Use those, never a hard-coded child colour.
@@ -64,16 +64,16 @@ Sentence case everywhere except display titles. No all-caps labels, no tracked e
 
 | Variant     | Look                                                                                  | Use                                                                                                        |
 | ----------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `default`   | action yellow, ink text                                                               | The main action of a view                                                                                  |
+| `default`   | action seafoam, ink text                                                              | The main action of a view                                                                                  |
 | `ai`        | identical to default (kept as a name so AI actions can be found and changed together) | Anything that hands words to the AI: Talk now, Ask, Sort it for me, Answer this, record buttons, chat send |
 | `outline`   | white, 1.5px `--line` border                                                          | Secondary actions, especially on tinted cards                                                              |
 | `ghost`     | text only, ink-2                                                                      | Quiet actions: Later, Skip, Type instead                                                                   |
 | `secondary` | mist fill                                                                             | Icon buttons in the header                                                                                 |
 
-One `default`/`ai` button per card. Never black buttons, never white text on yellow.
+One `default`/`ai` button per card. Never black buttons, never white text on seafoam.
 
 **Chips**: one shape only, a white pill (`bg-paper`, regular weight, ink-2, 28px visual height within 44px interaction rows). Interactive categories and question labels use identical visual dimensions. A question
-chip adds a 8px dot in `--q1`/`--q2`. The only filled chip is "New" (action yellow).
+chip adds a 8px dot in `--q1`/`--q2`. The only filled chip is "New" (action seafoam).
 
 **Cards**: `rounded-3xl` (24px), no border, no shadow. Fill = meaning (tint) or mist.
 Allergy card uses `--danger-soft`.
@@ -95,7 +95,7 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
   shape: flower sways, star hops, cloud floats, blob and burst breathe, bean wobbles.
   Each instance gets its own timing from `useId`, so a row never moves in lockstep.
 - State motions: `bob` listening, `squash` speaking, `wiggle` sorting.
-- `AiBuddy` = the active child's buddy + two yellow sparkles. No glow, no halo, no
+- `AiBuddy` = the active child's buddy + two seafoam sparkles. No glow, no halo, no
   gradient. Use it for every AI surface; never draw the AI any other way.
 - Line work: limbs 2.5px ink, landing doorframe 1.75px, landing pencil ticks 1.5px. Archive growth frames/pencil marks and straight card separators use 1px lines. Keep the growth illustration compact.
 
@@ -107,6 +107,7 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
 - **Back then**: one older memory shown directly like a taped photo, a spontaneous reminder. Swipe or dismiss after reading; never collapse it into a drawer and never delete the saved memory.
 - **Story title**: use the original Archivo display styling at 44px, matching Tell Dossier and other page titles. Fraunces is reserved for the Dossier wordmark.
 - **Documents**: simple thumbnail file rows showing title and date. Open a file's details in a dialog; no decorative folder layers or stacked tabs.
+- **Moments**: compact, openable previews with consistent chips and a subtle opening arrow; details show the full memory and the original note or voice transcript. Never represent a transcript as a playable recording or add invented family media.
 - **Reading sizes**: authenticated screens use 17px body, 20–21px card headings and 14–16px metadata. Memory Lane uses a 34px child name and a quieter temporal state. Display titles remain 44px.
 - **Prompt cards** (`prompt-deck.tsx`): an optional stack of tinted cards with a display
   question; "Another" flips to the next. A hook for evenings with nothing to say, never a
@@ -130,7 +131,7 @@ mark).
 
 - Motion answers an action or shows AI state; ambient motion is limited to buddies and
   confetti. `prefers-reduced-motion` stops everything (global rule in `styles.css`).
-- Ink on action yellow is about 9:1. Ink-2 on mist cards passes AA for body text.
+- Ink on action seafoam is about 9:1. Ink-2 on mist cards passes AA for body text.
 - Every buddy is decorative unless it carries state; then it gets an `aria-label`.
 - Tap targets are at least 44px.
 
@@ -138,3 +139,12 @@ mark).
 
 Dark mode (the app is light-only for now), tablet/desktop layouts beyond a centred
 phone column, the onboarding "add your children" flow, the waitlist page, the yearly book.
+
+## Current refinements
+
+- All former sunflower-yellow roles now use the seafoam action palette; legacy sun tokens alias the action colours. Other child crayons remain unchanged.
+- AI mascot sparkles alone use fresh lemon yellow (`--ai-spark`) with a delicate tonal outline (`--ai-spark-line`); action buttons and other AI surfaces remain seafoam.
+- Timeline tags and dates align near the top edge with quiet 28px chips and accessible interaction targets.
+- Stock photos and static audio waveforms are explicitly labelled samples, never fabricated family attachments.
+- Ask Dossier's conversation heading is 24px. The subscription card uses full-width copy, a readable upper-right Dossier+ badge, and a compact QR underneath rather than a narrow poster column.
+- Documents previews three recent files, then opens a scrollable library grouped by year, with keyword, year and type filters. The explicit 42-file simulation is separate from saved family records.

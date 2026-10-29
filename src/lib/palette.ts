@@ -1,7 +1,7 @@
 import type { Child } from "./dossier";
 
 /** The six crayons a child can belong to. Order is the order new children are given them. */
-/** Order matters: new children get these in turn. Yellow is not here: yellow means "tap me" and AI. */
+/** Order matters: new children get these in turn. Action seafoam is reserved for controls and AI. */
 export const CRAYONS = ["sky", "lilac", "aqua", "bubblegum", "sage", "tomato"] as const;
 export type Crayon = (typeof CRAYONS)[number];
 
@@ -11,7 +11,11 @@ export const CRAYON_HEX: Record<Crayon | "sun", { body: string; soft: string; in
   tomato: { body: "#f2643a", soft: "#fde4db", ink: "#9c3214" },
   aqua: { body: "#4fc2b9", soft: "#daf2ef", ink: "#1d6660" },
   sage: { body: "#5fa98a", soft: "#dcefe6", ink: "#2c6a51" },
-  sun: { body: "#ffc43d", soft: "#fff1c8", ink: "#855700" },
+  sun: {
+    body: "oklch(0.78 0.075 174)",
+    soft: "oklch(0.95 0.027 174)",
+    ink: "oklch(0.36 0.055 174)",
+  },
   bubblegum: { body: "#f59ac6", soft: "#fde5f0", ink: "#9e2f67" },
 };
 
