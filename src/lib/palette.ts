@@ -94,6 +94,6 @@ export const CATEGORY_ACTIVE: Record<string, string> = {
   fear: "bg-sky text-paper hover:bg-sky",
   friendship: "bg-coral text-coral-ink hover:bg-coral",
   "first-time": "bg-peach text-peach-ink hover:bg-peach",
-  interest: "bg-sun text-sun-ink hover:bg-sun",
+  interest: "bg-action text-action-ink hover:bg-action",
   other: "bg-bubblegum text-bubblegum-ink hover:bg-bubblegum",
 };
