@@ -8,16 +8,12 @@ export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
 export function PolarCard() {
   return (
     <section
-      className="rounded-3xl border border-premium-line premium-card p-5 text-premium-foreground sm:p-6"
+      className="rounded-3xl premium-card p-5 text-premium-foreground sm:p-6"
       aria-label="Dossier+"
     >
-      <div className="flex items-start justify-between gap-3">
-        <h2 className="display min-w-0 pt-1 text-[28px] sm:text-[38px]">Keep every year</h2>
-        <span className="premium-badge inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-2 text-sm font-semibold text-on-action sm:gap-1.5 sm:px-3 sm:text-[17px]">
-          <Sparkles className="size-3.5 sm:size-4" strokeWidth={1.25} aria-hidden="true" />
-          Dossier+
-        </span>
-      </div>
+      <h2 className="display pt-1 text-[44px] leading-none tracking-tight sm:text-[56px]">
+        Dossier<span className="ml-0.5 align-super text-[0.7em] text-premium-muted">+</span>
+      </h2>
       <p className="mt-4 text-[17px] leading-relaxed text-premium-muted">
         Unlimited memories, the full archive and every document, kept for the whole childhood.
       </p>
