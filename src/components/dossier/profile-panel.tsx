@@ -85,7 +85,7 @@ function FactGroup({
           />
         </Button>
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className="mt-1 rounded-2xl bg-surface px-4">
         <FactRows rows={rows} />
       </CollapsibleContent>
     </Collapsible>

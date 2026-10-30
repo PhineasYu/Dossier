@@ -25,5 +25,5 @@
 22. **Remove accidental letter** (complete) — Delete the user-identified Personal Letter record and uploaded image; replace the rectangular row highlight with a quiet rounded focus treatment.
 23. **Holographic membership finish** (complete) — Soften the Dossier+ capsule and add restrained metallic reflections to the membership card without changing subscription behaviour.
 24. **Compact profile toggle lists** (complete) — Collapse growing lists within profile cards, add clear disclosure arrows, and enlarge section headings while keeping important alerts visible.
-25. **Action colour trial** (complete) — Lemon-yellow buttons were rejected; buttons returned to seafoam with slightly higher lightness and saturation (`oklch(0.84 0.11 174)`).
+25. **Action colour trial** (complete) — Lemon and brighter seafoam were both rejected; buttons returned to the original slider green (`--action`). Expanded Food sub-drawers (Loves eating / Won't eat) now sit on a white rounded panel to read as open.
 26. **Clean membership revision** (complete) — Remove card reflections and brushing, restore solid deep teal, and use a soft multidirectional gradient only on the badge.
