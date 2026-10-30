@@ -52,17 +52,12 @@ const SHAPES: {
   size: number;
   delay: number;
 }[] = [
-  { kind: "blob", color: "var(--peach-soft)", x: "8%", y: "12%", size: 96, delay: 0 },
-  { kind: "dot", color: "var(--sun)", x: "80%", y: "10%", size: 18, delay: 0.15 },
-  { kind: "star", color: "var(--ai-spark)", x: "70%", y: "22%", size: 28, delay: 0.3 },
-  { kind: "ring", color: "var(--lilac)", x: "14%", y: "34%", size: 34, delay: 0.25 },
-  { kind: "squiggle", color: "var(--sky)", x: "78%", y: "40%", size: 56, delay: 0.4 },
-  { kind: "dot", color: "var(--coral)", x: "6%", y: "62%", size: 14, delay: 0.5 },
-  { kind: "blob", color: "var(--lilac-soft)", x: "74%", y: "70%", size: 110, delay: 0.1 },
-  { kind: "star", color: "var(--peach)", x: "20%", y: "80%", size: 22, delay: 0.55 },
-  { kind: "ring", color: "var(--action)", x: "60%", y: "88%", size: 26, delay: 0.35 },
-  { kind: "squiggle", color: "var(--coral)", x: "10%", y: "90%", size: 48, delay: 0.6 },
-  { kind: "dot", color: "var(--sky)", x: "88%", y: "86%", size: 12, delay: 0.45 },
+  { kind: "dot", color: "var(--peach)", x: "12%", y: "16%", size: 44, delay: 0 },
+  { kind: "star", color: "var(--ai-spark)", x: "76%", y: "14%", size: 30, delay: 0.2 },
+  { kind: "dot", color: "var(--lilac)", x: "82%", y: "46%", size: 16, delay: 0.35 },
+  { kind: "ring", color: "var(--sky)", x: "10%", y: "64%", size: 28, delay: 0.3 },
+  { kind: "dot", color: "var(--coral)", x: "72%", y: "80%", size: 64, delay: 0.1 },
+  { kind: "dot", color: "var(--sun)", x: "24%", y: "88%", size: 12, delay: 0.45 },
 ];
 
 /** Playful floating shapes behind the opening moment; purely decorative. */
