@@ -8,7 +8,7 @@ export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
 export function PolarCard() {
   return (
     <section
-      className="premium-card rounded-3xl border border-premium-line bg-premium p-5 text-premium-foreground sm:p-6"
+      className="rounded-3xl border border-premium-line bg-premium p-5 text-premium-foreground sm:p-6"
       aria-label="Dossier+"
     >
       <div className="flex items-start justify-between gap-3">

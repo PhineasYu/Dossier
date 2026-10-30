@@ -157,7 +157,7 @@ export function ArchiveChat() {
           <PromptInputTextarea ref={textareaRef} placeholder={`Ask about ${name}…`} />
           <PromptInputFooter className="justify-end">
             <PromptInputSubmit
-              className="rounded-full bg-action text-on-action hover:bg-action-hover"
+              className="rounded-full bg-action-button text-on-action hover:bg-action-button-hover"
               {...(busy ? { status: "submitted" as const } : {})}
               disabled={busy || !active}
             />
