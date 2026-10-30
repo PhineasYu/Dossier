@@ -83,6 +83,6 @@ export const CATEGORY_TINT: Record<string, string> = {
   fear: "bg-sky-soft",
   friendship: "bg-coral-soft",
   "first-time": "bg-peach-soft",
-  interest: "bg-aqua-soft",
+  interest: "bg-sun-soft",
   other: "bg-cloud",
 };

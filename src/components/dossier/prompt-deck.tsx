@@ -33,7 +33,7 @@ const TINTS = [
   "bg-sky-soft",
   "bg-lilac-soft",
   "bg-bubblegum-soft",
-  "bg-aqua-soft",
+  "bg-peach-soft",
   "bg-tomato-soft",
 ];
 
