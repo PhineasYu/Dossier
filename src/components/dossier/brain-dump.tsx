@@ -1,4 +1,4 @@
-import { Keyboard, CommitStrategy, useScribe } from "@elevenlabs/react";
+import { CommitStrategy, useScribe } from "@elevenlabs/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
