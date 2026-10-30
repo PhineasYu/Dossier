@@ -155,3 +155,4 @@ phone column, the onboarding "add your children" flow, the waitlist page, the ye
 - Warm palette pass: lilac shifted toward pink; added butter (sun), apricot (peach), coral tokens for category tints.
 - Action colour is now warm apricot (buttons, slider, AI surfaces) to warm the whole page.
 - Dossier+ membership card is solid deep plum; badge foil blends champagne, rose and apricot.
+- Dossier+ card is a bright sunset blend (apricot, butter, coral, pink) with ink text; badge is white on it.
