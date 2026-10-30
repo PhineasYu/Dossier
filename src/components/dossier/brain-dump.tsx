@@ -2,7 +2,7 @@ import { CommitStrategy, useScribe } from "@elevenlabs/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
-import { AudioLines, Loader2, Square, Undo2, X } from "lucide-react";
+import { AudioLines, Keyboard, Loader2, Undo2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -171,18 +171,16 @@ export function BrainDump({
           onClick={isRecording ? stop : start}
           disabled={isSorting}
           aria-label={isRecording ? "Stop and sort" : "Start talking"}
-          className="flex h-16 w-full items-center justify-center gap-3 rounded-full bg-action text-action-ink transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink disabled:opacity-70"
+          className="flex h-16 w-full items-center justify-center gap-3 rounded-3xl bg-action text-action-ink transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink disabled:opacity-70"
         >
           {isSorting ? (
             <Loader2 className="size-6 animate-spin" aria-hidden="true" />
-          ) : isRecording ? (
-            <Square className="size-5" aria-hidden="true" />
           ) : (
             <span className="flex h-7 items-center gap-[4px]" aria-hidden="true">
               {[0.45, 0.8, 1, 0.65, 0.9, 0.5].map((h, i) => (
                 <span
                   key={i}
-                  className="voice-wave w-[4px] rounded-full bg-action-ink"
+                  className={`w-[4px] ${isRecording ? "voice-wave" : ""} rounded-full bg-action-ink`}
                   style={{ height: `${h * 100}%`, animationDelay: `${i * 110}ms` }}
                 />
               ))}
@@ -227,8 +225,9 @@ export function BrainDump({
           onClick={() => setShowTyping((value) => !value)}
           variant="ghost"
           size="sm"
-          className="-ml-2 mt-3"
+          className="ml-auto mt-3 flex"
         >
+          <Keyboard aria-hidden="true" />
           {showTyping ? "Hide the keyboard" : "Type instead"}
         </Button>
       </div>
