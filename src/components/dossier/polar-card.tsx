@@ -1,5 +1,4 @@
 import qrAsset from "@/assets/dossier-qr.svg.asset.json";
-import { Sparkles } from "lucide-react";
 
 // TODO: swap for the real Polar subscription checkout link.
 export const POLAR_CHECKOUT_URL = "https://polar.sh/dossier";
