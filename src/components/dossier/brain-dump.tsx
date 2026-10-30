@@ -2,7 +2,7 @@ import { Keyboard, CommitStrategy, useScribe } from "@elevenlabs/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
-import { AudioLines, Loader2, Square, Undo2, X } from "lucide-react";
+import { AudioLines, Keyboard, Loader2, Undo2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
