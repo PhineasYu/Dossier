@@ -166,39 +166,44 @@ export function BrainDump({
             </Button>
           </div>
         )}
-        <div className="flex items-center gap-4">
-          <Button
-            type="button"
-            variant="ai"
-            onClick={isRecording ? stop : start}
-            disabled={isSorting}
-            size="icon"
-            className="size-16 shrink-0 [&_svg]:size-7"
-            aria-label={isRecording ? "Stop and sort" : "Start talking"}
-          >
+        <button
+          type="button"
+          onClick={isRecording ? stop : start}
+          disabled={isSorting}
+          aria-label={isRecording ? "Stop and sort" : "Start talking"}
+          className="group flex h-16 w-full items-center gap-3 rounded-full bg-action pl-2 pr-5 text-action-ink transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink disabled:opacity-70"
+        >
+          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-paper">
             {isSorting ? (
-              <Loader2 className="animate-spin" />
+              <Loader2 className="size-6 animate-spin" />
             ) : isRecording ? (
-              <Square />
+              <Square className="size-5" />
             ) : (
-              <AudioLines />
+              <AudioLines className="size-6" />
             )}
-          </Button>
-          <div className="min-w-0" aria-live="polite">
-            <p className="text-[15px] font-semibold">
-              {isSorting
-                ? "Sorting into each child's story…"
-                : isRecording
-                  ? "Listening. Tap to stop."
-                  : "Tap and tell Dossier anything"}
-            </p>
-            <p className="mt-0.5 text-[13px] leading-snug text-ink-3">
-              &ldquo;Lucy was nervous before swimming. Luca&apos;s teacher says he shares his toys
-              now.&rdquo;
-            </p>
-          </div>
-          {isSorting && <AiBuddy size={44} motion="wiggle" className="ml-auto" />}
-        </div>
+          </span>
+          <span className="min-w-0 flex-1 text-left text-[16px] font-semibold" aria-live="polite">
+            {isSorting
+              ? "Sorting into each child's story…"
+              : isRecording
+                ? "Listening… tap to finish"
+                : "Hold nothing back. Just talk."}
+          </span>
+          <span className="flex h-6 items-center gap-[3px]" aria-hidden="true">
+            {[0.4, 0.8, 0.55, 1, 0.65, 0.9, 0.45].map((h, i) => (
+              <span
+                key={i}
+                className={`w-[3px] rounded-full bg-action-ink/70 ${isRecording ? "animate-pulse" : ""}`}
+                style={{ height: `${h * 100}%`, animationDelay: `${i * 120}ms` }}
+              />
+            ))}
+          </span>
+        </button>
+        <p className="mt-3 px-2 text-[13px] leading-snug text-ink-3">
+          &ldquo;Lucy was nervous before swimming. Luca&apos;s teacher says he shares his toys
+          now.&rdquo;
+        </p>
+        {isSorting && <AiBuddy size={44} motion="wiggle" className="mx-auto mt-3" />}
 
         {(isRecording || liveTranscript) && (
           <p className="mt-4 min-h-16 rounded-2xl bg-paper p-4 text-left text-[15px] leading-relaxed">
