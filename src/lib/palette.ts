@@ -86,3 +86,14 @@ export const CATEGORY_TINT: Record<string, string> = {
   interest: "bg-sun-soft",
   other: "bg-cloud",
 };
+
+/** Selected filter pills use the vivid version of each category's tint. */
+export const CATEGORY_ACTIVE: Record<string, string> = {
+  courage: "bg-sun text-sun-ink hover:bg-sun",
+  dream: "bg-lilac text-lilac-ink hover:bg-lilac",
+  fear: "bg-sky text-paper hover:bg-sky",
+  friendship: "bg-coral text-coral-ink hover:bg-coral",
+  "first-time": "bg-peach text-peach-ink hover:bg-peach",
+  interest: "bg-sun text-sun-ink hover:bg-sun",
+  other: "bg-bubblegum text-bubblegum-ink hover:bg-bubblegum",
+};

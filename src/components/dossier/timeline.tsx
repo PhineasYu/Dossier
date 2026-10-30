@@ -6,6 +6,7 @@ import { filterMemories } from "@/lib/memory-filters";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useChildren } from "@/lib/child-context";
+import { CATEGORY_ACTIVE } from "@/lib/palette";
 import { CATEGORY_LABEL, type MemoryCard } from "@/lib/dossier";
 import { MemoryCardView } from "./memory-card";
 
@@ -88,7 +89,7 @@ export function Timeline({
               <Button
                 key={value ?? "all"}
                 variant={category === value ? "default" : "secondary"}
-                className="h-11 px-3.5 text-[13px] capitalize"
+                className={`h-11 px-3.5 text-[13px] capitalize ${category === value && value ? (CATEGORY_ACTIVE[value] ?? "") : ""}`}
                 aria-pressed={category === value}
                 onClick={() => onCategoryChange(value)}
               >
