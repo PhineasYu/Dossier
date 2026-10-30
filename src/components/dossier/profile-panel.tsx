@@ -217,20 +217,20 @@ export function ProfilePanel({ query = "" }: { query?: string }) {
       <FactList
         rows={pick("food_like", "food_dislike")}
         title="Food"
-        tint="bg-sage-soft"
+        tint="bg-peach-soft"
         groupFood
         forceOpen={Boolean(normalizedQuery)}
       />
       <FactList
         rows={pick("interest")}
         title="Interests"
-        tint="bg-aqua-soft"
+        tint="bg-sun-soft"
         forceOpen={Boolean(normalizedQuery)}
       />
       <FactList
         rows={pick("friend")}
         title="Friends"
-        tint="bg-bubblegum-soft"
+        tint="bg-coral-soft"
         forceOpen={Boolean(normalizedQuery)}
       />
       {normalizedQuery && !visibleFacts.length && (
