@@ -40,7 +40,9 @@ function FactRows({ rows }: { rows: FactRow[] }) {
           <p className="break-words text-[17px] font-semibold leading-relaxed text-ink">
             {row.value}
             {isFresh(row) && (
-              <span className="ml-2 rounded-full bg-action px-2 py-0.5 text-[11px] font-bold text-on-action">New</span>
+              <span className="ml-2 rounded-full bg-action px-2 py-0.5 text-[11px] font-bold text-on-action">
+                New
+              </span>
             )}
           </p>
           <p className="mt-0.5 text-[12px] text-ink-2">{shortDate(row.date)}</p>
@@ -50,20 +52,42 @@ function FactRows({ rows }: { rows: FactRow[] }) {
   );
 }
 
-function FactGroup({ rows, title, forceOpen }: { rows: FactRow[]; title: string; forceOpen: boolean }) {
+function FactGroup({
+  rows,
+  title,
+  forceOpen,
+}: {
+  rows: FactRow[];
+  title: string;
+  forceOpen: boolean;
+}) {
   const [open, setOpen] = useState(false);
   if (!rows.length) return null;
   return (
-    <Collapsible open={forceOpen || open} onOpenChange={setOpen} className="border-t border-paper/80">
+    <Collapsible
+      open={forceOpen || open}
+      onOpenChange={setOpen}
+      className="border-t border-paper/80"
+    >
       <CollapsibleTrigger asChild>
-        <Button variant="ghost" className="group h-auto min-h-11 w-full justify-between rounded-lg px-0 py-2 text-left hover:bg-transparent">
+        <Button
+          variant="ghost"
+          className="group h-auto min-h-11 w-full justify-between rounded-lg px-0 py-2 text-left hover:bg-transparent"
+        >
           <span className="flex min-w-0 items-center gap-2 whitespace-normal text-[17px] text-ink">
-            {title}<span className="text-[14px] font-normal text-ink-2">{rows.length}</span>
+            {title}
+            <span className="text-[14px] font-normal text-ink-2">{rows.length}</span>
           </span>
-          <ChevronDown aria-hidden="true" strokeWidth={1.25} className="transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none" />
+          <ChevronDown
+            aria-hidden="true"
+            strokeWidth={1.25}
+            className="transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none"
+          />
         </Button>
       </CollapsibleTrigger>
-      <CollapsibleContent><FactRows rows={rows} /></CollapsibleContent>
+      <CollapsibleContent>
+        <FactRows rows={rows} />
+      </CollapsibleContent>
     </Collapsible>
   );
 }
@@ -89,7 +113,8 @@ function FactList({
     return (
       <section className="rounded-3xl bg-danger-soft p-5" aria-label={title}>
         <h2 className="flex items-center gap-2 text-[24px] font-bold text-danger">
-          <TriangleAlert className="size-5 shrink-0" aria-hidden="true" />{title}
+          <TriangleAlert className="size-5 shrink-0" aria-hidden="true" />
+          {title}
         </h2>
         <FactRows rows={rows} />
       </section>
@@ -101,23 +126,47 @@ function FactList({
       <Collapsible open={expanded} onOpenChange={setOpen}>
         <h2>
           <CollapsibleTrigger asChild>
-            <Button variant="ghost" className="group h-auto min-h-11 w-full justify-between rounded-lg px-0 py-1 text-left hover:bg-transparent">
+            <Button
+              variant="ghost"
+              className="group h-auto min-h-11 w-full justify-between rounded-lg px-0 py-1 text-left hover:bg-transparent"
+            >
               <span className="flex min-w-0 items-baseline gap-2 whitespace-normal">
                 <span className="text-[24px] font-bold leading-tight text-ink">{title}</span>
                 <span className="text-[14px] font-normal text-ink-2">{rows.length}</span>
               </span>
-              <ChevronDown aria-hidden="true" strokeWidth={1.25} className="transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none" />
+              <ChevronDown
+                aria-hidden="true"
+                strokeWidth={1.25}
+                className="transition-transform group-data-[state=open]:rotate-180 motion-reduce:transition-none"
+              />
             </Button>
           </CollapsibleTrigger>
         </h2>
-        {!expanded && <p className="truncate pb-1 text-[15px] text-ink-2">{rows.slice(0, 2).map((row) => row.value).join(" · ")}</p>}
+        {!expanded && (
+          <p className="truncate pb-1 text-[15px] text-ink-2">
+            {rows
+              .slice(0, 2)
+              .map((row) => row.value)
+              .join(" · ")}
+          </p>
+        )}
         <CollapsibleContent>
           {groupFood ? (
             <div className="mt-2">
-              <FactGroup rows={rows.filter((row) => row.field === "food_like")} title="Loves eating" forceOpen={forceOpen} />
-              <FactGroup rows={rows.filter((row) => row.field === "food_dislike")} title="Won't eat" forceOpen={forceOpen} />
+              <FactGroup
+                rows={rows.filter((row) => row.field === "food_like")}
+                title="Loves eating"
+                forceOpen={forceOpen}
+              />
+              <FactGroup
+                rows={rows.filter((row) => row.field === "food_dislike")}
+                title="Won't eat"
+                forceOpen={forceOpen}
+              />
             </div>
-          ) : <FactRows rows={rows} />}
+          ) : (
+            <FactRows rows={rows} />
+          )}
         </CollapsibleContent>
       </Collapsible>
     </section>
@@ -153,11 +202,37 @@ export function ProfilePanel({ query = "" }: { query?: string }) {
         look={look}
         name={active?.name ?? "Your child"}
       />
-      <FactList rows={pick("wellbeing")} title="Feelings lately" tint="bg-lilac-soft" forceOpen={Boolean(normalizedQuery)} />
-      <FactList rows={pick("school")} title="From school" tint="bg-sky-soft" forceOpen={Boolean(normalizedQuery)} />
-      <FactList rows={pick("food_like", "food_dislike")} title="Food" tint="bg-sage-soft" groupFood forceOpen={Boolean(normalizedQuery)} />
-      <FactList rows={pick("interest")} title="Interests" tint="bg-aqua-soft" forceOpen={Boolean(normalizedQuery)} />
-      <FactList rows={pick("friend")} title="Friends" tint="bg-bubblegum-soft" forceOpen={Boolean(normalizedQuery)} />
+      <FactList
+        rows={pick("wellbeing")}
+        title="Feelings lately"
+        tint="bg-lilac-soft"
+        forceOpen={Boolean(normalizedQuery)}
+      />
+      <FactList
+        rows={pick("school")}
+        title="From school"
+        tint="bg-sky-soft"
+        forceOpen={Boolean(normalizedQuery)}
+      />
+      <FactList
+        rows={pick("food_like", "food_dislike")}
+        title="Food"
+        tint="bg-sage-soft"
+        groupFood
+        forceOpen={Boolean(normalizedQuery)}
+      />
+      <FactList
+        rows={pick("interest")}
+        title="Interests"
+        tint="bg-aqua-soft"
+        forceOpen={Boolean(normalizedQuery)}
+      />
+      <FactList
+        rows={pick("friend")}
+        title="Friends"
+        tint="bg-bubblegum-soft"
+        forceOpen={Boolean(normalizedQuery)}
+      />
       {normalizedQuery && !visibleFacts.length && (
         <p className="py-6 text-center text-[15px] text-ink-3">
           Nothing in the file matches that. Try another word.
