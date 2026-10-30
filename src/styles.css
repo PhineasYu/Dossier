@@ -180,11 +180,11 @@
   --premium-muted: oklch(0.85 0.035 345);
   --premium-line: oklch(0.47 0.07 345);
   --premium-foil:
-    radial-gradient(ellipse at 18% 15%, oklch(0.97 0.018 174 / 0.9), transparent 72%),
-    radial-gradient(ellipse at 90% 12%, oklch(0.89 0.044 245 / 0.65), transparent 78%),
-    radial-gradient(ellipse at 65% 100%, oklch(0.86 0.055 174 / 0.8), transparent 75%),
-    radial-gradient(ellipse at 5% 95%, oklch(0.91 0.035 295 / 0.5), transparent 70%),
-    oklch(0.89 0.03 185);
+    radial-gradient(ellipse at 18% 15%, oklch(0.97 0.02 80 / 0.9), transparent 72%),
+    radial-gradient(ellipse at 90% 12%, oklch(0.89 0.06 350 / 0.65), transparent 78%),
+    radial-gradient(ellipse at 65% 100%, oklch(0.86 0.08 60 / 0.8), transparent 75%),
+    radial-gradient(ellipse at 5% 95%, oklch(0.91 0.05 320 / 0.5), transparent 70%),
+    oklch(0.9 0.045 30);
   --ai-spark: oklch(0.91 0.17 102);
   --ai-spark-line: oklch(0.69 0.1 102);
   --on-action: #1a1a1a;
