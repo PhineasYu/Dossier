@@ -171,38 +171,27 @@ export function BrainDump({
           onClick={isRecording ? stop : start}
           disabled={isSorting}
           aria-label={isRecording ? "Stop and sort" : "Start talking"}
-          className="group flex h-16 w-full items-center gap-3 rounded-full bg-action pl-2 pr-5 text-action-ink transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink disabled:opacity-70"
+          className="flex h-16 w-full items-center justify-center gap-3 rounded-full bg-action text-action-ink transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink disabled:opacity-70"
         >
-          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-paper">
-            {isSorting ? (
-              <Loader2 className="size-6 animate-spin" />
-            ) : isRecording ? (
-              <Square className="size-5" />
-            ) : (
-              <AudioLines className="size-6" />
-            )}
-          </span>
-          <span className="min-w-0 flex-1 text-left text-[16px] font-semibold" aria-live="polite">
-            {isSorting
-              ? "Sorting into each child's story…"
-              : isRecording
-                ? "Listening… tap to finish"
-                : "Tap and start talking"}
-          </span>
-          <span className="flex h-6 items-center gap-[3px]" aria-hidden="true">
-            {[0.4, 0.8, 0.55, 1, 0.65, 0.9, 0.45].map((h, i) => (
-              <span
-                key={i}
-                className={`w-[3px] rounded-full bg-action-ink/70 ${isRecording ? "animate-pulse" : ""}`}
-                style={{ height: `${h * 100}%`, animationDelay: `${i * 120}ms` }}
-              />
-            ))}
+          {isSorting ? (
+            <Loader2 className="size-6 animate-spin" aria-hidden="true" />
+          ) : isRecording ? (
+            <Square className="size-5" aria-hidden="true" />
+          ) : (
+            <span className="flex h-7 items-center gap-[4px]" aria-hidden="true">
+              {[0.45, 0.8, 1, 0.65, 0.9, 0.5].map((h, i) => (
+                <span
+                  key={i}
+                  className="voice-wave w-[4px] rounded-full bg-action-ink"
+                  style={{ height: `${h * 100}%`, animationDelay: `${i * 110}ms` }}
+                />
+              ))}
+            </span>
+          )}
+          <span className="text-[16px] font-semibold" aria-live="polite">
+            {isSorting ? "Sorting…" : isRecording ? "Listening · tap to finish" : "Tap to talk"}
           </span>
         </button>
-        <p className="mt-3 px-2 text-[13px] leading-snug text-ink-3">
-          &ldquo;Lucy was nervous before swimming. Luca&apos;s teacher says he shares his toys
-          now.&rdquo;
-        </p>
         {isSorting && <AiBuddy size={44} motion="wiggle" className="mx-auto mt-3" />}
 
         {(isRecording || liveTranscript) && (
