@@ -153,3 +153,4 @@ phone column, the onboarding "add your children" flow, the waitlist page, the ye
 - Primary and AI buttons use the original slider seafoam (`--action-button` aliases `--action`, hover aliases `--action-hover`) with dark ink text. Brighter and lemon-yellow trials were both rejected; yellow stays reserved for the AI sparkles only. Expanded sub-drawers (e.g. Food → Loves eating / Won't eat) render their rows on a white rounded panel so the open state reads clearly against the tinted parent card.
 
 - Warm palette pass: lilac shifted toward pink; added butter (sun), apricot (peach), coral tokens for category tints.
+- Action colour is now warm apricot (buttons, slider, AI surfaces) to warm the whole page.
