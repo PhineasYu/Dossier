@@ -55,7 +55,7 @@ function CapturePage() {
         <div>
           <h1 className="display text-[44px] text-ink">Tell Dossier</h1>
           <p className="mt-2 max-w-sm text-[15px] text-ink-2">
-            Anything about anyone in the family. Dossier files it under the right child.
+            Say it once. Dossier sorts it.
           </p>
         </div>
         <BrainDump initialMode={mode} prompt={prompt} onClearPrompt={() => setPrompt(null)} />
