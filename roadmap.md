@@ -26,3 +26,4 @@
 23. **Holographic membership finish** (complete) — Soften the Dossier+ capsule and add restrained metallic reflections to the membership card without changing subscription behaviour.
 24. **Compact profile toggle lists** (in progress) — Collapse growing lists within profile cards, add clear disclosure arrows, and enlarge section headings while keeping important alerts visible.
 25. **Lemon action trial** (in progress) — Try bright lemon-yellow primary buttons with dark text, preserving child colours and the premium metal finish.
+26. **Clean membership revision** (in progress) — Remove card reflections and brushing, restore solid deep teal, and use a soft multidirectional gradient only on the badge.
