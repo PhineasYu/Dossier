@@ -56,13 +56,16 @@ function CapturePage() {
           <h1 className="display text-[44px] text-ink">Tell Dossier</h1>
           <p className="mt-2 max-w-sm text-[15px] text-ink-2">Say it once. Dossier sorts it.</p>
         </div>
-        <BrainDump initialMode={mode} prompt={prompt} onClearPrompt={() => setPrompt(null)} />
         <PromptDeck
           onUse={(next) => {
             setPrompt(next);
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         />
+        <div className="space-y-2">
+          <p className="px-1 text-[15px] text-ink-2">Or just say whatever is on your mind.</p>
+          <BrainDump initialMode={mode} prompt={prompt} onClearPrompt={() => setPrompt(null)} />
+        </div>
         <ActivityCalendar counts={counts} />
       </main>
       <BottomNav />
