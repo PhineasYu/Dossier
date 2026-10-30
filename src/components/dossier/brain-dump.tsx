@@ -187,7 +187,7 @@ export function BrainDump({
               ? "Sorting into each child's story…"
               : isRecording
                 ? "Listening… tap to finish"
-                : "Hold nothing back. Just talk."}
+                : "Tap and start talking"}
           </span>
           <span className="flex h-6 items-center gap-[3px]" aria-hidden="true">
             {[0.4, 0.8, 0.55, 1, 0.65, 0.9, 0.45].map((h, i) => (
