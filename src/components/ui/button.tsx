@@ -9,8 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-action text-on-action hover:bg-action-hover",
-        ai: "bg-action text-on-action hover:bg-action-hover",
+        default: "bg-action-button text-on-action hover:bg-action-button-hover",
+        ai: "bg-action-button text-on-action hover:bg-action-button-hover",
         destructive: "bg-danger text-white hover:bg-danger/90",
         outline: "border-[1.5px] border-line bg-paper text-ink hover:bg-cloud",
         secondary: "bg-cloud text-ink hover:bg-cloud-2",

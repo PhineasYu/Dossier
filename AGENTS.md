@@ -22,3 +22,4 @@
 - Timeline sample media is presentation-only and explicitly labelled; it never creates attachments or mutates family records.
 - Membership material effects use global semantic premium tokens and decorative CSS layers, keeping content unobscured and disabling movement for reduced-motion preferences.
 - Profile fact disclosures are presentation-only local state reset by child/search changes; search reveals matching rows and safety-critical facts stay outside collapsible sections.
+- Button fill tokens are separate from action surface tokens so button colour trials do not recolour profile cards, child accents or membership materials.
