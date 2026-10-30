@@ -151,3 +151,5 @@ phone column, the onboarding "add your children" flow, the waitlist page, the ye
 - Documents previews three recent files, then opens a scrollable library grouped by year, with keyword, year and type filters. The explicit 42-file simulation is separate from saved family records.
 - Profile fact cards use 24px section headings, counts and thin disclosure arrows with a single-line collapsed preview. Food groups likes and dislikes in separate disclosure lists; feelings, school, interests and friends collapse within their existing tinted cards. Search opens matching content automatically; allergies and medical remain visible.
 - Primary and AI buttons use the original slider seafoam (`--action-button` aliases `--action`, hover aliases `--action-hover`) with dark ink text. Brighter and lemon-yellow trials were both rejected; yellow stays reserved for the AI sparkles only. Expanded sub-drawers (e.g. Food → Loves eating / Won't eat) render their rows on a white rounded panel so the open state reads clearly against the tinted parent card.
+
+- Warm palette pass: lilac shifted toward pink; added butter (sun), apricot (peach), coral tokens for category tints.
