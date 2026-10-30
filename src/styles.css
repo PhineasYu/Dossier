@@ -169,12 +169,12 @@
   --bubblegum-ink: #9e2f67;
 
   /* Action: every button and everything AI. One colour, so the product reads as one thing. */
-  --action: oklch(0.82 0.1 62);
-  --action-hover: oklch(0.76 0.115 58);
+  --action: oklch(0.8 0.145 62);
+  --action-hover: oklch(0.75 0.155 56);
   --action-button: var(--action);
   --action-button-hover: var(--action-hover);
-  --action-soft: oklch(0.96 0.03 70);
-  --action-ink: oklch(0.42 0.09 50);
+  --action-soft: oklch(0.965 0.04 72);
+  --action-ink: oklch(0.45 0.13 48);
   --premium: oklch(0.29 0.038 174);
   --premium-foreground: oklch(0.98 0.012 174);
   --premium-muted: oklch(0.83 0.03 174);
