@@ -728,3 +728,15 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+@keyframes voice-wave {
+  0%, 100% { transform: scaleY(0.45); }
+  50% { transform: scaleY(1); }
+}
+.voice-wave {
+  animation: voice-wave 1.1s ease-in-out infinite;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .voice-wave { animation: none; }
+}
