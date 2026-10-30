@@ -158,8 +158,8 @@
   /* Action: every button and everything AI. One colour, so the product reads as one thing. */
   --action: oklch(0.78 0.075 174);
   --action-hover: oklch(0.72 0.08 174);
-  --action-button: oklch(0.93 0.17 105);
-  --action-button-hover: oklch(0.88 0.17 105);
+  --action-button: oklch(0.84 0.11 174);
+  --action-button-hover: oklch(0.78 0.115 174);
   --action-soft: oklch(0.95 0.027 174);
   --action-ink: oklch(0.36 0.055 174);
   --premium: oklch(0.29 0.038 174);
