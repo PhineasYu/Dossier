@@ -23,3 +23,4 @@
 20. **Scalable document library** (complete) — Show three recent documents on the profile, open a searchable year/type-filtered library, and offer a clearly labelled 42-file simulation without changing saved records.
 21. **Premium Dossier+ treatment** (complete) — Align the badge with the Archivo heading and add a deep teal membership-card finish with a restrained foil badge, preserving the QR and compact layout.
 22. **Remove accidental letter** (complete) — Delete the user-identified Personal Letter record and uploaded image; replace the rectangular row highlight with a quiet rounded focus treatment.
+23. **Holographic membership finish** (in progress) — Soften the Dossier+ capsule and add restrained metallic reflections to the membership card without changing subscription behaviour.

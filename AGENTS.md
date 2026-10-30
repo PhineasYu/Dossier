@@ -20,3 +20,4 @@
 - The profile previews only three recent documents; the on-demand library owns year/type/search filters and signs originals only when opened, keeping large archives compact and avoiding bulk preview requests.
 - Memory cards open a shared detail dialog and load their original entry on demand; previews stay compact without truncating the saved content.
 - Timeline sample media is presentation-only and explicitly labelled; it never creates attachments or mutates family records.
+- Membership material effects use global semantic premium tokens and decorative CSS layers, keeping content unobscured and disabling movement for reduced-motion preferences.
