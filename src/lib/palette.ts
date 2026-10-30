@@ -84,7 +84,7 @@ export const CATEGORY_TINT: Record<string, string> = {
   friendship: "bg-coral-soft",
   "first-time": "bg-peach-soft",
   interest: "bg-sun-soft",
-  other: "bg-cloud",
+  other: "bg-bubblegum-soft",
 };
 
 /** Selected filter pills use the vivid version of each category's tint. */
