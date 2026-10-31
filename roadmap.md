@@ -1,6 +1,6 @@
 # Dossier hackathon roadmap
 
-29. **Assistant tasks** (in progress) — Confirmed action proposals, account-isolated in-app reminders, internal schedule and communication drafts; manage dates, completion and deletion without external sends or bookings.
+29. **Assistant tasks** (complete) — Confirmed action proposals, account-isolated in-app reminders, internal schedule and communication drafts; manage dates, completion and deletion without external sends or bookings. Real signed-in reminder creation/readback, follow-up rescheduling, event/draft creation and deletion verified; rule tests pass.
 
 28. **Settings navigation** (complete) — Fourth tab now opens account/settings, family profile links and on-demand membership; standalone chat page retired and old URL redirects. Verified authenticated navigation and mobile layout.
 
