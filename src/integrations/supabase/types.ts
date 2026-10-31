@@ -14,6 +14,106 @@ export type Database = {
   }
   public: {
     Tables: {
+      assistant_ai_blocks: {
+        Row: {
+          created_at: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      assistant_proposals: {
+        Row: {
+          actions: Json
+          child_id: string | null
+          created_at: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          actions?: Json
+          child_id?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Update: {
+          actions?: Json
+          child_id?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assistant_proposals_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assistant_tasks: {
+        Row: {
+          child_id: string | null
+          created_at: string
+          details: string
+          due_at: string | null
+          id: string
+          kind: string
+          status: string
+          timezone: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          child_id?: string | null
+          created_at?: string
+          details?: string
+          due_at?: string | null
+          id?: string
+          kind: string
+          status?: string
+          timezone?: string
+          title: string
+          user_id?: string
+        }
+        Update: {
+          child_id?: string | null
+          created_at?: string
+          details?: string
+          due_at?: string | null
+          id?: string
+          kind?: string
+          status?: string
+          timezone?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assistant_tasks_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cards: {
         Row: {
           body: string | null
@@ -231,7 +331,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      confirm_assistant_proposal: {
+        Args: { approve: boolean; proposal_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
