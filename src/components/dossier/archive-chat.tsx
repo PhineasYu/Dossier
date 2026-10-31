@@ -160,7 +160,6 @@ export function ArchiveChat({
           onSubmit={(message, event) => {
             event.preventDefault();
             const text = message.text ?? "";
-            event.currentTarget.reset();
             void send(text);
           }}
         >
