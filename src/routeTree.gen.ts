@@ -15,6 +15,7 @@ import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/ap
 import { Route as AuthenticatedCaptureRouteImport } from './routes/_authenticated/capture'
 import { Route as AuthenticatedDossierPlusRouteImport } from './routes/_authenticated/dossier-plus'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as DesignWidgetsRouteImport } from './routes/design/widgets'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const DesignWidgetsRoute = DesignWidgetsRouteImport.update({
   id: '/design/widgets',
   path: '/design/widgets',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/capture': typeof AuthenticatedCaptureRoute
   '/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/design/widgets': typeof DesignWidgetsRoute
 }
 export interface FileRoutesByTo {
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/capture': typeof AuthenticatedCaptureRoute
   '/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/design/widgets': typeof DesignWidgetsRoute
 }
 export interface FileRoutesById {
@@ -77,15 +85,28 @@ export interface FileRoutesById {
   '/_authenticated/capture': typeof AuthenticatedCaptureRoute
   '/_authenticated/dossier-plus': typeof AuthenticatedDossierPlusRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/design/widgets': typeof DesignWidgetsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/app' | '/capture' | '/dossier-plus' | '/profile' | '/design/widgets'
+    | '/'
+    | '/app'
+    | '/capture'
+    | '/dossier-plus'
+    | '/profile'
+    | '/settings'
+    | '/design/widgets'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/app' | '/capture' | '/dossier-plus' | '/profile' | '/design/widgets'
+    | '/'
+    | '/app'
+    | '/capture'
+    | '/dossier-plus'
+    | '/profile'
+    | '/settings'
+    | '/design/widgets'
   id:
     | '__root__'
     | '/'
@@ -94,6 +115,7 @@ export interface FileRouteTypes {
     | '/_authenticated/capture'
     | '/_authenticated/dossier-plus'
     | '/_authenticated/profile'
+    | '/_authenticated/settings'
     | '/design/widgets'
   fileRoutesById: FileRoutesById
 }
@@ -147,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/design/widgets': {
       id: '/design/widgets'
       path: '/design/widgets'
@@ -162,6 +191,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCaptureRoute: typeof AuthenticatedCaptureRoute
   AuthenticatedDossierPlusRoute: typeof AuthenticatedDossierPlusRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -169,6 +199,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCaptureRoute: AuthenticatedCaptureRoute,
   AuthenticatedDossierPlusRoute: AuthenticatedDossierPlusRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
