@@ -30,20 +30,20 @@ the babysitter) is why it gets opened on an ordinary Tuesday.
    - profile facts: allergy, medical, height, weight, food likes and dislikes,
      interests, friends, **wellbeing** (feelings lately) and **school** (what a teacher
      reported).
-   A sentence about two children becomes one item per child. No confirmation step;
-   one-tap undo.
+     A sentence about two children becomes one item per child. No confirmation step;
+     one-tap undo.
 3. **Share.** The family circle: each carer sees what they need (planned).
 4. **Remember.** Memory lane by age, a memory from back then, search, and Ask Dossier,
    which answers only from what the family saved.
 
 ## Platform: virtual first, physical later
 
-| Layer | What | When |
-| --- | --- | --- |
-| Input | Parents (voice, text, documents); later children (watch), grandparents (their stories), babysitters and teachers (notes) | Parents now, the rest with the family circle |
-| Family context | Each person's body, feelings and memories; relationships, routines, care needs; permissions (who sees what) | Now, children first |
-| Virtual layer | App (timeline, memory lane, archive), widgets and shortcuts, Ask Dossier, the family circle, a permissioned family context API for schools, doctors and care services | Now and next |
-| Physical layer | A printed book of each year, kids' watches and home devices (speakers, frames), home-care robots that draw on the family's context | Later, once the context is trusted |
+| Layer          | What                                                                                                                                                                  | When                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| Input          | Parents (voice, text, documents); later children (watch), grandparents (their stories), babysitters and teachers (notes)                                              | Parents now, the rest with the family circle |
+| Family context | Each person's body, feelings and memories; relationships, routines, care needs; permissions (who sees what)                                                           | Now, children first                          |
+| Virtual layer  | App (timeline, memory lane, archive), widgets and shortcuts, Ask Dossier, the family circle, a permissioned family context API for schools, doctors and care services | Now and next                                 |
+| Physical layer | A printed book of each year, kids' watches and home devices (speakers, frames), home-care robots that draw on the family's context                                    | Later, once the context is trusted           |
 
 Every output goes through the family's permission. Build the virtual layer so the physical
 one can plug in later: the context, not the app screens, is the product's core.
@@ -65,26 +65,26 @@ babysitters, teachers; in time the whole family across three generations. Second
 
 ## Screens (current build)
 
-| Route | Name in nav | What it holds |
-| --- | --- | --- |
-| `/` | n/a | Landing: wordmark, doorframe illustration, headline, Google sign-in, "Look around first" (guest demo) |
-| `/app` | Timeline | Splash, child switcher, memory lane (age slider), a memory from back then, talk-to-Dossier card (voice agent), search/ask, memory timeline, stats line |
-| `/capture` | Today | Tell Dossier (record or type) with sorting lanes and undo, optional prompt-card deck, days-with-a-memory calendar |
-| `/profile` | Archive | Allergies and medical, pencil-mark growth doorframe, feelings lately, from school, food, interests, friends, document folders (original next to AI-read fields), family circle preview |
-| `/dossier-plus` | Ask Dossier | Chat over one child's whole record, Dossier+ subscription card (Polar QR) |
-| `/design/widgets` | n/a | Design preview of iPhone home-screen and lock-screen widgets |
+| Route             | Name in nav | What it holds                                                                                                                                                                          |
+| ----------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`               | n/a         | Landing: wordmark, doorframe illustration, headline, Google sign-in, "Look around first" (guest demo)                                                                                  |
+| `/app`            | Timeline    | Splash, child switcher, memory lane (age slider), a memory from back then, talk-to-Dossier card (voice agent), search/ask, memory timeline, stats line                                 |
+| `/capture`        | Today       | Tell Dossier (record or type) with sorting lanes and undo, optional prompt-card deck, days-with-a-memory calendar                                                                      |
+| `/profile`        | Archive     | Allergies and medical, pencil-mark growth doorframe, feelings lately, from school, food, interests, friends, document folders (original next to AI-read fields), family circle preview |
+| `/settings`       | Settings    | Account, family profile links, on-demand Dossier+ membership and sign-out; the retired `/dossier-plus` URL redirects here                                                              |
+| `/design/widgets` | n/a         | Design preview of iPhone home-screen and lock-screen widgets                                                                                                                           |
 
 ## AI pieces (all in `src/lib/dossier.functions.ts`)
 
-| Function | Model | Job |
-| --- | --- | --- |
-| `captureEntry` | Gemini Flash via Lovable AI Gateway | Split a transcript into cards and facts per child, store them |
-| `undoEntry` | n/a | Remove everything one entry created |
-| `askArchive` | Gemini Flash | Search the timeline or archive; return an answer plus matching ids |
-| `chatArchive` | GPT via Lovable AI Gateway (Responses API, streamed server-side) | Conversation over everything stored for one child |
-| `extractDocument` | Gemini Flash (multimodal) | Read a check-up or school document into fields |
-| `getScribeToken` | ElevenLabs Scribe v2 realtime | Live transcription token |
-| `getCheckinConversationToken` | ElevenLabs Conversational AI | WebRTC token for the voice agent that asks the two questions; client tools `save_moment` and `end_checkin` |
+| Function                      | Model                                                            | Job                                                                                                        |
+| ----------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `captureEntry`                | Gemini Flash via Lovable AI Gateway                              | Split a transcript into cards and facts per child, store them                                              |
+| `undoEntry`                   | n/a                                                              | Remove everything one entry created                                                                        |
+| `askArchive`                  | Gemini Flash                                                     | Search the timeline or archive; return an answer plus matching ids                                         |
+| `chatArchive`                 | GPT via Lovable AI Gateway (Responses API, streamed server-side) | Conversation over everything stored for one child                                                          |
+| `extractDocument`             | Gemini Flash (multimodal)                                        | Read a check-up or school document into fields                                                             |
+| `getScribeToken`              | ElevenLabs Scribe v2 realtime                                    | Live transcription token                                                                                   |
+| `getCheckinConversationToken` | ElevenLabs Conversational AI                                     | WebRTC token for the voice agent that asks the two questions; client tools `save_moment` and `end_checkin` |
 
 Prompt rules that must survive refactors: JSON only; never invent facts; one item per
 child; heights in cm and weights in kg as bare numbers; never give medical advice;
@@ -106,7 +106,7 @@ every user sees the same demo family (Luca and Lucy). Fixing this is P0 in
 - Multi-child from day one; every child has a crayon and a buddy.
 - Allergies and medical are must-haves and always visually flagged.
 - Voice is input only; Dossier never reads memories back aloud.
-- Search lives inside Timeline and Archive; the AI chat lives on Ask Dossier.
+- Search lives inside Timeline and Archive; the AI chat lives above Story on the homepage. The fourth tab is Settings.
 
 ## Not built yet
 
