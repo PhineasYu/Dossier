@@ -91,8 +91,8 @@ chip adds a 8px dot in `--q1`/`--q2`. The only filled chip is "New" (action apri
 Allergy card uses `--danger-soft`.
 
 **Navigation** (`bottom-nav.tsx`): one floating liquid-glass capsule (`.liquid-glass`),
-four icons drawn the same way: Timeline, Today (waveform), Archive, Ask Dossier (AI is
-last). The current page sits on a white lens (`.liquid-lens`). Icons only; names are
+four icons drawn the same way: Timeline, Today (waveform), Archive, Settings (gear).
+The AI assistant lives above Story on the homepage. The current page sits on a white lens (`.liquid-lens`). Icons only; names are
 `aria-label`s. Pages need `pb-32` so content clears it.
 
 **Recording**: the waveform icon (`AudioLines`), never a microphone, on an `ai` button.

@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { AudioLines, FolderHeart, ScrollText, Sparkles } from "lucide-react";
+import { AudioLines, FolderHeart, ScrollText, Settings } from "lucide-react";
 
-/** Story, capture and file first; asking Dossier's AI is the last stop. */
+/** Story, capture, archive and account settings; AI lives on the homepage. */
 const ITEMS = [
   { to: "/app", label: "Timeline", icon: ScrollText },
   { to: "/capture", label: "Today", icon: AudioLines },
   { to: "/profile", label: "Archive", icon: FolderHeart },
-  { to: "/dossier-plus", label: "Ask Dossier", icon: Sparkles },
+  { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 /**

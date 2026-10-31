@@ -1,5 +1,7 @@
 # Dossier hackathon roadmap
 
+28. **Settings navigation** (in progress) — Replace the fourth Ask Dossier tab with account/settings; retire the standalone chat page and redirect its old URL.
+
 27. **Homepage assistant** (complete) — Compact assistant above Story, reusing archive answers and the existing voice/text capture dialog; verified an authenticated real question, the draft entry dialog and mobile layout. No new automation or external actions.
 
 1. **Subscription landing section** (in progress) — Add three Polar-backed plans to the bottom of `/` above the sign-in buttons.

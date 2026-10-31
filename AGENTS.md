@@ -24,3 +24,4 @@
 - Profile fact disclosures are presentation-only local state reset by child/search changes; search reveals matching rows and safety-critical facts stay outside collapsible sections.
 - Button fill tokens are separate from action surface tokens so button colour trials do not recolour profile cards, child accents or membership materials.
 - The homepage assistant reuses ArchiveChat in compact mode and BrainDump in an on-demand dialog, keeping archive questions separate from saved notes without a second AI integration.
+- The fourth navigation destination is Settings; the retired standalone chat URL redirects there so saved links continue working, and membership is an on-demand disclosure within Settings.
