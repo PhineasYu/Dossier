@@ -90,7 +90,9 @@ export function ArchiveChat({
       <div className="flex flex-wrap items-start gap-3">
         <AiBuddy size={compact ? 40 : 52} />
         <div className="min-w-0 flex-1 pt-0.5">
-          <h2 className={`${compact ? "text-[20px]" : "text-[24px]"} font-bold leading-tight text-ink`}>
+          <h2
+            className={`${compact ? "text-[20px]" : "text-[24px]"} font-bold leading-tight text-ink`}
+          >
             {compact ? "What should Dossier do?" : `Ask anything about ${name}`}
           </h2>
         </div>
@@ -108,25 +110,26 @@ export function ArchiveChat({
         )}
       </div>
 
-      {turns.length === 0 && !busy ? (compact ? null : (
-        <div>
-          <ul className="divide-y divide-paper/80">
-            {SUGGESTIONS.map((suggestion) => (
-              <li key={suggestion}>
-                <Button
-                  variant="ghost"
-                  type="button"
-                  onClick={() => void send(suggestion)}
-                  className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-none px-0 py-3 text-left text-[15px] font-normal leading-snug text-ink hover:bg-transparent hover:text-action-ink"
-                >
-                  <span>{suggestion}</span>
-                  <ArrowUpRight className="shrink-0 text-action-ink" aria-hidden="true" />
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
+      {turns.length === 0 && !busy ? (
+        compact ? null : (
+          <div>
+            <ul className="divide-y divide-paper/80">
+              {SUGGESTIONS.map((suggestion) => (
+                <li key={suggestion}>
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    onClick={() => void send(suggestion)}
+                    className="h-auto min-h-14 w-full justify-between gap-3 whitespace-normal rounded-none px-0 py-3 text-left text-[15px] font-normal leading-snug text-ink hover:bg-transparent hover:text-action-ink"
+                  >
+                    <span>{suggestion}</span>
+                    <ArrowUpRight className="shrink-0 text-action-ink" aria-hidden="true" />
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
       ) : (
         <Conversation className={compact ? "max-h-72 min-h-24" : "max-h-[52vh] min-h-[200px]"}>
           <ConversationContent className="gap-4 px-0 py-2">
@@ -170,14 +173,29 @@ export function ArchiveChat({
           <PromptInputFooter className="justify-between">
             {compact && onCapture ? (
               <div className="flex min-w-0 items-center gap-1">
-                <Button type="button" variant="ghost" size="sm" onClick={() => onCapture("text")} className="px-2 text-[14px]">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onCapture("text")}
+                  className="px-2 text-[14px]"
+                >
                   <Plus aria-hidden="true" /> Save a moment
                 </Button>
-                <Button type="button" variant="ghost" size="icon" onClick={() => onCapture("voice")} aria-label="Tell Dossier by voice" title="Tell Dossier by voice">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => onCapture("voice")}
+                  aria-label="Tell Dossier by voice"
+                  title="Tell Dossier by voice"
+                >
                   <AudioLines aria-hidden="true" />
                 </Button>
               </div>
-            ) : <span />}
+            ) : (
+              <span />
+            )}
             <PromptInputSubmit
               className="shrink-0 rounded-full bg-action-button text-on-action hover:bg-action-button-hover"
               {...(busy ? { status: "submitted" as const } : {})}

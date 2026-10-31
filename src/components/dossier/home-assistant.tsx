@@ -18,7 +18,12 @@ export function HomeAssistant() {
   return (
     <>
       <ArchiveChat key={active?.id ?? "family"} compact onCapture={setCaptureMode} />
-      <Dialog open={captureMode !== null} onOpenChange={(open) => { if (!open) setCaptureMode(null); }}>
+      <Dialog
+        open={captureMode !== null}
+        onOpenChange={(open) => {
+          if (!open) setCaptureMode(null);
+        }}
+      >
         <DialogContent className="dossier-readable max-h-[85dvh] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-3xl border-0 bg-paper p-5 sm:p-6">
           <DialogHeader className="text-left">
             <DialogTitle className="text-[24px]">Tell Dossier</DialogTitle>
