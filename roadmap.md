@@ -1,6 +1,6 @@
 # Dossier hackathon roadmap
 
-27. **Homepage assistant** (in progress) — Add a compact assistant above Story, reusing archive answers and the existing voice/text capture flow; no new automation or external actions.
+27. **Homepage assistant** (complete) — Compact assistant above Story, reusing archive answers and the existing voice/text capture dialog; verified an authenticated real question, the draft entry dialog and mobile layout. No new automation or external actions.
 
 1. **Subscription landing section** (in progress) — Add three Polar-backed plans to the bottom of `/` above the sign-in buttons.
 1. **Extract palette from reference upload** (complete) — Dusty blue, sage, stone and paper tones are now design tokens across the app.
