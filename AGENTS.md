@@ -27,3 +27,5 @@
 - The fourth navigation destination is Settings; the retired standalone chat URL redirects there so saved links continue working, and membership is an on-demand disclosure within Settings.
 - Assistant tasks are account-owned with RLS; AI prepares stored proposals, and an authenticated atomic confirmation function executes each proposal once. Reminder visibility derives from saved timestamps in-app, not background notification jobs.
 - New task-planning AI calls use request-scoped AI SDK Responses helpers; existing archive/capture providers remain unchanged.
+- Agent changes to saved memories and facts (`kind` memory/fact) never go through `confirm_assistant_proposal`: the planner stores them as a separate proposal; `confirmAssistantPlan` claims it once (pending -> confirmed) and applies it server-side, scoped to the proposal's child; saving a memory reuses `captureEntry`. No schema change was needed.
+- The agent never sends messages or books appointments: drafts open via mailto/sms links and dated plans export to .ics with an alarm, so notifications come from the phone's own apps.

@@ -1,12 +1,41 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { CalendarDays, Check, Copy, Pencil, Trash2 } from "lucide-react";
+import {
+  CalendarDays,
+  CalendarPlus,
+  Check,
+  Copy,
+  Mail,
+  MessageSquare,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getAssistantTasks, changeAssistantTask } from "@/lib/assistant-tasks.functions";
-import { isTaskDue, taskDate, type AssistantTask, type TaskAction } from "@/lib/assistant-tasks";
+import {
+  icsFor,
+  isTaskDue,
+  mailtoLink,
+  smsLink,
+  taskDate,
+  type AssistantTask,
+  type TaskAction,
+} from "@/lib/assistant-tasks";
+
+/** Download a dated plan as a calendar file; the phone's calendar then reminds the parent. */
+function addToCalendar(task: AssistantTask) {
+  const ics = icsFor(task);
+  if (!ics) return;
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${task.title.replace(/[^\w\s-]/g, "").trim() || "dossier-plan"}.ics`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
 import { isGuest } from "@/lib/guest";
 
 export function AssistantAgenda() {
@@ -157,7 +186,7 @@ export function AssistantAgenda() {
                         {t.details}
                       </p>
                     )}
-                    <div className="flex gap-1">
+                    <div className="flex flex-wrap gap-1">
                       {t.status !== "completed" && (
                         <Button
                           variant="ghost"
@@ -178,6 +207,39 @@ export function AssistantAgenda() {
                       >
                         <Pencil />
                       </Button>
+                      {t.due_at && t.status !== "completed" && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Add ${t.title} to your calendar`}
+                          title="Add to calendar"
+                          onClick={() => addToCalendar(t)}
+                        >
+                          <CalendarPlus />
+                        </Button>
+                      )}
+                      {t.kind === "draft" && (
+                        <>
+                          <Button variant="ghost" size="icon" asChild>
+                            <a
+                              href={mailtoLink(t.title, t.details)}
+                              aria-label={`Email ${t.title}`}
+                              title="Open in Mail"
+                            >
+                              <Mail />
+                            </a>
+                          </Button>
+                          <Button variant="ghost" size="icon" asChild>
+                            <a
+                              href={smsLink(t.details)}
+                              aria-label={`Text ${t.title}`}
+                              title="Open in Messages"
+                            >
+                              <MessageSquare />
+                            </a>
+                          </Button>
+                        </>
+                      )}
                       {t.kind === "draft" && (
                         <Button
                           variant="ghost"

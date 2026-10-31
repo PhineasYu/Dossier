@@ -28,7 +28,7 @@ type Turn = {
   id: string;
   role: "user" | "assistant";
   content: string;
-  proposalId?: string | null;
+  proposalIds?: string[];
   actions?: TaskAction[];
 };
 
@@ -60,7 +60,7 @@ export function ArchiveChat({
       setTurns(next);
       setBusy(true);
       try {
-        const result: { answer: string; proposalId?: string | null; actions?: TaskAction[] } =
+        const result: { answer: string; proposalIds?: string[]; actions?: TaskAction[] } =
           compact && !isGuest()
             ? await plan({
                 data: {
@@ -81,8 +81,8 @@ export function ArchiveChat({
             id: crypto.randomUUID(),
             role: "assistant",
             content: result.answer,
-            ...(result.proposalId && result.actions
-              ? { proposalId: result.proposalId, actions: result.actions }
+            ...(result.proposalIds?.length && result.actions?.length
+              ? { proposalIds: result.proposalIds, actions: result.actions }
               : {}),
           },
         ]);
@@ -166,8 +166,8 @@ export function ArchiveChat({
                   {turn.role === "assistant" ? (
                     <>
                       <MessageResponse>{turn.content}</MessageResponse>
-                      {turn.proposalId && turn.actions && (
-                        <AssistantPlan id={turn.proposalId} actions={turn.actions} />
+                      {turn.proposalIds && turn.actions && (
+                        <AssistantPlan ids={turn.proposalIds} actions={turn.actions} />
                       )}
                     </>
                   ) : (

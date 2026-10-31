@@ -5,9 +5,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { confirmAssistantPlan } from "@/lib/assistant-tasks.functions";
-import { taskDate, type TaskAction } from "@/lib/assistant-tasks";
+import { actionLabel, isRecordAction, taskDate, type TaskAction } from "@/lib/assistant-tasks";
 
-export function AssistantPlan({ id, actions }: { id: string; actions: TaskAction[] }) {
+export function AssistantPlan({ ids, actions }: { ids: string[]; actions: TaskAction[] }) {
   const confirm = useServerFn(confirmAssistantPlan);
   const client = useQueryClient();
   const [status, setStatus] = useState<"pending" | "saved" | "cancelled">("pending");
@@ -15,29 +15,33 @@ export function AssistantPlan({ id, actions }: { id: string; actions: TaskAction
   async function decide(approve: boolean) {
     setBusy(true);
     try {
-      await confirm({ data: { proposalId: id, approve } });
+      for (const proposalId of ids) await confirm({ data: { proposalId, approve } });
       setStatus(approve ? "saved" : "cancelled");
-      await client.invalidateQueries({ queryKey: ["assistant-tasks"] });
+      // Plans, memories and facts may all have changed.
+      await client.invalidateQueries();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not save the plan.");
     } finally {
       setBusy(false);
     }
   }
+  const touchesRecord = actions.some(isRecordAction);
   return (
     <div className="mt-3 space-y-3 border-t border-line pt-3">
       <p className="text-[15px] font-semibold text-action-ink">
         {status === "pending"
           ? "Ready for your confirmation"
           : status === "saved"
-            ? "Saved to your plans"
+            ? touchesRecord
+              ? "Done"
+              : "Saved to your plans"
             : "Not saved"}
       </p>
       <ul className="space-y-3">
         {actions.map((a, i) => (
           <li key={i} className="space-y-1">
             <p className="text-[17px] font-semibold text-ink">
-              {a.operation === "create" ? a.kind : a.operation} · {a.title}
+              {actionLabel(a)} · {a.title}
             </p>
             {a.dueAt && (
               <p className="text-[14px] text-ink-2">
