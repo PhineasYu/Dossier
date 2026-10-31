@@ -101,6 +101,8 @@ The AI assistant lives above Story on the homepage. The current page sits on a w
 
 **Homepage assistant**: a compact apricot-tinted input above the Story title, with a small AiBuddy, a quiet question heading and voice/save controls inside the composer. Conversation expands only after a question; capture opens on demand. Keep the Story title as the page's display emphasis.
 
+Task proposals appear within the assistant response with dates, timezone and explicit Confirm/Cancel controls. A quiet Your plans row opens the agenda on demand, keeping long schedules off the timeline. Due reminders are counted in that row; drafts, upcoming and completed plans stay in separate views.
+
 ## Characters
 
 - `Buddy` shapes: flower, star, cloud, blob, burst, bean. A child's shape comes from

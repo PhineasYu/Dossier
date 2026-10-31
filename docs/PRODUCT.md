@@ -76,6 +76,8 @@ babysitters, teachers; in time the whole family across three generations. Second
 
 ## AI pieces (all in `src/lib/dossier.functions.ts`)
 
+The homepage assistant also prepares account-owned reminders, internal calendar events, to-dos and communication/appointment drafts through `src/lib/assistant-tasks.functions.ts`. A proposed change is stored separately and executes once only after parent confirmation. Reminders are visible in-app when due; no push/email delivery, external booking or message sending. The agenda supports editing, completion, copying drafts and confirmed deletion. Guests can explore archive chat but must sign in to save plans. Existing family records remain demo-shared pending the family-isolation backlog; new tasks and proposals are owner-isolated.
+
 | Function                      | Model                                                            | Job                                                                                                        |
 | ----------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `captureEntry`                | Gemini Flash via Lovable AI Gateway                              | Split a transcript into cards and facts per child, store them                                              |
