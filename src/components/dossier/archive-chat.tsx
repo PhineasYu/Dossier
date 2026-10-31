@@ -60,7 +60,7 @@ export function ArchiveChat({
       setTurns(next);
       setBusy(true);
       try {
-        const result =
+        const result: {answer:string; proposalId?: string | null; actions?: TaskAction[]} =
           compact && !isGuest()
             ? await plan({
                 data: {
@@ -81,7 +81,7 @@ export function ArchiveChat({
             id: crypto.randomUUID(),
             role: "assistant",
             content: result.answer,
-            ...("proposalId" in result
+            ...(result.proposalId && result.actions
               ? { proposalId: result.proposalId, actions: result.actions }
               : {}),
           },
@@ -103,7 +103,7 @@ export function ArchiveChat({
         requestAnimationFrame(() => textareaRef.current?.focus());
       }
     },
-    [active, ask, busy, turns],
+    [active, ask, plan, compact, busy, turns],
   );
 
   const names = kids.length ? kids.map((kid) => kid.name).join(" and ") : "your child";
