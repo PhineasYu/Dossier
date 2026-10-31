@@ -18,8 +18,10 @@ export function HomeAssistant() {
 
   return (
     <>
-      <ArchiveChat key={active?.id ?? "family"} compact onCapture={setCaptureMode} />
-      <AssistantAgenda />
+      <div className="min-w-0 space-y-2">
+        <ArchiveChat key={active?.id ?? "family"} compact onCapture={setCaptureMode} />
+        <AssistantAgenda />
+      </div>
       <Dialog
         open={captureMode !== null}
         onOpenChange={(open) => {

@@ -123,13 +123,14 @@ export function AssistantAgenda() {
       <Button
         variant="ghost"
         size="sm"
-        className="w-full justify-between px-1 text-[15px]"
+        className="grid h-11 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl px-3 text-[16px] hover:bg-transparent"
         onClick={() => setOpen(true)}
       >
-        <span className="flex items-center gap-2">
-          <CalendarDays /> Your plans
+        <span className="flex min-w-0 items-center gap-2">
+          <CalendarDays className="shrink-0" />
+          <span className="truncate">Your plans</span>
         </span>
-        <span className="font-normal text-ink-2">
+        <span className="shrink-0 text-[16px] font-normal text-ink-2">
           {due.length
             ? `${due.length} due`
             : pending.length

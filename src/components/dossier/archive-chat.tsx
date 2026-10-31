@@ -111,14 +111,16 @@ export function ArchiveChat({
 
   return (
     <section
-      className={`flex flex-col rounded-3xl bg-action-soft p-5 sm:p-6 ${compact ? "gap-3" : "gap-5"}`}
+      className={`flex min-w-0 flex-col rounded-3xl bg-action-soft ${compact ? "gap-3 p-4 sm:p-5" : "gap-5 p-5 sm:p-6"}`}
       aria-label="Ask Dossier conversation"
     >
-      <div className="flex flex-wrap items-start gap-3">
-        <AiBuddy size={compact ? 40 : 52} />
-        <div className="min-w-0 flex-1 pt-0.5">
+      <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 sm:gap-3">
+        <div className="shrink-0">
+          <AiBuddy size={compact ? 36 : 52} />
+        </div>
+        <div className="min-w-0">
           <h2
-            className={`${compact ? "text-[20px]" : "text-[24px]"} font-bold leading-tight text-ink`}
+            className={`${compact ? "text-[20px]" : "text-[24px]"} text-pretty font-bold leading-snug text-ink`}
           >
             {compact ? "What should Dossier do?" : `Ask anything about ${name}`}
           </h2>
@@ -128,6 +130,7 @@ export function ArchiveChat({
             type="button"
             variant="ghost"
             size="icon"
+            className="shrink-0"
             aria-label="New chat"
             title="New chat"
             onClick={() => setTurns([])}
@@ -201,24 +204,29 @@ export function ArchiveChat({
             ref={textareaRef}
             placeholder={compact ? `Ask, plan or remind me…` : `Ask about ${name}…`}
             aria-label={compact ? "Tell Dossier what you need" : `Ask about ${name}`}
-            className={compact ? "min-h-12" : undefined}
+            className={compact ? "min-h-14 px-4 py-3 text-[17px] leading-normal" : undefined}
           />
-          <PromptInputFooter className="justify-between">
+          <PromptInputFooter className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 pb-2 pt-0">
             {compact && onCapture ? (
-              <div className="flex min-w-0 items-center gap-1">
+              <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-1 sm:flex">
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={() => onCapture("text")}
-                  className="px-2 text-[14px]"
+                  aria-label="Save a moment"
+                  title="Save a moment"
+                  className="h-11 min-w-0 justify-start gap-1.5 px-1 text-[16px] font-normal sm:px-2"
                 >
-                  <Plus aria-hidden="true" /> Save a moment
+                  <Plus aria-hidden="true" />
+                  <span className="sm:hidden">Save</span>
+                  <span className="hidden sm:inline">Save a moment</span>
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
+                  className="shrink-0"
                   onClick={() => onCapture("voice")}
                   aria-label="Tell Dossier by voice"
                   title="Tell Dossier by voice"
@@ -230,7 +238,7 @@ export function ArchiveChat({
               <span />
             )}
             <PromptInputSubmit
-              className="shrink-0 rounded-full bg-action-button text-on-action hover:bg-action-button-hover"
+              className="size-11 shrink-0 rounded-full bg-action-button text-on-action hover:bg-action-button-hover"
               {...(busy ? { status: "submitted" as const } : {})}
               disabled={busy || !active}
             />
