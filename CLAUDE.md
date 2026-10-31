@@ -26,10 +26,12 @@ Claude Desktop Code tab, so give him clicks rather than terminal commands.
 
 - **Branches.** `main` syncs two ways with Lovable and redeploys the live site
   (https://dossier-parenting.lovable.app). Work on a branch (current: `yc-polish`) and
-  merge to `main` only when Yunfei asks. Keep pushed history intact: no force-push,
-  rebase or amend of pushed commits (Lovable loses its history otherwise).
+  merge to `main` only when Yunfei asks. Lovable itself is currently switched to
+  `yc-polish` and commits there, so fetch before you start and rebase only your unpushed
+  commits. Keep pushed history intact: no force-push, rebase or amend of pushed commits
+  (Lovable loses its history otherwise).
 - **Design in one sentence.** White page, pastel cards tinted by meaning, one buddy and
-  one crayon per child, sunflower-yellow pill buttons with ink text for every action and
+  one crayon per child, warm tints, apricot pill buttons with ink text for every action and
   AI, the AI drawn only as `AiBuddy`, thin ink lines.
 - **Formatting.** Run prettier on the files you touch only; the rest of the repo is
   unformatted and a repo-wide format buries the real diff.

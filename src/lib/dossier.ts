@@ -94,3 +94,8 @@ export function shortDate(iso: string) {
       : { day: "numeric", month: "short", year: "numeric" },
   );
 }
+
+/** "first time" -> "First time": labels are sentence case everywhere. */
+export function sentenceCase(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}

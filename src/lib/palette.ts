@@ -1,21 +1,20 @@
 import type { Child } from "./dossier";
 
-/** The six crayons a child can belong to. Order is the order new children are given them. */
-/** Order matters: new children get these in turn. Action seafoam is reserved for controls and AI. */
+/**
+ * The six crayons a child can belong to; new children get them in this order. Apricot
+ * (`--action`) is reserved for controls and AI, so it is never a child's colour.
+ * Keep these values identical to the matching tokens in `src/styles.css`.
+ */
 export const CRAYONS = ["sky", "lilac", "aqua", "bubblegum", "sage", "tomato"] as const;
 export type Crayon = (typeof CRAYONS)[number];
 
 export const CRAYON_HEX: Record<Crayon | "sun", { body: string; soft: string; ink: string }> = {
   sky: { body: "#4f9df7", soft: "#ddebfe", ink: "#1d5aa6" },
-  lilac: { body: "#b4a2f2", soft: "#ebe4fd", ink: "#5a42ad" },
+  lilac: { body: "#e0a2cf", soft: "#f8e6f1", ink: "#8a3a72" },
   tomato: { body: "#f2643a", soft: "#fde4db", ink: "#9c3214" },
   aqua: { body: "#4fc2b9", soft: "#daf2ef", ink: "#1d6660" },
   sage: { body: "#5fa98a", soft: "#dcefe6", ink: "#2c6a51" },
-  sun: {
-    body: "oklch(0.78 0.075 174)",
-    soft: "oklch(0.95 0.027 174)",
-    ink: "oklch(0.36 0.055 174)",
-  },
+  sun: { body: "#f2c94c", soft: "#fdf3d3", ink: "#7a5a06" },
   bubblegum: { body: "#f59ac6", soft: "#fde5f0", ink: "#9e2f67" },
 };
 
@@ -30,6 +29,7 @@ export type BuddyShape = (typeof SHAPES)[number];
 const LEGACY: Record<string, Crayon> = {
   "#3267d4": "sky",
   "#b368ec": "lilac",
+  "#b4a2f2": "lilac",
   "#c2703d": "tomato",
   "#2e7d74": "sage",
   "#f0ab3c": "tomato",
@@ -76,9 +76,12 @@ export function lookFor(
   return { crayon, shape, ...CRAYON_HEX[crayon] };
 }
 
-/** Memory cards are tinted by what kind of moment they hold. */
+/**
+ * Memory cards are tinted by what kind of moment they hold; each kind has its own tint.
+ * Interest and friendship share a tint with the Interests and Friends cards in the file.
+ */
 export const CATEGORY_TINT: Record<string, string> = {
-  courage: "bg-sun-soft",
+  courage: "bg-sage-soft",
   dream: "bg-lilac-soft",
   fear: "bg-sky-soft",
   friendship: "bg-coral-soft",
@@ -89,11 +92,11 @@ export const CATEGORY_TINT: Record<string, string> = {
 
 /** Selected filter pills use the vivid version of each category's tint. */
 export const CATEGORY_ACTIVE: Record<string, string> = {
-  courage: "bg-sun text-sun-ink hover:bg-sun",
+  courage: "bg-sage text-ink hover:bg-sage",
   dream: "bg-lilac text-lilac-ink hover:bg-lilac",
   fear: "bg-sky text-paper hover:bg-sky",
   friendship: "bg-coral text-coral-ink hover:bg-coral",
   "first-time": "bg-peach text-peach-ink hover:bg-peach",
-  interest: "bg-action text-action-ink hover:bg-action",
+  interest: "bg-sun text-sun-ink hover:bg-sun",
   other: "bg-line text-ink hover:bg-line",
 };

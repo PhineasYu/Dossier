@@ -1,4 +1,4 @@
-import { CATEGORY_LABEL, shortDate, type MemoryCard } from "@/lib/dossier";
+import { CATEGORY_LABEL, sentenceCase, shortDate, type MemoryCard } from "@/lib/dossier";
 import { CATEGORY_TINT } from "@/lib/palette";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -22,10 +22,6 @@ const QUESTION_LABEL = {
   for_child: { text: "For them", dot: "bg-q1" },
   child_moment: { text: "Their moment", dot: "bg-q2" },
 } as const;
-
-function sentence(text: string) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
 
 export function MemoryCardView({
   card,
@@ -84,13 +80,13 @@ export function MemoryCardView({
               onClick={() => onCategoryChange(card.category)}
             >
               <span className={pillClass}>
-                {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+                {sentenceCase(CATEGORY_LABEL[card.category] ?? card.category)}
               </span>
             </Button>
           ) : (
             <span className="inline-flex h-11 items-start">
               <span className={pillClass}>
-                {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+                {sentenceCase(CATEGORY_LABEL[card.category] ?? card.category)}
               </span>
             </span>
           )}
@@ -134,7 +130,7 @@ export function MemoryCardView({
               </span>
             )}
             <span className={pillClass}>
-              {sentence(CATEGORY_LABEL[card.category] ?? card.category)}
+              {sentenceCase(CATEGORY_LABEL[card.category] ?? card.category)}
             </span>
           </div>
           {card.body && (

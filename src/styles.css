@@ -192,7 +192,7 @@
   --danger: #d92d20;
   --danger-soft: #feebe9;
   --success: #2c6a51;
-  /* Q1 "what you did for them" is seafoam; Q2 "what they did" is sky blue */
+  /* Q1 "what you did for them" is butter; Q2 "what they did" is sky blue */
   --q1: var(--sun);
   --q1-soft: var(--sun-soft);
   --q2: var(--sky);
@@ -664,7 +664,7 @@
   animation: ai-sparkle 2.2s ease-in-out infinite;
 }
 
-/* The memory-lane age slider: a soft track and a seafoam thumb. */
+/* The memory-lane age slider: a soft track and an apricot thumb. */
 .memory-lane-range {
   -webkit-appearance: none;
   appearance: none;

@@ -31,7 +31,7 @@ export function FamilyCircle({ name }: { name: string }) {
     <section className="tile p-5" aria-label="Family circle">
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="text-lg font-bold">Who looks after {name}</h2>
-        <span className="rounded-full bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-ink-3">
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-paper px-2.5 py-0.5 text-[12px] font-semibold text-ink-3">
           Coming soon
         </span>
       </div>

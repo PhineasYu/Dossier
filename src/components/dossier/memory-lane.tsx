@@ -161,9 +161,11 @@ export function MemoryLane({
 
 function ago(iso: string) {
   const days = Math.round((Date.now() - new Date(iso + "T00:00:00").getTime()) / 86_400_000);
-  if (days >= 330 && days <= 400) return "A year ago";
-  if (days > 400) return `${Math.round(days / 365)} years ago`;
-  return `${Math.round(days / 30)} months ago`;
+  const years = Math.round(days / 365);
+  if (days >= 330 && years <= 1) return "A year ago";
+  if (days >= 330) return `${years} years ago`;
+  const months = Math.max(1, Math.round(days / 30));
+  return months === 1 ? "A month ago" : `${months} months ago`;
 }
 
 /** One older memory, pinned like a photo, so the past comes to you. */
