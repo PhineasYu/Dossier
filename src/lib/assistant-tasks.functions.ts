@@ -85,11 +85,12 @@ export const planAssistantTasks = createServerFn({ method: "POST" })
     },
   )
   .handler(async ({ context, data }) => {
-    const { data: block } = await context.supabase
+    const { data: block, error: blockError } = await context.supabase
       .from("assistant_ai_blocks")
       .select("reason")
       .eq("user_id", context.userId)
       .maybeSingle();
+    if (blockError) throw new Error(blockError.message);
     if (block) throw new Error(block.reason);
     const [{ data: tasks, error }, { data: child }, { data: facts }, { data: cards }] =
       await Promise.all([

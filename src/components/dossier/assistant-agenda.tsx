@@ -28,7 +28,7 @@ export function AssistantAgenda() {
     const timer = setInterval(() => setNow(Date.now()), 30000);
     return () => clearInterval(timer);
   }, []);
-  const { data: tasks = [], isError } = useQuery({
+  const { data: tasks = [], isError, isLoading } = useQuery({
     queryKey: ["assistant-tasks"],
     queryFn: () => fetchTasks(),
     enabled: !guest,
@@ -64,8 +64,8 @@ export function AssistantAgenda() {
             taskId: selected.id,
             title,
             details,
-            dueAt: date ? new Date(date).toISOString() : null,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            dueAt: operation === "update" ? (date ? new Date(date).toISOString() : null) : selected.due_at,
+            timezone: operation === "update" ? Intl.DateTimeFormat().resolvedOptions().timeZone : selected.timezone,
           },
         },
       });
@@ -124,7 +124,8 @@ export function AssistantAgenda() {
                 ))}
               </div>
               {isError && <p role="alert">Could not load your plans.</p>}
-              {!rows.length && (
+              {isLoading && <p className="py-4 text-[17px] text-ink-2">Loading your plans…</p>}
+              {!isLoading && !rows.length && (
                 <p className="py-4 text-[17px] text-ink-2">
                   {view === "completed" ? "No completed plans yet." : "No plans here yet."}
                 </p>
