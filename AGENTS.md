@@ -25,3 +25,5 @@
 - Button fill tokens are separate from action surface tokens so button colour trials do not recolour profile cards, child accents or membership materials.
 - The homepage assistant reuses ArchiveChat in compact mode and BrainDump in an on-demand dialog, keeping archive questions separate from saved notes without a second AI integration.
 - The fourth navigation destination is Settings; the retired standalone chat URL redirects there so saved links continue working, and membership is an on-demand disclosure within Settings.
+- Assistant tasks are account-owned with RLS; AI prepares stored proposals, and an authenticated atomic confirmation function executes each proposal once. Reminder visibility derives from saved timestamps in-app, not background notification jobs.
+- New task-planning AI calls use request-scoped AI SDK Responses helpers; existing archive/capture providers remain unchanged.

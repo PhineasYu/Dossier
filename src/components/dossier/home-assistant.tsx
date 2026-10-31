@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { ArchiveChat } from "@/components/dossier/archive-chat";
 import { BrainDump } from "@/components/dossier/brain-dump";
+import { AssistantAgenda } from "@/components/dossier/assistant-agenda";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,7 @@ export function HomeAssistant() {
   return (
     <>
       <ArchiveChat key={active?.id ?? "family"} compact onCapture={setCaptureMode} />
+      <AssistantAgenda />
       <Dialog
         open={captureMode !== null}
         onOpenChange={(open) => {
