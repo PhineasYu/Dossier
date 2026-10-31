@@ -60,7 +60,7 @@ export function ArchiveChat({
       setTurns(next);
       setBusy(true);
       try {
-        const result: {answer:string; proposalId?: string | null; actions?: TaskAction[]} =
+        const result: { answer: string; proposalId?: string | null; actions?: TaskAction[] } =
           compact && !isGuest()
             ? await plan({
                 data: {

@@ -28,7 +28,11 @@ export function AssistantAgenda() {
     const timer = setInterval(() => setNow(Date.now()), 30000);
     return () => clearInterval(timer);
   }, []);
-  const { data: tasks = [], isError, isLoading } = useQuery({
+  const {
+    data: tasks = [],
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ["assistant-tasks"],
     queryFn: () => fetchTasks(),
     enabled: !guest,
@@ -64,8 +68,16 @@ export function AssistantAgenda() {
             taskId: selected.id,
             title,
             details,
-            dueAt: operation === "update" ? (date ? new Date(date).toISOString() : null) : selected.due_at,
-            timezone: operation === "update" ? Intl.DateTimeFormat().resolvedOptions().timeZone : selected.timezone,
+            dueAt:
+              operation === "update"
+                ? date
+                  ? new Date(date).toISOString()
+                  : null
+                : selected.due_at,
+            timezone:
+              operation === "update"
+                ? Intl.DateTimeFormat().resolvedOptions().timeZone
+                : selected.timezone,
           },
         },
       });
