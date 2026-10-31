@@ -9,6 +9,7 @@ import { Timeline, useTimeline } from "@/components/dossier/timeline";
 import { BackThen, MemoryLane } from "@/components/dossier/memory-lane";
 import { VoiceCheckin } from "@/components/dossier/voice-checkin";
 import { ArchiveSearch } from "@/components/dossier/archive-search";
+import { HomeAssistant } from "@/components/dossier/home-assistant";
 import { useChildren } from "@/lib/child-context";
 
 export const Route = createFileRoute("/_authenticated/app")({
@@ -39,12 +40,17 @@ function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [smartCardIds, setSmartCardIds] = useState<string[] | undefined>();
   const [age, setAge] = useState<number | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
   const { active } = useChildren();
   const { data: cards = [] } = useTimeline(active?.id ?? null);
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: "/app" });
 
-  useEffect(() => setAge(null), [active?.id]);
+  useEffect(() => {
+    setAge(null);
+    setCategory(null);
+    setSmartCardIds(undefined);
+  }, [active?.id]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -52,12 +58,15 @@ function Home() {
 
       <AppHeader />
 
-      <main className="mx-auto w-full max-w-xl flex-1 space-y-4 px-4 pb-32">
-        <h1 className="display pb-1 pt-4 text-[44px] text-ink">
+      <main className="mx-auto w-full max-w-xl flex-1 space-y-5 px-5 pb-32 sm:px-6">
+        <div className="pt-5">
+          <HomeAssistant />
+        </div>
+        <h1 className="display break-words pb-1 text-[44px] text-ink">
           {active ? `${active.name}\u2019s story` : "The story"}
         </h1>
         <MemoryLane age={age} onAgeChange={setAge} />
-        {age === null && !q && <BackThen cards={cards} />}
+        {age === null && !q && !category && <BackThen cards={cards} />}
         <VoiceCheckin />
         <ArchiveSearch
           scope="timeline"
@@ -70,7 +79,13 @@ function Home() {
           }
           onTimelineMatches={setSmartCardIds}
         />
-        <Timeline query={q ?? ""} age={age} {...(smartCardIds ? { smartCardIds } : {})} />
+        <Timeline
+          query={q ?? ""}
+          age={age}
+          category={category}
+          onCategoryChange={setCategory}
+          {...(smartCardIds ? { smartCardIds } : {})}
+        />
         <StatsLine />
       </main>
 

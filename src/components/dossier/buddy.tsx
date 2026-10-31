@@ -197,9 +197,9 @@ function Sparkle({
       <path
         className="ai-sparkle"
         d="M0 -11C1.2 -3.5 3.5 -1.2 11 0C3.5 1.2 1.2 3.5 0 11C-1.2 3.5 -3.5 1.2 -11 0C-3.5 -1.2 -1.2 -3.5 0 -11Z"
-        fill="var(--action)"
-        stroke="var(--ink)"
-        strokeWidth={1.2}
+        fill="var(--ai-spark)"
+        stroke="var(--ai-spark-line)"
+        strokeWidth={0.6}
         strokeLinejoin="round"
         style={style}
       />

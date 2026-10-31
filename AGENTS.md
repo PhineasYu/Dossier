@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -7,4 +8,24 @@
 >
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
+
 <!-- LOVABLE:END -->
+
+- Authenticated screens share a centred `max-w-xl` column with `px-5 sm:px-6` gutters in both the header and page content, keeping all visual edges aligned.
+- Visual refinements preserve the Buddies tokens and characters in `docs/DESIGN.md`; the display page title is the primary typographic emphasis.
+
+- Memory category filtering uses the shared pure filter in `src/lib/memory-filters.ts` so category, age, keyword and AI results intersect consistently; filter state belongs to the timeline page.
+- Authenticated reading sizes are scoped by `dossier-readable` in global CSS, including portaled document dialogs, so larger typography does not change landing pages or display-title hierarchy.
+- Documents render simple file rows with an on-demand detail dialog, avoiding decorative stacking and keeping all documents accessible.
+- The profile previews only three recent documents; the on-demand library owns year/type/search filters and signs originals only when opened, keeping large archives compact and avoiding bulk preview requests.
+- Memory cards open a shared detail dialog and load their original entry on demand; previews stay compact without truncating the saved content.
+- Timeline sample media is presentation-only and explicitly labelled; it never creates attachments or mutates family records.
+- Membership styling uses global semantic premium tokens; the card stays solid and only the badge owns the gradient, keeping the content unobscured.
+- Profile fact disclosures are presentation-only local state reset by child/search changes; search reveals matching rows and safety-critical facts stay outside collapsible sections.
+- Button fill tokens are separate from action surface tokens so button colour trials do not recolour profile cards, child accents or membership materials.
+- The homepage assistant reuses ArchiveChat in compact mode and BrainDump in an on-demand dialog, keeping archive questions separate from saved notes without a second AI integration.
+- The fourth navigation destination is Settings; the retired standalone chat URL redirects there so saved links continue working, and membership is an on-demand disclosure within Settings.
+- Assistant tasks are account-owned with RLS; AI prepares stored proposals, and an authenticated atomic confirmation function executes each proposal once. Reminder visibility derives from saved timestamps in-app, not background notification jobs.
+- New task-planning AI calls use request-scoped AI SDK Responses helpers; existing archive/capture providers remain unchanged.
+- Agent changes to saved memories and facts (`kind` memory/fact) never go through `confirm_assistant_proposal`: the planner stores them as a separate proposal; `confirmAssistantPlan` claims it once (pending -> confirmed) and applies it server-side, scoped to the proposal's child; saving a memory reuses `captureEntry`. No schema change was needed.
+- The agent never sends messages or books appointments: drafts open via mailto/sms links and dated plans export to .ics with an alarm, so notifications come from the phone's own apps.

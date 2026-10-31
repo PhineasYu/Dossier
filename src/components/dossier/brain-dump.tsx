@@ -2,7 +2,7 @@ import { CommitStrategy, useScribe } from "@elevenlabs/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AnimatePresence, motion } from "motion/react";
-import { AudioLines, Loader2, Square, Undo2, X } from "lucide-react";
+import { AudioLines, Keyboard, Loader2, Undo2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -166,39 +166,31 @@ export function BrainDump({
             </Button>
           </div>
         )}
-        <div className="flex items-center gap-4">
-          <Button
-            type="button"
-            variant="ai"
-            onClick={isRecording ? stop : start}
-            disabled={isSorting}
-            size="icon"
-            className="size-16 shrink-0 [&_svg]:size-7"
-            aria-label={isRecording ? "Stop and sort" : "Start talking"}
-          >
-            {isSorting ? (
-              <Loader2 className="animate-spin" />
-            ) : isRecording ? (
-              <Square />
-            ) : (
-              <AudioLines />
-            )}
-          </Button>
-          <div className="min-w-0" aria-live="polite">
-            <p className="text-[15px] font-semibold">
-              {isSorting
-                ? "Sorting into each child's story…"
-                : isRecording
-                  ? "Listening. Tap to stop."
-                  : "Tap and tell Dossier anything"}
-            </p>
-            <p className="mt-0.5 text-[13px] leading-snug text-ink-3">
-              &ldquo;Lucy was nervous before swimming. Luca&apos;s teacher says he shares his toys
-              now.&rdquo;
-            </p>
-          </div>
-          {isSorting && <AiBuddy size={44} motion="wiggle" className="ml-auto" />}
-        </div>
+        <button
+          type="button"
+          onClick={isRecording ? stop : start}
+          disabled={isSorting}
+          aria-label={isRecording ? "Stop and sort" : "Start talking"}
+          className="flex h-16 w-full items-center justify-center gap-3 rounded-3xl bg-action text-action-ink transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink disabled:opacity-70"
+        >
+          {isSorting ? (
+            <Loader2 className="size-6 animate-spin" aria-hidden="true" />
+          ) : (
+            <span className="flex h-7 items-center gap-[4px]" aria-hidden="true">
+              {[0.45, 0.8, 1, 0.65, 0.9, 0.5].map((h, i) => (
+                <span
+                  key={i}
+                  className={`w-[4px] ${isRecording ? "voice-wave" : ""} rounded-full bg-action-ink`}
+                  style={{ height: `${h * 100}%`, animationDelay: `${i * 110}ms` }}
+                />
+              ))}
+            </span>
+          )}
+          <span className="text-[16px] font-semibold" aria-live="polite">
+            {isSorting ? "Sorting…" : isRecording ? "Listening · tap to finish" : "Tap to talk"}
+          </span>
+        </button>
+        {isSorting && <AiBuddy size={44} motion="wiggle" className="mx-auto mt-3" />}
 
         {(isRecording || liveTranscript) && (
           <p className="mt-4 min-h-16 rounded-2xl bg-paper p-4 text-left text-[15px] leading-relaxed">
@@ -233,8 +225,9 @@ export function BrainDump({
           onClick={() => setShowTyping((value) => !value)}
           variant="ghost"
           size="sm"
-          className="-ml-2 mt-3"
+          className="ml-auto mt-3 flex"
         >
+          <Keyboard aria-hidden="true" />
           {showTyping ? "Hide the keyboard" : "Type instead"}
         </Button>
       </div>

@@ -51,20 +51,21 @@ function CapturePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-4 pb-32 pt-4">
+      <main className="mx-auto w-full max-w-xl flex-1 space-y-6 px-5 pb-32 pt-5 sm:px-6">
         <div>
           <h1 className="display text-[44px] text-ink">Tell Dossier</h1>
-          <p className="mt-2 max-w-sm text-[15px] text-ink-2">
-            Anything about anyone in the family. Dossier files it under the right child.
-          </p>
+          <p className="mt-2 max-w-sm text-[15px] text-ink-2">Say it once. Dossier sorts it.</p>
         </div>
-        <BrainDump initialMode={mode} prompt={prompt} onClearPrompt={() => setPrompt(null)} />
         <PromptDeck
           onUse={(next) => {
             setPrompt(next);
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         />
+        <div className="space-y-2">
+          <p className="px-1 text-[15px] text-ink-2">Or just say whatever is on your mind.</p>
+          <BrainDump initialMode={mode} prompt={prompt} onClearPrompt={() => setPrompt(null)} />
+        </div>
         <ActivityCalendar counts={counts} />
       </main>
       <BottomNav />

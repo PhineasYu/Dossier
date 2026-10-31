@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 
 import { Buddy } from "@/components/dossier/buddy";
+import { Button } from "@/components/ui/button";
 import { useChildren } from "@/lib/child-context";
 import { ageAt } from "@/lib/dossier";
 
@@ -20,12 +21,13 @@ export function ChildSwitcher() {
         const age = ageAt(kid.birthdate, today);
         const look = lookOf(kid.id);
         return (
-          <button
+          <Button
             key={kid.id}
             type="button"
+            variant="ghost"
             onClick={() => setActiveId(kid.id)}
             aria-pressed={isActive}
-            className="press flex shrink-0 items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ink"
+            className="h-14 shrink-0 gap-2.5 py-1.5 pl-1.5 pr-4 text-left [&_svg]:size-10"
             style={{ backgroundColor: isActive ? look.soft : "transparent" }}
           >
             <motion.span
@@ -42,9 +44,11 @@ export function ChildSwitcher() {
               >
                 {kid.name}
               </span>
-              {age !== null && <span className="block text-xs text-ink-3">{age} years old</span>}
+              {age !== null && (
+                <span className="mt-0.5 block text-xs font-normal text-ink-2">{age} years old</span>
+              )}
             </span>
-          </button>
+          </Button>
         );
       })}
     </div>

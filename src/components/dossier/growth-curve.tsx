@@ -22,17 +22,17 @@ export function GrowthCurve({
   if (!latestHeight && !latestWeight) return null;
 
   return (
-    <section className="rounded-3xl bg-child-soft p-5">
-      <div className="flex items-baseline justify-between gap-3">
+    <section className="rounded-3xl bg-child-soft p-5 sm:p-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h2 className="text-lg font-bold">Pencil marks</h2>
-        <p className="text-[15px] font-semibold text-ink">
+        <p className="text-[15px] font-medium text-child-ink">
           {latestHeight ? `${latestHeight.cm} cm` : ""}
           {latestHeight && latestWeight ? " · " : ""}
           {latestWeight ? `${latestWeight.value} kg` : ""}
         </p>
       </div>
       {marks.length > 0 ? (
-        <div className="mt-2">
+        <div className="mx-auto mt-3 w-full max-w-[272px]">
           <GrowthDoorframe marks={marks} look={look} name={name} />
         </div>
       ) : (
@@ -41,7 +41,9 @@ export function GrowthCurve({
         </p>
       )}
       {latestHeight && (
-        <p className="mt-1 text-[13px] text-ink-3">Last measured {shortDate(latestHeight.date)}</p>
+        <p className="mt-3 border-t border-paper/80 pt-3 text-[13px] text-ink-2">
+          Last measured {shortDate(latestHeight.date)}
+        </p>
       )}
     </section>
   );

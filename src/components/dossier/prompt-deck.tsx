@@ -33,7 +33,7 @@ const TINTS = [
   "bg-sky-soft",
   "bg-lilac-soft",
   "bg-bubblegum-soft",
-  "bg-aqua-soft",
+  "bg-peach-soft",
   "bg-tomato-soft",
 ];
 
@@ -49,10 +49,6 @@ export function PromptDeck({ onUse }: { onUse: (prompt: Prompt) => void }) {
 
   return (
     <section aria-label="Prompt cards">
-      <div className="mb-2 flex items-baseline justify-between">
-        <h2 className="text-[15px] font-semibold text-ink-2">Not sure where to start?</h2>
-        <span className="text-[13px] text-ink-3">Optional</span>
-      </div>
       <div className="relative h-[176px]">
         {/* the two cards waiting underneath */}
         <div

@@ -1,11 +1,13 @@
 # Dossier
 
-An AI family archive. Every evening it asks a parent two questions out loud ("What did
-you do for your kids today?" / "What did your kids do today that you want to
-remember?"), and AI sorts the answer across every child into timeline memories and
-profile facts (allergies, growth, food, friends) next to their documents. Over the years
-it holds the family's whole context. The emotional design is the product: AI reaches
-families through the thing parents already care about.
+The AI that knows your family: a family AI context platform. Parents tell it anything,
+any time (voice, text, a photo of a document; optional prompt cards when they don't know
+where to start, the two founding evening questions among them), and AI sorts it across
+every child into timeline memories and profile facts (allergies, growth, food, feelings,
+school, friends) next to their documents. Next: the family circle (grandparents,
+babysitter, teacher share that context); later, the context every service and home device
+for the family can draw on, with permission. The emotional design is the product: AI
+reaches families through the thing parents already care about.
 
 Founders: Yunfei (product, design, AI prototype) and Patrik. Yunfei writes in Chinese:
 reply to him in Chinese, keep code, comments and docs in English. He works from the
@@ -24,10 +26,12 @@ Claude Desktop Code tab, so give him clicks rather than terminal commands.
 
 - **Branches.** `main` syncs two ways with Lovable and redeploys the live site
   (https://dossier-parenting.lovable.app). Work on a branch (current: `yc-polish`) and
-  merge to `main` only when Yunfei asks. Keep pushed history intact: no force-push,
-  rebase or amend of pushed commits (Lovable loses its history otherwise).
+  merge to `main` only when Yunfei asks. Lovable itself is currently switched to
+  `yc-polish` and commits there, so fetch before you start and rebase only your unpushed
+  commits. Keep pushed history intact: no force-push, rebase or amend of pushed commits
+  (Lovable loses its history otherwise).
 - **Design in one sentence.** White page, pastel cards tinted by meaning, one buddy and
-  one crayon per child, sunflower-yellow pill buttons with ink text for every action and
+  one crayon per child, warm tints, apricot pill buttons with ink text for every action and
   AI, the AI drawn only as `AiBuddy`, thin ink lines.
 - **Formatting.** Run prettier on the files you touch only; the rest of the repo is
   unformatted and a repo-wide format buries the real diff.

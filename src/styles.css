@@ -92,6 +92,12 @@
   --color-sun: var(--sun);
   --color-sun-soft: var(--sun-soft);
   --color-sun-ink: var(--sun-ink);
+  --color-peach: var(--peach);
+  --color-peach-soft: var(--peach-soft);
+  --color-peach-ink: var(--peach-ink);
+  --color-coral: var(--coral);
+  --color-coral-soft: var(--coral-soft);
+  --color-coral-ink: var(--coral-ink);
   --color-bubblegum: var(--bubblegum);
   --color-bubblegum-soft: var(--bubblegum-soft);
   --color-bubblegum-ink: var(--bubblegum-ink);
@@ -99,8 +105,16 @@
   /* Meaning */
   --color-action: var(--action);
   --color-action-hover: var(--action-hover);
+  --color-action-button: var(--action-button);
+  --color-action-button-hover: var(--action-button-hover);
   --color-action-soft: var(--action-soft);
   --color-action-ink: var(--action-ink);
+  --color-ai-spark: var(--ai-spark);
+  --color-ai-spark-line: var(--ai-spark-line);
+  --color-premium: var(--premium);
+  --color-premium-foreground: var(--premium-foreground);
+  --color-premium-muted: var(--premium-muted);
+  --color-premium-line: var(--premium-line);
   --color-on-action: var(--on-action);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
@@ -131,33 +145,54 @@
   --sky: #4f9df7;
   --sky-soft: #ddebfe;
   --sky-ink: #1d5aa6;
-  --lilac: #b4a2f2;
-  --lilac-soft: #ebe4fd;
-  --lilac-ink: #5a42ad;
+  --lilac: #e0a2cf;
+  --lilac-soft: #f8e6f1;
+  --lilac-ink: #8a3a72;
   --sage: #5fa98a;
   --sage-soft: #dcefe6;
   --sage-ink: #2c6a51;
   --aqua: #4fc2b9;
   --aqua-soft: #daf2ef;
   --aqua-ink: #1d6660;
-  --sun: #ffc43d;
-  --sun-soft: #fff1c8;
-  --sun-ink: #855700;
+  /* Warm accents: soft butter, apricot and coral balance the cool hues. */
+  --sun: #f2c94c;
+  --sun-soft: #fdf3d3;
+  --sun-ink: #7a5a06;
+  --peach: #f5a46b;
+  --peach-soft: #fde9da;
+  --peach-ink: #94461a;
+  --coral: #ee8a7f;
+  --coral-soft: #fce4e0;
+  --coral-ink: #9a3a30;
   --bubblegum: #f59ac6;
   --bubblegum-soft: #fde5f0;
   --bubblegum-ink: #9e2f67;
 
   /* Action: every button and everything AI. One colour, so the product reads as one thing. */
-  --action: #f9b934;
-  --action-hover: #eeab22;
-  --action-soft: #fef1cf;
-  --action-ink: #7a5300;
+  --action: oklch(0.8 0.145 62);
+  --action-hover: oklch(0.75 0.155 56);
+  --action-button: var(--action);
+  --action-button-hover: var(--action-hover);
+  --action-soft: oklch(0.965 0.04 72);
+  --action-ink: oklch(0.45 0.13 48);
+  --premium: oklch(0.86 0.1 55);
+  --premium-foreground: var(--ink);
+  --premium-muted: oklch(0.36 0.06 40);
+  --premium-line: oklch(0.36 0.06 40 / 0.18);
+  --premium-foil:
+    radial-gradient(ellipse at 18% 15%, oklch(0.97 0.02 80 / 0.9), transparent 72%),
+    radial-gradient(ellipse at 90% 12%, oklch(0.89 0.06 350 / 0.65), transparent 78%),
+    radial-gradient(ellipse at 65% 100%, oklch(0.86 0.08 60 / 0.8), transparent 75%),
+    radial-gradient(ellipse at 5% 95%, oklch(0.91 0.05 320 / 0.5), transparent 70%),
+    oklch(0.9 0.045 30);
+  --ai-spark: oklch(0.91 0.17 102);
+  --ai-spark-line: oklch(0.69 0.1 102);
   --on-action: #1a1a1a;
   --action-glow: color-mix(in srgb, var(--action) 38%, transparent);
   --danger: #d92d20;
   --danger-soft: #feebe9;
   --success: #2c6a51;
-  /* Q1 "what you did for them" is sun yellow; Q2 "what they did" is sky blue */
+  /* Q1 "what you did for them" is butter; Q2 "what they did" is sky blue */
   --q1: var(--sun);
   --q1-soft: var(--sun-soft);
   --q2: var(--sky);
@@ -230,7 +265,7 @@
   h3 {
     font-family: var(--font-sans);
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   ::selection {
@@ -252,7 +287,7 @@
   font-stretch: 62%;
   text-transform: uppercase;
   line-height: 0.9;
-  letter-spacing: -0.005em;
+  letter-spacing: 0;
 }
 
 /* The brand serif — the wordmark and nothing else. */
@@ -263,7 +298,7 @@
     "opsz" 144,
     "SOFT" 100,
     "WONK" 0;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 /* A mist card: no border, no shadow. Tinted cards use bg-<crayon>-soft instead. */
@@ -272,12 +307,40 @@
   border-radius: 1.5rem;
 }
 
+.premium-badge {
+  background: var(--premium-foil);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, var(--paper) 65%, transparent),
+    inset 0 -1px 0 color-mix(in oklch, var(--action-ink) 12%, transparent);
+}
+
+/* Larger reading sizes across authenticated screens; display titles stay unchanged. */
+.dossier-readable {
+  font-size: 17px;
+}
+.dossier-readable :is(.text-xs, [class~="text-[11px]"], [class~="text-[12px]"]) {
+  font-size: 14px;
+}
+.dossier-readable [class~="text-[13px]"] {
+  font-size: 15px;
+}
+.dossier-readable :is(.text-sm, [class~="text-[14px]"]) {
+  font-size: 16px;
+}
+.dossier-readable :is(.text-base, [class~="text-[15px]"]) {
+  font-size: 17px;
+}
+.dossier-readable :is(.text-lg, [class~="text-[18px]"], [class~="text-[19px]"]) {
+  font-size: 20px;
+}
+
 /* Press feedback for anything tappable. */
 @utility press {
   transition:
     transform 160ms var(--ease-out),
     background-color 200ms var(--ease-out),
-    color 200ms var(--ease-out);
+    color 200ms var(--ease-out),
+    opacity 200ms var(--ease-out);
   &:active {
     transform: scale(0.97);
   }
@@ -601,23 +664,23 @@
   animation: ai-sparkle 2.2s ease-in-out infinite;
 }
 
-/* The memory-lane age slider: a soft track and a sunflower thumb. */
+/* The memory-lane age slider: a soft track and an apricot thumb. */
 .memory-lane-range {
   -webkit-appearance: none;
   appearance: none;
-  height: 28px;
+  height: 44px;
   background: transparent;
   cursor: pointer;
 }
 .memory-lane-range::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 9999px;
-  background: rgb(255 255 255 / 0.85);
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
 }
 .memory-lane-range::-moz-range-track {
   height: 6px;
   border-radius: 9999px;
-  background: rgb(255 255 255 / 0.85);
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
 }
 .memory-lane-range::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -626,14 +689,14 @@
   height: 28px;
   border-radius: 9999px;
   background: var(--action);
-  border: 2px solid var(--ink);
+  border: 0;
 }
 .memory-lane-range::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 9999px;
   background: var(--action);
-  border: 2px solid var(--ink);
+  border: 0;
 }
 .memory-lane-range:focus-visible {
   outline: 1.5px solid var(--ink-3);
@@ -664,4 +727,30 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@keyframes voice-wave {
+  0%, 100% { transform: scaleY(0.45); }
+  50% { transform: scaleY(1); }
+}
+.voice-wave {
+  animation: voice-wave 1.1s ease-in-out infinite;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .voice-wave { animation: none; }
+}
+
+/* Dossier+ card: a fresh sunset blend of apricot, butter, coral and pink. */
+.premium-card {
+  background:
+    radial-gradient(ellipse at 0% 0%, oklch(0.93 0.11 92 / 0.95), transparent 60%),
+    radial-gradient(ellipse at 100% 10%, oklch(0.85 0.11 15 / 0.85), transparent 60%),
+    radial-gradient(ellipse at 90% 100%, oklch(0.86 0.09 345 / 0.8), transparent 60%),
+    radial-gradient(ellipse at 10% 100%, oklch(0.85 0.12 60 / 0.9), transparent 65%),
+    var(--premium);
+}
+.premium-card .premium-badge {
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--premium-line);
 }
