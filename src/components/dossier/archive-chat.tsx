@@ -1,5 +1,5 @@
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowUpRight, RotateCcw } from "lucide-react";
+import { ArrowUpRight, AudioLines, Plus, RotateCcw } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 
 import { AiBuddy } from "@/components/dossier/buddy";
@@ -28,7 +28,13 @@ const SUGGESTIONS = [
   "How much have they grown this year?",
 ];
 
-export function ArchiveChat() {
+export function ArchiveChat({
+  compact = false,
+  onCapture,
+}: {
+  compact?: boolean | undefined;
+  onCapture?: ((mode: "voice" | "text") => void) | undefined;
+}) {
   const { active, kids } = useChildren();
   const ask = useServerFn(chatArchive);
   const [turns, setTurns] = useState<Turn[]>([]);
@@ -78,14 +84,14 @@ export function ArchiveChat() {
 
   return (
     <section
-      className="flex flex-col gap-5 rounded-3xl bg-action-soft p-5 sm:p-6"
+      className={`flex flex-col rounded-3xl bg-action-soft p-5 sm:p-6 ${compact ? "gap-3" : "gap-5"}`}
       aria-label="Ask Dossier conversation"
     >
       <div className="flex flex-wrap items-start gap-3">
-        <AiBuddy size={52} />
+        <AiBuddy size={compact ? 40 : 52} />
         <div className="min-w-0 flex-1 pt-0.5">
-          <h2 className="text-[24px] font-bold leading-tight text-ink">
-            Ask anything about {name}
+          <h2 className={`${compact ? "text-[20px]" : "text-[24px]"} font-bold leading-tight text-ink`}>
+            {compact ? "What should Dossier do?" : `Ask anything about ${name}`}
           </h2>
         </div>
         {turns.length > 0 && (
@@ -102,7 +108,7 @@ export function ArchiveChat() {
         )}
       </div>
 
-      {turns.length === 0 && !busy ? (
+      {turns.length === 0 && !busy ? (compact ? null : (
         <div>
           <ul className="divide-y divide-paper/80">
             {SUGGESTIONS.map((suggestion) => (
@@ -120,8 +126,9 @@ export function ArchiveChat() {
             ))}
           </ul>
         </div>
+      )
       ) : (
-        <Conversation className="max-h-[52vh] min-h-[200px]">
+        <Conversation className={compact ? "max-h-72 min-h-24" : "max-h-[52vh] min-h-[200px]"}>
           <ConversationContent className="gap-4 px-0 py-2">
             {turns.map((turn) => (
               <Message key={turn.id} from={turn.role}>
@@ -154,10 +161,25 @@ export function ArchiveChat() {
             void send(text);
           }}
         >
-          <PromptInputTextarea ref={textareaRef} placeholder={`Ask about ${name}…`} />
-          <PromptInputFooter className="justify-end">
+          <PromptInputTextarea
+            ref={textareaRef}
+            placeholder={compact ? `Help me understand ${name}…` : `Ask about ${name}…`}
+            aria-label={compact ? "Tell Dossier what you need" : `Ask about ${name}`}
+            className={compact ? "min-h-12" : undefined}
+          />
+          <PromptInputFooter className="justify-between">
+            {compact && onCapture ? (
+              <div className="flex min-w-0 items-center gap-1">
+                <Button type="button" variant="ghost" size="sm" onClick={() => onCapture("text")} className="px-2 text-[14px]">
+                  <Plus aria-hidden="true" /> Save a moment
+                </Button>
+                <Button type="button" variant="ghost" size="icon" onClick={() => onCapture("voice")} aria-label="Tell Dossier by voice" title="Tell Dossier by voice">
+                  <AudioLines aria-hidden="true" />
+                </Button>
+              </div>
+            ) : <span />}
             <PromptInputSubmit
-              className="rounded-full bg-action-button text-on-action hover:bg-action-button-hover"
+              className="shrink-0 rounded-full bg-action-button text-on-action hover:bg-action-button-hover"
               {...(busy ? { status: "submitted" as const } : {})}
               disabled={busy || !active}
             />

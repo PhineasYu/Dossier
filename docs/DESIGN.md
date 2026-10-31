@@ -99,6 +99,8 @@ last). The current page sits on a white lens (`.liquid-lens`). Icons only; names
 
 **Header**: wordmark left, a mist "…" menu right, the child switcher below.
 
+**Homepage assistant**: a compact apricot-tinted input above the Story title, with a small AiBuddy, a quiet question heading and voice/save controls inside the composer. Conversation expands only after a question; capture opens on demand. Keep the Story title as the page's display emphasis.
+
 ## Characters
 
 - `Buddy` shapes: flower, star, cloud, blob, burst, bean. A child's shape comes from

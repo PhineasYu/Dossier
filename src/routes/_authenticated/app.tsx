@@ -9,6 +9,7 @@ import { Timeline, useTimeline } from "@/components/dossier/timeline";
 import { BackThen, MemoryLane } from "@/components/dossier/memory-lane";
 import { VoiceCheckin } from "@/components/dossier/voice-checkin";
 import { ArchiveSearch } from "@/components/dossier/archive-search";
+import { HomeAssistant } from "@/components/dossier/home-assistant";
 import { useChildren } from "@/lib/child-context";
 
 export const Route = createFileRoute("/_authenticated/app")({
@@ -58,7 +59,10 @@ function Home() {
       <AppHeader />
 
       <main className="mx-auto w-full max-w-xl flex-1 space-y-5 px-5 pb-32 sm:px-6">
-        <h1 className="display break-words pb-1 pt-5 text-[44px] text-ink">
+        <div className="pt-5">
+          <HomeAssistant />
+        </div>
+        <h1 className="display break-words pb-1 text-[44px] text-ink">
           {active ? `${active.name}\u2019s story` : "The story"}
         </h1>
         <MemoryLane age={age} onAgeChange={setAge} />

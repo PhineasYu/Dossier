@@ -23,3 +23,4 @@
 - Membership styling uses global semantic premium tokens; the card stays solid and only the badge owns the gradient, keeping the content unobscured.
 - Profile fact disclosures are presentation-only local state reset by child/search changes; search reveals matching rows and safety-critical facts stay outside collapsible sections.
 - Button fill tokens are separate from action surface tokens so button colour trials do not recolour profile cards, child accents or membership materials.
+- The homepage assistant reuses ArchiveChat in compact mode and BrainDump in an on-demand dialog, keeping archive questions separate from saved notes without a second AI integration.
