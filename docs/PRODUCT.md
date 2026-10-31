@@ -71,7 +71,7 @@ babysitters, teachers; in time the whole family across three generations. Second
 | `/app` | Timeline | Splash, child switcher, memory lane (age slider), a memory from back then, talk-to-Dossier card (voice agent), search/ask, memory timeline, stats line |
 | `/capture` | Today | Tell Dossier (record or type) with sorting lanes and undo, optional prompt-card deck, days-with-a-memory calendar |
 | `/profile` | Archive | Allergies and medical, pencil-mark growth doorframe, feelings lately, from school, food, interests, friends, document folders (original next to AI-read fields), family circle preview |
-| `/dossier-plus` | Ask Dossier | Chat over one child's whole record, Dossier+ subscription card (Polar QR) |
+| `/settings` | Settings | Account, family profile links, on-demand Dossier+ membership and sign-out; the retired `/dossier-plus` URL redirects here |
 | `/design/widgets` | n/a | Design preview of iPhone home-screen and lock-screen widgets |
 
 ## AI pieces (all in `src/lib/dossier.functions.ts`)
@@ -106,7 +106,7 @@ every user sees the same demo family (Luca and Lucy). Fixing this is P0 in
 - Multi-child from day one; every child has a crayon and a buddy.
 - Allergies and medical are must-haves and always visually flagged.
 - Voice is input only; Dossier never reads memories back aloud.
-- Search lives inside Timeline and Archive; the AI chat lives on Ask Dossier.
+- Search lives inside Timeline and Archive; the AI chat lives above Story on the homepage. The fourth tab is Settings.
 
 ## Not built yet
 

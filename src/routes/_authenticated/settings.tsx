@@ -91,7 +91,7 @@ function SettingsPage() {
                     variant="ghost"
                     className="h-auto min-h-16 w-full justify-start rounded-xl px-2 py-3"
                   >
-                    <Link to="/profile" onClick={() => setActiveId(kid.id)}>
+                    <Link to="/profile" search={{ q: undefined }} onClick={() => setActiveId(kid.id)}>
                       <Buddy size={36} shape={look.shape} color={look.body} />
                       <span className="min-w-0 flex-1 break-words whitespace-normal text-[17px] font-semibold text-ink">
                         {kid.name}
@@ -105,7 +105,7 @@ function SettingsPage() {
           </ul>
           {kids.length === 0 && (
             <Button asChild variant="secondary">
-              <Link to="/profile">
+              <Link to="/profile" search={{ q: undefined }}>
                 <FolderHeart /> Open the archive
               </Link>
             </Button>
