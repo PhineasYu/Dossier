@@ -93,7 +93,7 @@ function SettingsPage() {
                   >
                     <Link
                       to="/profile"
-                      search={{ q: undefined }}
+                      search={{ q: undefined, add: undefined }}
                       onClick={() => setActiveId(kid.id)}
                     >
                       <Buddy size={36} shape={look.shape} color={look.body} />
@@ -109,7 +109,7 @@ function SettingsPage() {
           </ul>
           {kids.length === 0 && (
             <Button asChild variant="secondary">
-              <Link to="/profile" search={{ q: undefined }}>
+              <Link to="/profile" search={{ q: undefined, add: undefined }}>
                 <FolderHeart /> Open the archive
               </Link>
             </Button>
