@@ -12,8 +12,14 @@ export const actionSchema = z.object({
 export const planSchema = z.object({ answer: z.string(), actions: z.array(actionSchema) });
 export type TaskAction = z.infer<typeof actionSchema>;
 export type AssistantTask = {
-  id: string; child_id: string | null; kind: string; title: string; details: string;
-  due_at: string | null; timezone: string; status: string;
+  id: string;
+  child_id: string | null;
+  kind: string;
+  title: string;
+  details: string;
+  due_at: string | null;
+  timezone: string;
+  status: string;
 };
 
 export function validateActions(actions: TaskAction[], tasks: AssistantTask[]) {
@@ -23,15 +29,29 @@ export function validateActions(actions: TaskAction[], tasks: AssistantTask[]) {
     if (action.operation !== "create" && !tasks.some((task) => task.id === action.taskId)) {
       throw new Error("That task is not in your account.");
     }
-    if (action.dueAt && (!/[zZ]$|[+-]\d{2}:\d{2}$/.test(action.dueAt) || !Number.isFinite(Date.parse(action.dueAt)))) {
+    if (
+      action.dueAt &&
+      (!/[zZ]$|[+-]\d{2}:\d{2}$/.test(action.dueAt) || !Number.isFinite(Date.parse(action.dueAt)))
+    ) {
       throw new Error("Please specify a valid date, time and timezone.");
     }
-    try { new Intl.DateTimeFormat("en", { timeZone: action.timezone }); }
-    catch { throw new Error("Please specify a valid timezone."); }
-    if ((action.kind === "event" || action.kind === "reminder") && ["create", "update"].includes(action.operation) && !action.dueAt) {
+    try {
+      new Intl.DateTimeFormat("en", { timeZone: action.timezone });
+    } catch {
+      throw new Error("Please specify a valid timezone.");
+    }
+    if (
+      (action.kind === "event" || action.kind === "reminder") &&
+      ["create", "update"].includes(action.operation) &&
+      !action.dueAt
+    ) {
       throw new Error("Please provide a date and time for this reminder or event.");
     }
-    return { ...action, title: action.title.trim(), dueAt: action.dueAt ? new Date(action.dueAt).toISOString() : null };
+    return {
+      ...action,
+      title: action.title.trim(),
+      dueAt: action.dueAt ? new Date(action.dueAt).toISOString() : null,
+    };
   });
 }
 
@@ -42,5 +62,11 @@ export function isTaskDue(task: AssistantTask, now: number) {
   return task.status === "pending" && task.due_at !== null && Date.parse(task.due_at) <= now;
 }
 export function taskDate(value: string | null, timezone: string) {
-  return value ? new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short", timeZone: timezone }).format(new Date(value)) : "No date";
+  return value
+    ? new Intl.DateTimeFormat("en", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: timezone,
+      }).format(new Date(value))
+    : "No date";
 }

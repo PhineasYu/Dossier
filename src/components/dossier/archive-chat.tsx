@@ -24,7 +24,13 @@ import { AssistantPlan } from "@/components/dossier/assistant-plan";
 import { isGuest } from "@/lib/guest";
 import { useChildren } from "@/lib/child-context";
 
-type Turn = { id: string; role: "user" | "assistant"; content: string; proposalId?: string | null; actions?: TaskAction[] };
+type Turn = {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  proposalId?: string | null;
+  actions?: TaskAction[];
+};
 
 const SUGGESTIONS = [
   "What allergies should a babysitter know?",
@@ -54,15 +60,31 @@ export function ArchiveChat({
       setTurns(next);
       setBusy(true);
       try {
-        const result = compact && !isGuest() ? await plan({data:{childId:active.id, timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,messages:next.map(({role,content})=>({role,content}))}}) : await ask({
-          data: {
-            childId: active.id,
-            messages: next.map(({ role, content }) => ({ role, content })),
-          },
-        });
+        const result =
+          compact && !isGuest()
+            ? await plan({
+                data: {
+                  childId: active.id,
+                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  messages: next.map(({ role, content }) => ({ role, content })),
+                },
+              })
+            : await ask({
+                data: {
+                  childId: active.id,
+                  messages: next.map(({ role, content }) => ({ role, content })),
+                },
+              });
         setTurns((current) => [
           ...current,
-          { id: crypto.randomUUID(), role: "assistant", content: result.answer, ...("proposalId" in result ? {proposalId:result.proposalId,actions:result.actions} : {}) },
+          {
+            id: crypto.randomUUID(),
+            role: "assistant",
+            content: result.answer,
+            ...("proposalId" in result
+              ? { proposalId: result.proposalId, actions: result.actions }
+              : {}),
+          },
         ]);
       } catch (error) {
         setTurns((current) => [
@@ -144,7 +166,9 @@ export function ArchiveChat({
                   {turn.role === "assistant" ? (
                     <>
                       <MessageResponse>{turn.content}</MessageResponse>
-                      {turn.proposalId && turn.actions && <AssistantPlan id={turn.proposalId} actions={turn.actions} />}
+                      {turn.proposalId && turn.actions && (
+                        <AssistantPlan id={turn.proposalId} actions={turn.actions} />
+                      )}
                     </>
                   ) : (
                     turn.content
@@ -155,7 +179,9 @@ export function ArchiveChat({
             {busy && (
               <div className="flex items-center gap-3">
                 <AiBuddy size={28} motion="wiggle" />
-                <Shimmer className="text-sm">{compact ? "Working on it…" : "Reading the archive…"}</Shimmer>
+                <Shimmer className="text-sm">
+                  {compact ? "Working on it…" : "Reading the archive…"}
+                </Shimmer>
               </div>
             )}
           </ConversationContent>
